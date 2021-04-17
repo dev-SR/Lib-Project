@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navscroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.navscroll::-webkit-scrollbar-track {
+    /* background: #121418; */
+}
+.navscroll::-webkit-scrollbar-thumb {
+    background-color: #f3f3f3;
+    border-radius: 6px;
+}
+.mainscroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.mainscroll::-webkit-scrollbar-track {
+    /* background: #121418; */
+}
+.mainscroll::-webkit-scrollbar-thumb {
+    background-color: #f3f3f3;
+    border-radius: 6px;
+}
+
+.blue-1 {
+    background: #222433;
+}
+.hover\:nav:hover {
+    background: rgba(63, 63, 70, 0.596);
+}
+@layer components {
+    .nav-links {
+        @apply flex space-x-2 hover:nav p-2 rounded-md items-center;
+    }
+    .nav-icons {
+        @apply p-1 rounded-full flex justify-center items-center text-gray-400 bg-gray-600;
+    }
+}
+.dark-1 {
+    background: rgb(40, 43, 62);
+}
+
+.bg {
+    background: linear-gradient(
+        to right bottom,
+        #121418,
+        #13151b,
+        #14161d,
+        #151720,
+        #161822,
+        #181924,
+        #191a26,
+        #1b1b28,
+        #1d1d2b,
+        #1f1e2d,
+        #212030,
+        #232233
+    );
+}
+
+.sidebar {
+    background: linear-gradient(
+        to right bottom,
+        #171717,
+        #171618,
+        #161618,
+        #161519,
+        #15151a,
+        #15161b,
+        #15161d,
+        #15171e,
+        #161821,
+        #181923,
+        #191a26,
+        #1b1b28
+    );
+}
