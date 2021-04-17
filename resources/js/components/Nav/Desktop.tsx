@@ -102,6 +102,16 @@ const App = () => {
                         </div>
                     </Link>
                 </div>
+                <div>
+                    <Link to="/add-users" className="nav-links">
+                        <div className="nav-icons ">
+                            <UserIcon />
+                        </div>
+                        <div className="text-gray-300 font-medium">
+                            Add Users
+                        </div>
+                    </Link>
+                </div>
                 {/* <LoremIpsum p={5} /> */}
             </div>
         </div>
