@@ -4,6 +4,9 @@ import Login from "./Pages/Auth/LoginPage";
 const LazyAddCategory = React.lazy(
     () => import("./Pages/Admin/Category/AddCategory")
 );
+const LazyListCategory = React.lazy(
+    () => import("./Pages/Admin/Category/ListCategories")
+);
 import AdminRoute from "./utils/AdminRoute";
 import NotFound from "./components/Shared/NotFound";
 const App = () => {
@@ -11,8 +14,16 @@ const App = () => {
         <Router>
             <Switch>
                 <AdminRoute path="/" exact>
+                    {() => <h1>Home</h1>}
+                </AdminRoute>
+                <AdminRoute path="/add-category" exact>
                     <Suspense fallback={<h1>Loading....</h1>}>
                         <LazyAddCategory />
+                    </Suspense>
+                </AdminRoute>
+                <AdminRoute path="/get-category" exact>
+                    <Suspense fallback={<h1>Loading....</h1>}>
+                        <LazyListCategory />
                     </Suspense>
                 </AdminRoute>
                 <Route path="/login" exact>

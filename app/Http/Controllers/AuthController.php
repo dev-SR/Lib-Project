@@ -33,6 +33,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed'
 
         ]);
+
         $user = User::create(
             [
                 'name' => $fields['name'],
@@ -101,6 +102,8 @@ class AuthController extends Controller
         $fields = $req->validate([
             'email' => 'required|string',
         ]);
+
+
         $user = User::where('email', $fields['email'])->first();
         $user->is_admin = true;
         $user->save();

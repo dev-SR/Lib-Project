@@ -4,23 +4,23 @@ import { useHistory } from "react-router";
 import {
     loginAction,
     useTypedSelector,
-    isLoggedSelector,
+    loginSelector,
 } from "../../redux/store";
 
 export default function Login() {
     const dispatch = useDispatch();
-    const isLogged = useTypedSelector(isLoggedSelector);
+    const u = useTypedSelector(loginSelector);
 
     const history = useHistory();
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(loginAction({ name: "" }));
+        dispatch(loginAction({ email: "test@gmail.com", password: "test" }));
     };
     useEffect(() => {
-        if (isLogged) {
-            history.push("/");
+        if (u.is_admin) {
+            history.push("/add-category");
         }
-    }, [isLogged]);
+    }, [u]);
     return (
         <div>
             <form method="post" onSubmit={handleSubmit}>

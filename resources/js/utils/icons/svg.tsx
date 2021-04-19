@@ -168,7 +168,7 @@ export const ReportIcon: React.FC<Props> = ({ fill = "#A1A1AA" }) => {
     );
 };
 
-export const CategoryIcon: React.FC<Props> = ({ fill = "#A1A1AA" }) => {
+export const ListIcon: React.FC<Props> = ({ fill = "#A1A1AA" }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -182,6 +182,44 @@ export const CategoryIcon: React.FC<Props> = ({ fill = "#A1A1AA" }) => {
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M4 6h16M4 12h16M4 18h7"
+            />
+        </svg>
+    );
+};
+
+export const CategoryIcon: React.FC<Props> = ({ fill = "#A1A1AA" }) => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke={`${fill}`}
+        >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+            />
+        </svg>
+    );
+};
+
+export const LogoutIcon = () => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#A1A1AA"
+        >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
             />
         </svg>
     );

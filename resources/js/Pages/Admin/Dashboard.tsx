@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import Layout from "../../components/Shared/Layout";
+import AdminLayout from "../../components/Shared/AdminLayout";
 // import {
 //     useTypedSelector,
 //     selectStatus,
@@ -20,7 +20,7 @@ const Dashboard = () => {
         // if (todos.length === 0) dispatch(fetchTodos(10));
     }, []);
 
-    return <Layout title="DashBoard"></Layout>;
+    return <AdminLayout title="DashBoard"></AdminLayout>;
 };
 
 export default Dashboard;

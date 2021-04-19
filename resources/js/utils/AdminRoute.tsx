@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 
-import { useTypedSelector, isLoggedSelector } from "../redux/store";
-const PrivateRoute: React.FC<RouteProps> = ({ ...routeProps }) => {
-    const isLogged = useTypedSelector(isLoggedSelector);
-    if (isLogged) {
+import { useTypedSelector, loginSelector } from "../redux/store";
+const AdminRoute: React.FC<RouteProps> = ({ ...routeProps }) => {
+    const u = useTypedSelector(loginSelector);
+    if (u.token && u.is_admin && u.user.email) {
         return <Route {...routeProps} />;
     } else {
         return (
@@ -17,4 +17,4 @@ const PrivateRoute: React.FC<RouteProps> = ({ ...routeProps }) => {
         );
     }
 };
-export default PrivateRoute;
+export default AdminRoute;

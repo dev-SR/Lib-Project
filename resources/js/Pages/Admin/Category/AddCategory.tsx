@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import SnackBar, { useSnackBar } from "../../../utils/reuseable/SnackBar";
+import SnackBar, { useSnackBar } from "../../../components/reuseable/SnackBar";
 import {
     Input,
     useInput,
     InputType,
-} from "../../../utils/reuseable/CustomInput";
+} from "../../../components/reuseable/CustomInput";
 import {
     useTypedSelector,
     addCategoryAction,
-    addCategoryErrorSelector,
-    addCategoryStatusSelector,
-    addCategorySuccessSelector,
+    addCategorySelector,
 } from "../../../redux/store";
-import { reset } from "../../../redux/category";
+import { reset } from "../../../redux/categoryReducer";
 import { useDispatch, useSelector } from "react-redux";
-import Layout from "../../../components/Shared/Layout";
+import AdminLayout from "../../../components/Shared/AdminLayout";
 
 let inputArr: InputType[] = [
     { name: "name", value: "", label: "Category Name" },
@@ -34,8 +32,9 @@ const AddCategory = () => {
     const { onChange, inputs } = useInput(inputArr);
     const dispatch = useDispatch();
 
-    const success = useTypedSelector(addCategorySuccessSelector);
-    const error = useTypedSelector(addCategoryErrorSelector);
+    const { success, error, success_message } = useTypedSelector(
+        addCategorySelector
+    );
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -44,13 +43,13 @@ const AddCategory = () => {
     useEffect(() => {
         if (success) {
             setOpen(true);
-            setMessage("Added");
+            setMessage(`${success_message} Added`);
             setSeverity("success");
             dispatch(reset());
         } else {
             if (error && error.message) {
                 setOpen(true);
-                setMessage("Faild");
+                setMessage(`${error.errors.category_name[0]}`);
                 setSeverity("error");
                 dispatch(reset());
             }
@@ -58,7 +57,7 @@ const AddCategory = () => {
     }, [success, error]);
 
     return (
-        <Layout title="Category">
+        <AdminLayout title="Category">
             <div className="flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4">
                 <div className="text-md font-thin text-gray-700">Add Books</div>
                 <SnackBar
@@ -68,7 +67,6 @@ const AddCategory = () => {
                     message={message}
                 />
                 <div className="flex justify-center items-center h-full">
-                    {success}
                     <form
                         method="post"
                         className="sm:w-1/3 w-10/12 flex justify-center items-center flex-col space-y-4"
@@ -95,7 +93,7 @@ const AddCategory = () => {
                     </form>
                 </div>
             </div>
-        </Layout>
+        </AdminLayout>
     );
 };
 export default AddCategory;

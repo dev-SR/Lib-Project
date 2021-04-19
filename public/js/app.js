@@ -24358,17 +24358,17 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-var SnackBar_1 = __importStar(__webpack_require__(/*! ../../../utils/reuseable/SnackBar */ "./resources/js/utils/reuseable/SnackBar.tsx"));
+var SnackBar_1 = __importStar(__webpack_require__(/*! ../../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
 
-var CustomInput_1 = __webpack_require__(/*! ../../../utils/reuseable/CustomInput */ "./resources/js/utils/reuseable/CustomInput.tsx");
+var CustomInput_1 = __webpack_require__(/*! ../../../components/reuseable/CustomInput */ "./resources/js/components/reuseable/CustomInput.tsx");
 
 var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
 
-var category_1 = __webpack_require__(/*! ../../../redux/category */ "./resources/js/redux/category.ts");
+var categoryReducer_1 = __webpack_require__(/*! ../../../redux/categoryReducer */ "./resources/js/redux/categoryReducer.ts");
 
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var Layout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/Layout */ "./resources/js/components/Shared/Layout.tsx"));
+var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
 
 var inputArr = [{
   name: "name",
@@ -24391,8 +24391,11 @@ var AddCategory = function AddCategory() {
       inputs = _b.inputs;
 
   var dispatch = react_redux_1.useDispatch();
-  var success = store_1.useTypedSelector(store_1.addCategorySuccessSelector);
-  var error = store_1.useTypedSelector(store_1.addCategoryErrorSelector);
+
+  var _c = store_1.useTypedSelector(store_1.addCategorySelector),
+      success = _c.success,
+      error = _c.error,
+      success_message = _c.success_message;
 
   var submit = function submit(e) {
     return __awaiter(void 0, void 0, void 0, function () {
@@ -24411,20 +24414,20 @@ var AddCategory = function AddCategory() {
   react_1.useEffect(function () {
     if (success) {
       setOpen(true);
-      setMessage("Added");
+      setMessage(success_message + " Added");
       setSeverity("success");
-      dispatch(category_1.reset());
+      dispatch(categoryReducer_1.reset());
     } else {
       if (error && error.message) {
         setOpen(true);
-        setMessage("Faild");
+        setMessage("" + error.errors.category_name[0]);
         setSeverity("error");
-        dispatch(category_1.reset());
+        dispatch(categoryReducer_1.reset());
       }
     }
   }, [success, error]);
-  return react_1["default"].createElement(Layout_1["default"], {
-    title: "DashBoard"
+  return react_1["default"].createElement(AdminLayout_1["default"], {
+    title: "Category"
   }, react_1["default"].createElement("div", {
     className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
   }, react_1["default"].createElement("div", {
@@ -24436,7 +24439,7 @@ var AddCategory = function AddCategory() {
     message: message
   }), react_1["default"].createElement("div", {
     className: "flex justify-center items-center h-full"
-  }, success, react_1["default"].createElement("form", {
+  }, react_1["default"].createElement("form", {
     method: "post",
     className: "sm:w-1/3 w-10/12 flex justify-center items-center flex-col space-y-4",
     onSubmit: submit
@@ -24460,10 +24463,10 @@ exports.default = AddCategory;
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Admin/Dashboard.tsx":
-/*!************************************************!*\
-  !*** ./resources/js/Pages/Admin/Dashboard.tsx ***!
-  \************************************************/
+/***/ "./resources/js/Pages/Admin/Category/ListCategories.tsx":
+/*!**************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Category/ListCategories.tsx ***!
+  \**************************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -24517,29 +24520,33 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var Layout_1 = __importDefault(__webpack_require__(/*! ../../components/Shared/Layout */ "./resources/js/components/Shared/Layout.tsx")); // import {
-//     useTypedSelector,
-//     selectStatus,
-//     selectTodo,
-//     selectError,
-//     fetchTodos,
-// } from "../../redux/store";
+var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
 
+var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
 
-var Dashboard = function Dashboard() {
-  var dispatch = react_redux_1.useDispatch(); // const status = useTypedSelector(selectStatus);
-  // const todos = useTypedSelector(selectTodo);
-  // const error = useTypedSelector(selectError);
-  // const handleClick = () => dispatch(fetchTodos(10));
+function ListCategories() {
+  var _a = store_1.useTypedSelector(store_1.getCategorySelector),
+      lists = _a.lists,
+      status = _a.status;
 
-  react_1.useEffect(function () {// if (todos.length === 0) dispatch(fetchTodos(10));
-  }, []);
-  return react_1["default"].createElement(Layout_1["default"], {
-    title: "DashBoard"
-  });
-};
+  var dispatch = react_redux_1.useDispatch();
+  react_1.useEffect(function () {
+    dispatch(store_1.getCategoryAction(""));
+  }, [lists, dispatch]);
+  return react_1["default"].createElement(AdminLayout_1["default"], {
+    title: "Category"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
+  }, react_1["default"].createElement("div", {
+    className: "text-md font-thin text-gray-700"
+  }, "List Of Categories"), react_1["default"].createElement("div", {
+    className: "flex justify-center items-center h-full"
+  }, lists && lists.map(function (l) {
+    return react_1["default"].createElement("div", null, react_1["default"].createElement("p", null, l.category_name), react_1["default"].createElement("p", null, l.id));
+  }))));
+}
 
-exports.default = Dashboard;
+exports.default = ListCategories;
 
 /***/ }),
 
@@ -24600,21 +24607,22 @@ var store_1 = __webpack_require__(/*! ../../redux/store */ "./resources/js/redux
 
 function Login() {
   var dispatch = react_redux_1.useDispatch();
-  var isLogged = store_1.useTypedSelector(store_1.isLoggedSelector);
+  var u = store_1.useTypedSelector(store_1.loginSelector);
   var history = react_router_1.useHistory();
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     dispatch(store_1.loginAction({
-      name: ""
+      email: "test@gmail.com",
+      password: "test"
     }));
   };
 
   react_1.useEffect(function () {
-    if (isLogged) {
-      history.push("/");
+    if (u.is_admin) {
+      history.push("/add-category");
     }
-  }, [isLogged]);
+  }, [u]);
   return react_1["default"].createElement("div", null, react_1["default"].createElement("form", {
     method: "post",
     onSubmit: handleSubmit
@@ -24686,14 +24694,14 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 
 var LoginPage_1 = __importDefault(__webpack_require__(/*! ./Pages/Auth/LoginPage */ "./resources/js/Pages/Auth/LoginPage.tsx"));
 
-var LazyDashboard = react_1["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return __importStar(__webpack_require__(/*! ./Pages/Admin/Dashboard */ "./resources/js/Pages/Admin/Dashboard.tsx"));
-  });
-});
 var LazyAddCategory = react_1["default"].lazy(function () {
   return Promise.resolve().then(function () {
     return __importStar(__webpack_require__(/*! ./Pages/Admin/Category/AddCategory */ "./resources/js/Pages/Admin/Category/AddCategory.tsx"));
+  });
+});
+var LazyListCategory = react_1["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return __importStar(__webpack_require__(/*! ./Pages/Admin/Category/ListCategories */ "./resources/js/Pages/Admin/Category/ListCategories.tsx"));
   });
 });
 
@@ -24705,9 +24713,19 @@ var App = function App() {
   return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(react_router_dom_1.Switch, null, react_1["default"].createElement(AdminRoute_1["default"], {
     path: "/",
     exact: true
+  }, function () {
+    return react_1["default"].createElement("h1", null, "Home");
+  }), react_1["default"].createElement(AdminRoute_1["default"], {
+    path: "/add-category",
+    exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
     fallback: react_1["default"].createElement("h1", null, "Loading....")
-  }, react_1["default"].createElement(LazyAddCategory, null))), react_1["default"].createElement(react_router_dom_1.Route, {
+  }, react_1["default"].createElement(LazyAddCategory, null))), react_1["default"].createElement(AdminRoute_1["default"], {
+    path: "/get-category",
+    exact: true
+  }, react_1["default"].createElement(react_1.Suspense, {
+    fallback: react_1["default"].createElement("h1", null, "Loading....")
+  }, react_1["default"].createElement(LazyListCategory, null))), react_1["default"].createElement(react_router_dom_1.Route, {
     path: "/login",
     exact: true
   }, react_1["default"].createElement(LoginPage_1["default"], null)), react_1["default"].createElement(react_router_dom_1.Route, {
@@ -24827,6 +24845,17 @@ var DesktopSideBar = function DesktopSideBar() {
   }, "Reports"))), react_1["default"].createElement("div", {
     className: ""
   }, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/get-category",
+    className: "nav-links"
+  }, react_1["default"].createElement("div", {
+    className: " nav-icons "
+  }, react_1["default"].createElement(svg_1.ListIcon, {
+    fill: undefined
+  })), react_1["default"].createElement("div", {
+    className: "text-gray-600 font-medium text-sm"
+  }, "List Category"))), react_1["default"].createElement("div", {
+    className: ""
+  }, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/add-category",
     className: "nav-links"
   }, react_1["default"].createElement("div", {
@@ -24897,6 +24926,149 @@ exports.default = DesktopSideBar;
 "use strict";
 
 
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -24909,20 +25081,68 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
+var svg_1 = __webpack_require__(/*! ../../utils/icons/svg */ "./resources/js/utils/icons/svg.tsx");
+
+var axios_config_1 = __importDefault(__webpack_require__(/*! ../../redux/axios_config */ "./resources/js/redux/axios_config.ts"));
+
+var store_1 = __webpack_require__(/*! ../../redux/store */ "./resources/js/redux/store.ts");
+
+var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
 function Navigation() {
+  var _this = this;
+
+  var history = react_router_1.useHistory();
+  var dispatch = react_redux_1.useDispatch();
+
+  var logoutHandler = function logoutHandler() {
+    return __awaiter(_this, void 0, void 0, function () {
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4
+            /*yield*/
+            , axios_config_1["default"].post("/logout")];
+
+          case 1:
+            _a.sent();
+
+            localStorage.removeItem("GreenLibToken");
+            localStorage.removeItem("UserInfo");
+            dispatch(store_1.logout()); //reset login
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
   return react_1["default"].createElement("div", {
-    className: "bg-white h-12 w-full border-b flex-shrink-0"
-  });
+    className: "bg-white h-12 w-full border-b flex-shrink-0 flex  items-center px-4 space-x-4  justify-end"
+  }, react_1["default"].createElement("div", {
+    className: "w-60 flex justify-center"
+  }, react_1["default"].createElement("input", {
+    type: "text",
+    placeholder: "search...",
+    className: "py-1 bg-gray-100 border-gray-200\r\n                    focus:border-gray-500\r\n                    focus:ring-gray-700 w-40 rounded-md focus:w-60 placeholder-gray-300 transition ease-in-out"
+  })), react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
+    className: "h-8 w-8  bg-gray-200 flex justify-center items-center rounded-full focus:outline-none hover:bg-gray-300 shadow",
+    onClick: logoutHandler
+  }, react_1["default"].createElement(svg_1.LogoutIcon, null))));
 }
 
 exports.default = Navigation;
 
 /***/ }),
 
-/***/ "./resources/js/components/Shared/Layout.tsx":
-/*!***************************************************!*\
-  !*** ./resources/js/components/Shared/Layout.tsx ***!
-  \***************************************************/
+/***/ "./resources/js/components/Shared/AdminLayout.tsx":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Shared/AdminLayout.tsx ***!
+  \********************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -24952,7 +25172,7 @@ var Layout = function Layout(_a) {
   return react_1["default"].createElement("div", {
     className: "bg-teal-100"
   }, react_1["default"].createElement(SEO_1["default"], {
-    title: "TEST"
+    title: title
   }), react_1["default"].createElement("div", {
     className: "h-screen flex sm:flex-row flex-col-reverse overflow-y-hidden blur"
   }, react_1["default"].createElement("div", {
@@ -25051,6 +25271,245 @@ var SEO = function SEO(_a) {
 };
 
 exports.default = SEO;
+
+/***/ }),
+
+/***/ "./resources/js/components/reuseable/CustomInput.tsx":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/reuseable/CustomInput.tsx ***!
+  \***********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __spreadArray = this && this.__spreadArray || function (to, from) {
+  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
+    to[j] = from[i];
+  }
+
+  return to;
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Input = exports.useInput = void 0;
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var useInput = function useInput(inputArr) {
+  var _a = react_1.useState(__spreadArray([], inputArr)),
+      inputs = _a[0],
+      setInputs = _a[1];
+
+  var onChange = function onChange(e) {
+    var _a = e.target,
+        name = _a.name,
+        value = _a.value;
+
+    var newInputs = __spreadArray([], inputs);
+
+    var index = inputs.findIndex(function (input) {
+      return input.name === name;
+    });
+    var input = inputs[index];
+
+    if (input.isValid !== undefined && input.showHelperText !== undefined && input.error !== undefined) {
+      var isValid = input.isValid(value);
+      newInputs[index] = __assign(__assign({}, input), {
+        value: value,
+        error: !isValid,
+        helperText: input.showHelperText(!isValid)
+      });
+    } else newInputs[index] = __assign(__assign({}, input), {
+      value: value
+    });
+
+    setInputs(newInputs);
+  };
+
+  return {
+    onChange: onChange,
+    inputs: inputs
+  };
+};
+
+exports.useInput = useInput;
+
+var Input = function Input(input) {
+  return react_1["default"].createElement("div", {
+    className: "w-full"
+  }, input.label && react_1["default"].createElement("label", {
+    htmlFor: "name",
+    className: "text-gray-600 block text-xs pb-2"
+  }, input.label), react_1["default"].createElement("input", {
+    type: input.type === undefined ? "text" : input.type,
+    name: input.name,
+    className: "rounded-md border-2 focus:ring-purple-500 border-purple-300 bg-purple-50 focus:border-purple-500 w-full",
+    value: input.value,
+    onChange: input.onchange
+  }));
+};
+
+exports.Input = Input;
+
+/***/ }),
+
+/***/ "./resources/js/components/reuseable/SnackBar.tsx":
+/*!********************************************************!*\
+  !*** ./resources/js/components/reuseable/SnackBar.tsx ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.useSnackBar = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Snackbar_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Snackbar */ "./node_modules/@material-ui/core/esm/Snackbar/index.js"));
+
+var lab_1 = __webpack_require__(/*! @material-ui/lab */ "./node_modules/@material-ui/lab/esm/index.js");
+
+function Alert(props) {
+  return react_1["default"].createElement(lab_1.Alert, __assign({
+    elevation: 6,
+    variant: "filled"
+  }, props));
+}
+
+var useSnackBar = function useSnackBar() {
+  var _a = react_1["default"].useState(false),
+      open = _a[0],
+      setOpen = _a[1];
+
+  var _b = react_1["default"].useState("success"),
+      severity = _b[0],
+      setSeverity = _b[1];
+
+  var _c = react_1["default"].useState(""),
+      message = _c[0],
+      setMessage = _c[1];
+
+  var handleClose = function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  return {
+    open: open,
+    setOpen: setOpen,
+    handleClose: handleClose,
+    severity: severity,
+    setSeverity: setSeverity,
+    message: message,
+    setMessage: setMessage
+  };
+};
+
+exports.useSnackBar = useSnackBar;
+
+var SnackBar = function SnackBar(_a) {
+  var open = _a.open,
+      handleClose = _a.handleClose,
+      severity = _a.severity,
+      message = _a.message; // console.log(open);
+
+  return react_1["default"].createElement(Snackbar_1["default"], {
+    open: open,
+    autoHideDuration: 3000,
+    onClose: handleClose,
+    anchorOrigin: {
+      vertical: "top",
+      horizontal: "center"
+    }
+  }, react_1["default"].createElement(Alert, {
+    onClose: handleClose,
+    severity: severity
+  }, message));
+};
+
+exports.default = SnackBar;
 
 /***/ }),
 
@@ -25215,15 +25674,16 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.reset = exports.loginAction = exports.loginReducer = void 0;
+exports.loginAction = exports.logout = exports.loginReducer = exports.initialState = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
 var axios_config_1 = __importDefault(__webpack_require__(/*! ./axios_config */ "./resources/js/redux/axios_config.ts"));
 
-var initialState = {
-  logged: false,
-  token: "",
+exports.initialState = {
+  user: {},
+  token: null,
+  is_admin: false,
   error: null,
   status: "idle"
 };
@@ -25238,7 +25698,8 @@ var loginAction = toolkit_1.createAsyncThunk("auth/login", function (u, thunkApi
           return [4
           /*yield*/
           , axios_config_1["default"].post("/login", {
-            name: "abc"
+            password: u.password,
+            email: u.email
           })];
 
         case 1:
@@ -25265,21 +25726,33 @@ var loginAction = toolkit_1.createAsyncThunk("auth/login", function (u, thunkApi
 exports.loginAction = loginAction;
 var loginSlice = toolkit_1.createSlice({
   name: "auth/login",
-  initialState: initialState,
+  initialState: exports.initialState,
   reducers: {
-    reset: function reset(state) {}
+    //to reset user;
+    logout: function logout(state) {
+      state.status = "loading";
+      state.error = null;
+      state.is_admin = false;
+      state.token = null;
+    }
   },
   extraReducers: function extraReducers(builder) {
     builder.addCase(loginAction.pending, function (state) {
       state.status = "loading";
       state.error = null;
     });
-    builder.addCase(loginAction.fulfilled, function (state, _a) {
+    builder.addCase(loginAction.fulfilled, function (s, _a) {
       var payload = _a.payload;
-      state.logged = payload.logged;
-      state.token = payload.token;
-      state.status = "idle";
-      state.error = null;
+      s.user = payload.user;
+      s.token = payload.token;
+      s.is_admin = payload.is_admin;
+      s.status = "idle";
+      s.error = null;
+
+      if (payload.token) {
+        localStorage.setItem("GreenLibToken", payload.token);
+        localStorage.setItem("UserInfo", JSON.stringify(payload));
+      }
     });
     builder.addCase(loginAction.rejected, function (state, _a) {
       var payload = _a.payload;
@@ -25289,8 +25762,7 @@ var loginSlice = toolkit_1.createSlice({
   }
 });
 exports.loginReducer = loginSlice.reducer;
-var reset = loginSlice.actions.reset;
-exports.reset = reset;
+exports.logout = loginSlice.actions.logout;
 
 /***/ }),
 
@@ -25315,20 +25787,46 @@ Object.defineProperty(exports, "__esModule", ({
 
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
-exports.default = axios_1["default"].create({
-  baseURL: "http://127.0.0.1:8000/api"
-});
+var token = localStorage.getItem("GreenLibToken");
+axios_1["default"].defaults.baseURL = "http://127.0.0.1:8000/api";
+axios_1["default"].defaults.headers.common = {
+  Authorization: "Bearer " + token
+};
+axios_1["default"].defaults.headers.post["Accept"] = "application/json";
+axios_1["default"].defaults.headers.get["Accept"] = "application/json";
+exports.default = axios_1["default"]; // export default axios.create({
+//     baseURL: "http://127.0.0.1:8000/api",
+//     headers: {
+//         common: { Authorization: `Bearer ${token}` },
+//     },
+// });
 
 /***/ }),
 
-/***/ "./resources/js/redux/category.ts":
-/*!****************************************!*\
-  !*** ./resources/js/redux/category.ts ***!
-  \****************************************/
+/***/ "./resources/js/redux/categoryReducer.ts":
+/*!***********************************************!*\
+  !*** ./resources/js/redux/categoryReducer.ts ***!
+  \***********************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
@@ -25482,17 +25980,19 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.reset = exports.addCategoryAction = exports.addCategoryReducer = exports.addCategorySlice = void 0;
+exports.reset = exports.getCategoryAction = exports.addCategoryAction = exports.getCategoryReducer = exports.addCategoryReducer = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
 var axios_config_1 = __importDefault(__webpack_require__(/*! ./axios_config */ "./resources/js/redux/axios_config.ts"));
 
 var initialState = {
+  success_message: null,
   success: false,
   error: null,
   status: "idle"
-};
+}; //Adding New Category
+
 var addCategoryAction = toolkit_1.createAsyncThunk("category/add", function (cat, thunkApi) {
   return __awaiter(void 0, void 0, void 0, function () {
     var data, error_1, message;
@@ -25504,7 +26004,7 @@ var addCategoryAction = toolkit_1.createAsyncThunk("category/add", function (cat
           return [4
           /*yield*/
           , axios_config_1["default"].post("/add-category", {
-            name: cat.name
+            category_name: cat.name
           })];
 
         case 1:
@@ -25529,7 +26029,7 @@ var addCategoryAction = toolkit_1.createAsyncThunk("category/add", function (cat
   });
 });
 exports.addCategoryAction = addCategoryAction;
-exports.addCategorySlice = toolkit_1.createSlice({
+var addCategorySlice = toolkit_1.createSlice({
   name: "category/add",
   initialState: initialState,
   reducers: {
@@ -25537,17 +26037,20 @@ exports.addCategorySlice = toolkit_1.createSlice({
       state.status = "loading";
       state.error = null;
       state.success = false;
+      state.success_message = null;
     }
   },
   extraReducers: function extraReducers(builder) {
     builder.addCase(addCategoryAction.pending, function (state) {
       state.status = "loading";
       state.error = null;
+      state.success_message = null;
       state.success = false;
     });
     builder.addCase(addCategoryAction.fulfilled, function (state, _a) {
       var payload = _a.payload;
       state.success = payload.success;
+      state.success_message = payload.success_message;
       state.status = "idle";
       state.error = null;
     });
@@ -25555,13 +26058,77 @@ exports.addCategorySlice = toolkit_1.createSlice({
       var payload = _a.payload;
       if (payload) state.error = payload;
       state.status = "idle";
+      state.success_message = null;
       state.success = false;
     });
   }
 });
-exports.addCategoryReducer = exports.addCategorySlice.reducer;
-var reset = exports.addCategorySlice.actions.reset;
+var initialStateGetCat = {
+  error: null,
+  status: "idle",
+  lists: []
+}; //Adding New Category
+
+var getCategoryAction = toolkit_1.createAsyncThunk("category/get", function (_, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_2, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          return [4
+          /*yield*/
+          , axios_config_1["default"].get("/get-category")];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_2 = _a.sent();
+          message = error_2.response && error_2.response.data ? error_2.response.data : error_2.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.getCategoryAction = getCategoryAction;
+var getCategorySlice = toolkit_1.createSlice({
+  name: "category/get",
+  initialState: __assign({}, initialStateGetCat),
+  reducers: {},
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(getCategoryAction.pending, function (state) {
+      state.status = "loading";
+      state.error = null;
+    });
+    builder.addCase(getCategoryAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.status = "idle";
+      state.error = null;
+      state.lists = payload.lists;
+    });
+    builder.addCase(getCategoryAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.error = payload;
+      state.status = "idle";
+    });
+  }
+});
+exports.addCategoryReducer = addCategorySlice.reducer;
+var reset = addCategorySlice.actions.reset;
 exports.reset = reset;
+exports.getCategoryReducer = getCategorySlice.reducer;
 
 /***/ }),
 
@@ -25577,16 +26144,22 @@ exports.reset = reset;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.loginAction = exports.addCategoryAction = exports.isLoggedSelector = exports.addCategoryErrorSelector = exports.addCategoryStatusSelector = exports.addCategorySuccessSelector = exports.useTypedSelector = void 0;
+exports.logout = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
-var category_1 = __webpack_require__(/*! ./category */ "./resources/js/redux/category.ts");
+var categoryReducer_1 = __webpack_require__(/*! ./categoryReducer */ "./resources/js/redux/categoryReducer.ts");
 
 Object.defineProperty(exports, "addCategoryAction", ({
   enumerable: true,
   get: function get() {
-    return category_1.addCategoryAction;
+    return categoryReducer_1.addCategoryAction;
+  }
+}));
+Object.defineProperty(exports, "getCategoryAction", ({
+  enumerable: true,
+  get: function get() {
+    return categoryReducer_1.getCategoryAction;
   }
 }));
 
@@ -25598,42 +26171,48 @@ Object.defineProperty(exports, "loginAction", ({
     return authReducer_1.loginAction;
   }
 }));
+Object.defineProperty(exports, "logout", ({
+  enumerable: true,
+  get: function get() {
+    return authReducer_1.logout;
+  }
+}));
 
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var userInfo = localStorage.getItem("UserInfo");
+var preloadedState = {
+  login: userInfo ? JSON.parse(userInfo) : authReducer_1.initialState
+};
 var store = toolkit_1.configureStore({
   reducer: {
-    addCategory: category_1.addCategoryReducer,
-    login: authReducer_1.loginReducer
-  }
+    addCategory: categoryReducer_1.addCategoryReducer,
+    login: authReducer_1.loginReducer,
+    getCategory: categoryReducer_1.getCategoryReducer
+  },
+  preloadedState: preloadedState
 });
 exports.default = store;
 exports.useTypedSelector = react_redux_1.useSelector; //useSelector Callbacks
 //cat
 
-var addCategorySuccessSelector = function addCategorySuccessSelector(s) {
-  return s.addCategory.success;
+var addCategorySelector = function addCategorySelector(s) {
+  return s.addCategory;
 };
 
-exports.addCategorySuccessSelector = addCategorySuccessSelector;
+exports.addCategorySelector = addCategorySelector;
 
-var addCategoryStatusSelector = function addCategoryStatusSelector(s) {
-  return s.addCategory.status;
+var getCategorySelector = function getCategorySelector(s) {
+  return s.getCategory;
 };
 
-exports.addCategoryStatusSelector = addCategoryStatusSelector;
+exports.getCategorySelector = getCategorySelector; //login
 
-var addCategoryErrorSelector = function addCategoryErrorSelector(s) {
-  return s.addCategory.error;
+var loginSelector = function loginSelector(s) {
+  return s.login;
 };
 
-exports.addCategoryErrorSelector = addCategoryErrorSelector; //login
-
-var isLoggedSelector = function isLoggedSelector(s) {
-  return s.login.logged;
-};
-
-exports.isLoggedSelector = isLoggedSelector;
+exports.loginSelector = loginSelector;
 
 /***/ }),
 
@@ -25691,12 +26270,12 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 
 var store_1 = __webpack_require__(/*! ../redux/store */ "./resources/js/redux/store.ts");
 
-var PrivateRoute = function PrivateRoute(_a) {
+var AdminRoute = function AdminRoute(_a) {
   var routeProps = __rest(_a, []);
 
-  var isLogged = store_1.useTypedSelector(store_1.isLoggedSelector);
+  var u = store_1.useTypedSelector(store_1.loginSelector);
 
-  if (isLogged) {
+  if (u.token && u.is_admin && u.user.email) {
     return react_1["default"].createElement(react_router_dom_1.Route, __assign({}, routeProps));
   } else {
     return react_1["default"].createElement(react_router_dom_1.Redirect, {
@@ -25707,7 +26286,7 @@ var PrivateRoute = function PrivateRoute(_a) {
   }
 };
 
-exports.default = PrivateRoute;
+exports.default = AdminRoute;
 
 /***/ }),
 
@@ -25729,7 +26308,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.CategoryIcon = exports.ReportIcon = exports.UsersIcon = exports.UserIcon = exports.ClipboardCopyIcon = exports.ClipboardIcon = exports.CollectionIcon = exports.AddIcon = exports.DashboardIcon = exports.AcademicCapIcon = void 0;
+exports.LogoutIcon = exports.CategoryIcon = exports.ListIcon = exports.ReportIcon = exports.UsersIcon = exports.UserIcon = exports.ClipboardCopyIcon = exports.ClipboardIcon = exports.CollectionIcon = exports.AddIcon = exports.DashboardIcon = exports.AcademicCapIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -25900,7 +26479,7 @@ var ReportIcon = function ReportIcon(_a) {
 
 exports.ReportIcon = ReportIcon;
 
-var CategoryIcon = function CategoryIcon(_a) {
+var ListIcon = function ListIcon(_a) {
   var _b = _a.fill,
       fill = _b === void 0 ? "#A1A1AA" : _b;
   return react_1["default"].createElement("svg", {
@@ -25917,246 +26496,43 @@ var CategoryIcon = function CategoryIcon(_a) {
   }));
 };
 
-exports.CategoryIcon = CategoryIcon;
+exports.ListIcon = ListIcon;
 
-/***/ }),
-
-/***/ "./resources/js/utils/reuseable/CustomInput.tsx":
-/*!******************************************************!*\
-  !*** ./resources/js/utils/reuseable/CustomInput.tsx ***!
-  \******************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-var __spreadArray = this && this.__spreadArray || function (to, from) {
-  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
-    to[j] = from[i];
-  }
-
-  return to;
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.Input = exports.useInput = void 0;
-
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var useInput = function useInput(inputArr) {
-  var _a = react_1.useState(__spreadArray([], inputArr)),
-      inputs = _a[0],
-      setInputs = _a[1];
-
-  var onChange = function onChange(e) {
-    var _a = e.target,
-        name = _a.name,
-        value = _a.value;
-
-    var newInputs = __spreadArray([], inputs);
-
-    var index = inputs.findIndex(function (input) {
-      return input.name === name;
-    });
-    var input = inputs[index];
-
-    if (input.isValid !== undefined && input.showHelperText !== undefined && input.error !== undefined) {
-      var isValid = input.isValid(value);
-      newInputs[index] = __assign(__assign({}, input), {
-        value: value,
-        error: !isValid,
-        helperText: input.showHelperText(!isValid)
-      });
-    } else newInputs[index] = __assign(__assign({}, input), {
-      value: value
-    });
-
-    setInputs(newInputs);
-  };
-
-  return {
-    onChange: onChange,
-    inputs: inputs
-  };
-};
-
-exports.useInput = useInput;
-
-var Input = function Input(input) {
-  return react_1["default"].createElement("div", {
-    className: "w-full"
-  }, input.label && react_1["default"].createElement("label", {
-    htmlFor: "name",
-    className: "text-gray-600 block text-xs pb-2"
-  }, input.label), react_1["default"].createElement("input", {
-    type: input.type === undefined ? "text" : input.type,
-    name: input.name,
-    className: "rounded-md border-2 focus:ring-purple-500 border-purple-300 bg-purple-50 focus:border-purple-500 w-full",
-    value: input.value,
-    onChange: input.onchange
+var CategoryIcon = function CategoryIcon(_a) {
+  var _b = _a.fill,
+      fill = _b === void 0 ? "#A1A1AA" : _b;
+  return react_1["default"].createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-4 w-4",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "" + fill
+  }, react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
   }));
 };
 
-exports.Input = Input;
+exports.CategoryIcon = CategoryIcon;
 
-/***/ }),
-
-/***/ "./resources/js/utils/reuseable/SnackBar.tsx":
-/*!***************************************************!*\
-  !*** ./resources/js/utils/reuseable/SnackBar.tsx ***!
-  \***************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
+var LogoutIcon = function LogoutIcon() {
+  return react_1["default"].createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-4 w-4",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "#A1A1AA"
+  }, react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+  }));
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.useSnackBar = void 0;
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var Snackbar_1 = __importDefault(__webpack_require__(/*! @material-ui/core/Snackbar */ "./node_modules/@material-ui/core/esm/Snackbar/index.js"));
-
-var lab_1 = __webpack_require__(/*! @material-ui/lab */ "./node_modules/@material-ui/lab/esm/index.js");
-
-function Alert(props) {
-  return react_1["default"].createElement(lab_1.Alert, __assign({
-    elevation: 6,
-    variant: "filled"
-  }, props));
-}
-
-var useSnackBar = function useSnackBar() {
-  var _a = react_1["default"].useState(false),
-      open = _a[0],
-      setOpen = _a[1];
-
-  var _b = react_1["default"].useState("success"),
-      severity = _b[0],
-      setSeverity = _b[1];
-
-  var _c = react_1["default"].useState(""),
-      message = _c[0],
-      setMessage = _c[1];
-
-  var handleClose = function handleClose(event, reason) {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  return {
-    open: open,
-    setOpen: setOpen,
-    handleClose: handleClose,
-    severity: severity,
-    setSeverity: setSeverity,
-    message: message,
-    setMessage: setMessage
-  };
-};
-
-exports.useSnackBar = useSnackBar;
-
-var SnackBar = function SnackBar(_a) {
-  var open = _a.open,
-      handleClose = _a.handleClose,
-      severity = _a.severity,
-      message = _a.message; // console.log(open);
-
-  return react_1["default"].createElement(Snackbar_1["default"], {
-    open: open,
-    autoHideDuration: 3000,
-    onClose: handleClose,
-    anchorOrigin: {
-      vertical: "top",
-      horizontal: "center"
-    }
-  }, react_1["default"].createElement(Alert, {
-    onClose: handleClose,
-    severity: severity
-  }, message));
-};
-
-exports.default = SnackBar;
+exports.LogoutIcon = LogoutIcon;
 
 /***/ }),
 

@@ -1,10 +1,30 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { addCategoryReducer, addCategoryAction } from "./category";
-import { loginAction, loginReducer } from "./authReducer";
+import {
+    addCategoryReducer,
+    addCategoryAction,
+    getCategoryAction,
+    getCategoryReducer,
+} from "./categoryReducer";
+import {
+    loginAction,
+    loginReducer,
+    logout,
+    initialState as LoginInitialState,
+} from "./authReducer";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
+const userInfo = localStorage.getItem("UserInfo");
+
+const preloadedState = {
+    login: userInfo ? JSON.parse(userInfo) : LoginInitialState,
+};
 const store = configureStore({
-    reducer: { addCategory: addCategoryReducer, login: loginReducer },
+    reducer: {
+        addCategory: addCategoryReducer,
+        login: loginReducer,
+        getCategory: getCategoryReducer,
+    },
+    preloadedState,
 });
 
 export default store;
@@ -13,13 +33,11 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 //useSelector Callbacks
 //cat
-export const addCategorySuccessSelector = (s: RootState) =>
-    s.addCategory.success;
-export const addCategoryStatusSelector = (s: RootState) => s.addCategory.status;
-export const addCategoryErrorSelector = (s: RootState) => s.addCategory.error;
+export const addCategorySelector = (s: RootState) => s.addCategory;
+export const getCategorySelector = (s: RootState) => s.getCategory;
 
 //login
-export const isLoggedSelector = (s: RootState) => s.login.logged;
+export const loginSelector = (s: RootState) => s.login;
 
 //Actions
-export { addCategoryAction, loginAction };
+export { addCategoryAction, loginAction, getCategoryAction, logout };

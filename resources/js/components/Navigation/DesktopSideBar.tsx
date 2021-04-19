@@ -11,6 +11,7 @@ import {
     UserIcon,
     ReportIcon,
     CategoryIcon,
+    ListIcon,
 } from "../../utils/icons/svg";
 // import { LoremIpsum } from "react-lorem-ipsum";
 
@@ -54,6 +55,16 @@ const DesktopSideBar = () => {
                         </div>
                         <div className="text-gray-600 font-medium text-sm">
                             Reports
+                        </div>
+                    </Link>
+                </div>
+                <div className="">
+                    <Link to="/get-category" className="nav-links">
+                        <div className=" nav-icons ">
+                            <ListIcon fill={undefined} />
+                        </div>
+                        <div className="text-gray-600 font-medium text-sm">
+                            List Category
                         </div>
                     </Link>
                 </div>

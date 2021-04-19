@@ -23,7 +23,9 @@ module.exports = {
         },
     },
     variants: {
-        extend: {},
+        extend: {
+            width: ["focus"],
+        },
     },
     plugins: [require("@tailwindcss/forms")],
 };

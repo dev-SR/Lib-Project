@@ -19,7 +19,6 @@ use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 */
 
 //Public Route
-Route::post('/add-category', [CategoryController::class, 'store']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -32,4 +31,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/make-admin', [AuthController::class, 'makeAdmin']);
     Route::post('/revoke-admin', [AuthController::class, 'revokeAdmin']);
+    Route::post('/add-category', [CategoryController::class, 'store']);
+    Route::get('/get-category', [CategoryController::class, 'index']);
 });

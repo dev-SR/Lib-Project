@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use COM;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $res = Category::all(['category_name', 'id']);
+        return ['lists' => $res];
     }
 
     /**
@@ -26,11 +29,19 @@ class CategoryController extends Controller
     public function store(Request $req)
     {
 
+
         $f =  $req->validate([
-            'name' => 'required|string|min:5'
+            'category_name' => 'required|string|min:5'
         ]);
 
-        return response(['success' => true], 201);
+        $cat = Category::create([
+            'category_name' => $f['category_name']
+        ]);
+
+        return response(
+            ['success' => true, 'success_message' => $f['category_name']],
+            201
+        );
     }
 
     /**
