@@ -18,15 +18,18 @@ use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 |
 */
 
-// Route::post('/user', [BooksController::class, 'index']);
-
+//Public Route
 Route::post('/add-category', [CategoryController::class, 'store']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
+//Protected Route
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/test', function () {
         return "Middleware Worked";
     });
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/make-admin', [AuthController::class, 'makeAdmin']);
+    Route::post('/revoke-admin', [AuthController::class, 'revokeAdmin']);
 });

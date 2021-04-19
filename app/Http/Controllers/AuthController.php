@@ -43,8 +43,16 @@ class AuthController extends Controller
 
 
         $token = $user->createToken($user->email)->plainTextToken;
-        $response = ['user' => $user, 'token' => $token];
 
+        $u = [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
+        $response = [
+            'user' => $u,
+            'is_admin' => $user->is_admin,
+            'token' => $token
+        ];
         return response($response, 201);
     }
 
@@ -73,14 +81,47 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->email)->plainTextToken;
 
+
+        $u = [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
         $response = [
-            'user' => $user,
+            'user' => $u,
+            'is_admin' => $user->is_admin,
             'token' => $token
         ];
+
 
         return response($response, 201);
     }
 
+    public function makeAdmin(Request $req)
+    {
+        $fields = $req->validate([
+            'email' => 'required|string',
+        ]);
+        $user = User::where('email', $fields['email'])->first();
+        $user->is_admin = true;
+        $user->save();
+        $response = [
+            'message' => 'Admin Added'
+        ];
+        return response($response, 201);
+    }
+    public function revokeAdmin(Request $req)
+    {
+        $fields = $req->validate([
+            'email' => 'required|string',
+        ]);
+        $user = User::where('email', $fields['email'])->first();
+        $user->is_admin = false;
+        $user->save();
+        $response = [
+            'message' => 'Admin Revoked'
+        ];
+        return response($response, 201);
+    }
 
 
     /**
