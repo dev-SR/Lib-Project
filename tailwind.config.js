@@ -11,11 +11,13 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                cyan: colors.cyan,
+                // cyan: colors.cyan,
+                teal: colors.teal,
+
                 gray: colors.gray,
             },
             fontFamily: {
-                sans: ["Roboto", "sans-serif"],
+                sans: ["Poppins", "sans-serif"],
                 nunito: ["Nunito", "sans-serif"],
             },
         },
@@ -23,5 +25,5 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/forms")],
 };

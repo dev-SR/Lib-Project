@@ -1,31 +1,47 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import DesktopNav from "./Nav/Desktop";
-
-const LazyDashaord = React.lazy(() => import("./Main/Dashboard"));
-
+import { AddBooks } from "./Admin/Books/AddBooks";
+import DesktopNav from "./Navigation/DesktopSideBar";
+import Navigation from "./Navigation/Navigation";
+import AddCategory from "./Admin/Category/AddCategory";
+import Login from "./Auth/LoginPage";
+const LazyDashboard = React.lazy(() => import("./Admin/Dashboard"));
+import AdminRoute from "../utils/AdminRoute";
 const App = () => {
     return (
-        <div className="h-screen bg flex sm:flex-row flex-col-reverse overflow-y-hidden">
-            <Router>
-                <div className="sm:w-64 sm:h-full h-10">
-                    <div className="h-full sm:hidden flex text-white">
-                        Mobile Menu
+        <div className="bg-teal-100">
+            <div className="h-screen flex sm:flex-row flex-col-reverse overflow-y-hidden blur">
+                <Router>
+                    <div className="sm:w-64 sm:h-full h-10">
+                        <div className="h-full sm:hidden flex">Mobile Menu</div>
+                        <div className="w-full h-full hidden sm:flex  overflow-y-hidden ">
+                            <DesktopNav />
+                        </div>
                     </div>
-                    <div className="sidebar border-r-2 border-gray-800 shadow w-full h-full hidden sm:flex text-white overflow-y-hidden">
-                        <DesktopNav />
-                    </div>
-                </div>
-                <div className="sm:w-full sm:h-full h-full text-white overflow-y-hidden flex flex-col">
-                    <div className="overflow-y-auto p-3 mainscroll">
+                    <div className="sm:w-full sm:h-full h-full overflow-y-hidden flex flex-col ">
+                        <Navigation />
                         <Route path="/dashboard">
                             <React.Suspense fallback={<p>Loading..</p>}>
-                                <LazyDashaord />
+                                <LazyDashboard />
                             </React.Suspense>
                         </Route>
+                        <Route path="/add-books">
+                            <AddBooks />
+                        </Route>
+                        {/* <Route path="/add-category">
+                            <React.Suspense fallback={<p>Loading..</p>}>
+                                <AddCategory />
+                            </React.Suspense>
+                        </Route> */}
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                        <AdminRoute path="/add-category" exact>
+                            <AddCategory />
+                        </AdminRoute>
                     </div>
-                </div>
-            </Router>
+                </Router>
+            </div>
         </div>
     );
 };

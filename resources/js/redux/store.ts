@@ -1,16 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { todosReducer, fetchTodos } from "./dashboardReducer";
+import { addCategoryReducer, addCategoryAction } from "./category";
+import { loginAction, loginReducer } from "./authReducer";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 const store = configureStore({
-    reducer: todosReducer,
+    reducer: { addCategory: addCategoryReducer, login: loginReducer },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export const selectStatus = (state: RootState) => state.status;
-export const selectTodo = (state: RootState) => state.list;
-export const selectError = (state: RootState) => state.error;
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export { fetchTodos };
+//useSelector Callbacks
+//cat
+export const addCategorySuccessSelector = (s: RootState) =>
+    s.addCategory.success;
+export const addCategoryStatusSelector = (s: RootState) => s.addCategory.status;
+export const addCategoryErrorSelector = (s: RootState) => s.addCategory.error;
+
+//login
+export const isLoggedSelector = (s: RootState) => s.login.logged;
+
+//Actions
+export { addCategoryAction, loginAction };

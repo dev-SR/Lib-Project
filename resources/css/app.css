@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Poppins&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -14,18 +15,18 @@
     /* background: #121418; */
 }
 .navscroll::-webkit-scrollbar-thumb {
-    background-color: #f3f3f3;
+    background-color: #0d9488;
     border-radius: 6px;
 }
 .mainscroll::-webkit-scrollbar {
-    width: 5px;
+    width: 7px;
 }
 
 .mainscroll::-webkit-scrollbar-track {
     /* background: #121418; */
 }
 .mainscroll::-webkit-scrollbar-thumb {
-    background-color: #f3f3f3;
+    background-color: #0d9488;
     border-radius: 6px;
 }
 
@@ -33,52 +34,30 @@
     background: #222433;
 }
 .hover\:nav:hover {
-    background: rgba(63, 63, 70, 0.596);
+    background: rgba(45, 212, 190, 0.24);
+    backdrop-filter: blur(100rem);
 }
 @layer components {
     .nav-links {
-        @apply flex space-x-2 hover:nav p-2 rounded-md items-center;
+        @apply flex space-x-2 p-2 rounded-md items-center hover:nav;
     }
     .nav-icons {
-        @apply p-1 rounded-full flex justify-center items-center text-gray-400 bg-gray-600;
+        @apply p-1 rounded-full flex justify-center items-center;
+    }
+    .input-primary {
+        @apply rounded-md border-2 focus:ring-purple-500 border-purple-300 bg-purple-50 focus:border-purple-500 w-full;
+    }
+    .input-error {
+        @apply rounded-md border-2 focus:ring-red-500 focus:border-red-500  border-red-300 bg-red-50 w-full;
     }
 }
-.dark-1 {
-    background: rgb(40, 43, 62);
-}
 
-.bg {
+.blur {
+    background: white;
     background: linear-gradient(
         to right bottom,
-        #121418,
-        #13151b,
-        #14161d,
-        #151720,
-        #161822,
-        #181924,
-        #191a26,
-        #1b1b28,
-        #1d1d2b,
-        #1f1e2d,
-        #212030,
-        #232233
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.3)
     );
-}
-
-.sidebar {
-    background: linear-gradient(
-        to right bottom,
-        #171717,
-        #171618,
-        #161618,
-        #161519,
-        #15151a,
-        #15161b,
-        #15161d,
-        #15171e,
-        #161821,
-        #181923,
-        #191a26,
-        #1b1b28
-    );
+    backdrop-filter: blur(40rem);
 }
