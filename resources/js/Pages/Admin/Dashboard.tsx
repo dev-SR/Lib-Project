@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Layout from "../../components/Shared/Layout";
 // import {
 //     useTypedSelector,
 //     selectStatus,
@@ -8,7 +9,7 @@ import { Link } from "react-router-dom";
 //     selectError,
 //     fetchTodos,
 // } from "../../redux/store";
-const App = () => {
+const Dashboard = () => {
     const dispatch = useDispatch();
     // const status = useTypedSelector(selectStatus);
     // const todos = useTypedSelector(selectTodo);
@@ -19,15 +20,7 @@ const App = () => {
         // if (todos.length === 0) dispatch(fetchTodos(10));
     }, []);
 
-    return (
-        <div className="bg-white">
-            {/* <button type="button" onClick={handleClick}>
-                {status === "loading" ? "Loading todos..." : "Load todos"}
-            </button>
-            {todos && todos.map((n) => <h1>{n.title}</h1>)}
-            {error && <h1>{error}</h1>} */}
-        </div>
-    );
+    return <Layout title="DashBoard"></Layout>;
 };
 
-export default App;
+export default Dashboard;

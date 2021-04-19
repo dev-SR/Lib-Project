@@ -5,7 +5,6 @@ import { Route, Redirect, RouteProps } from "react-router-dom";
 import { useTypedSelector, isLoggedSelector } from "../redux/store";
 const PrivateRoute: React.FC<RouteProps> = ({ ...routeProps }) => {
     const isLogged = useTypedSelector(isLoggedSelector);
-    console.log(isLogged);
     if (isLogged) {
         return <Route {...routeProps} />;
     } else {

@@ -14,7 +14,7 @@ import {
 } from "../../utils/icons/svg";
 // import { LoremIpsum } from "react-lorem-ipsum";
 
-const App = () => {
+const DesktopSideBar = () => {
     return (
         <div className=" flex flex-col w-full  space-y-3 ">
             <div className="">
@@ -142,4 +142,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default DesktopSideBar;
