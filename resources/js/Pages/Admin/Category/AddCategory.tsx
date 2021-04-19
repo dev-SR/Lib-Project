@@ -58,7 +58,7 @@ const AddCategory = () => {
     }, [success, error]);
 
     return (
-        <Layout title="DashBoard">
+        <Layout title="Category">
             <div className="flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4">
                 <div className="text-md font-thin text-gray-700">Add Books</div>
                 <SnackBar

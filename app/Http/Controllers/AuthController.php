@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,16 +19,69 @@ class AuthController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Register new User.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Request $req)
     {
-        //       
-        return ['logged' => true, 'token' => 'asdjlasd'];
+        //      
+        $fields = $req->validate([
+            'name' => 'required|string',
+            'email' => 'required|string|unique:users,email',
+            'password' => 'required|string|confirmed'
+
+        ]);
+        $user = User::create(
+            [
+                'name' => $fields['name'],
+                'email' => $fields['email'],
+                'password' => bcrypt($fields['password'])
+            ]
+        );
+
+
+        $token = $user->createToken($user->email)->plainTextToken;
+        $response = ['user' => $user, 'token' => $token];
+
+        return response($response, 201);
     }
+
+
+    public function logout(Request $req)
+    {
+        $req->user()->currentAccessToken()->delete();
+        return ['message' => 'Logged Out'];
+    }
+
+    public function login(Request $req)
+    {
+        $fields = $req->validate([
+            'email' => 'required|string', //unique:table,col
+            'password' => 'required|string'
+        ]);
+
+        //Check Email
+        $user = User::where('email', $fields['email'])->first();
+
+
+        //Check Password
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
+            return response(['message' => 'Bad Cred'], 401);
+        }
+
+        $token = $user->createToken($user->email)->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+
 
     /**
      * Display the specified resource.

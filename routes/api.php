@@ -21,8 +21,12 @@ use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 // Route::post('/user', [BooksController::class, 'index']);
 
 Route::post('/add-category', [CategoryController::class, 'store']);
-Route::post('/login', [AuthController::class, 'store']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/test', function () {
+        return "Middleware Worked";
+    });
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
