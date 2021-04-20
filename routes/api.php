@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BooksController;
-use App\Http\Controllers\CategoryController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +22,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
+
 //Protected Route
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/test', function () {
@@ -31,6 +31,19 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/make-admin', [AuthController::class, 'makeAdmin']);
     Route::post('/revoke-admin', [AuthController::class, 'revokeAdmin']);
-    Route::post('/add-category', [CategoryController::class, 'store']);
-    Route::get('/get-category', [CategoryController::class, 'index']);
+    Route::post('/subject', [SubjectController::class, 'store']);
+    Route::get('/subject', [SubjectController::class, 'index']);
+    Route::get('/subject/{id}', [SubjectController::class, 'show']);
+    Route::put('/subject/{id}', [SubjectController::class, 'update']);
+    Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
+    Route::post('/department', [DepartmentController::class, 'store']);
+    Route::get('/department', [DepartmentController::class, 'index']);
+    Route::get('/department/{id}', [DepartmentController::class, 'show']);
+    Route::put('/department/{id}', [DepartmentController::class, 'update']);
+    Route::delete('/department/{id}', [DepartmentController::class, 'destroy']);
+    Route::post('/book', [BookController::class, 'store']);
+    Route::get('/book', [BookController::class, 'index']);
+    Route::get('/book/{id}', [BookController::class, 'show']);
+    Route::put('/book/{id}', [BookController::class, 'update']);
+    Route::delete('/book/{id}', [BookController::class, 'destroy']);
 });

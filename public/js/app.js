@@ -24520,19 +24520,25 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
 
 var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
 
-function ListCategories() {
-  var _a = store_1.useTypedSelector(store_1.getCategorySelector),
-      lists = _a.lists,
-      status = _a.status;
+var svg_1 = __webpack_require__(/*! ../../../utils/icons/svg */ "./resources/js/utils/icons/svg.tsx");
 
+function ListCategories() {
+  var lists = store_1.useTypedSelector(store_1.getCategorySelector).lists;
   var dispatch = react_redux_1.useDispatch();
   react_1.useEffect(function () {
     dispatch(store_1.getCategoryAction(""));
-  }, [lists, dispatch]);
+  }, []);
+
+  var handleDelete = function handleDelete() {
+    dispatch(store_1.getCategoryAction(""));
+  };
+
   return react_1["default"].createElement(AdminLayout_1["default"], {
     title: "Category"
   }, react_1["default"].createElement("div", {
@@ -24541,9 +24547,45 @@ function ListCategories() {
     className: "text-md font-thin text-gray-700"
   }, "List Of Categories"), react_1["default"].createElement("div", {
     className: "flex justify-center items-center h-full"
-  }, lists && lists.map(function (l) {
-    return react_1["default"].createElement("div", null, react_1["default"].createElement("p", null, l.category_name), react_1["default"].createElement("p", null, l.id));
-  }))));
+  }, lists && react_1["default"].createElement("div", {
+    className: "w-7xl mx-auto sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col"
+  }, react_1["default"].createElement("div", {
+    className: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"
+  }, react_1["default"].createElement("div", {
+    className: "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+  }, react_1["default"].createElement("table", {
+    className: "min-w-full divide-y divide-gray-200"
+  }, react_1["default"].createElement("thead", {
+    className: "bg-gray-50"
+  }, react_1["default"].createElement("tr", null, react_1["default"].createElement("th", {
+    scope: "col",
+    className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+  }, "Cateory Name"), react_1["default"].createElement("th", {
+    scope: "col",
+    className: "relative px-6 py-3"
+  }, react_1["default"].createElement("span", {
+    className: "sr-only"
+  }, "Edit")))), react_1["default"].createElement("tbody", {
+    className: "bg-white divide-y divide-gray-200",
+    "x-max": "1"
+  }, lists.map(function (r, i) {
+    return react_1["default"].createElement("tr", null, react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.category_name), react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+    }, react_1["default"].createElement("div", {
+      className: "flex space-x-3"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/edit-category/" + r.id
+    }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
+      className: "focus:outline-none",
+      onClick: handleDelete
+    }, react_1["default"].createElement(svg_1.DeleteIcon, null)))));
+  })))))))))));
 }
 
 exports.default = ListCategories;
@@ -26003,7 +26045,7 @@ var addCategoryAction = toolkit_1.createAsyncThunk("category/add", function (cat
 
           return [4
           /*yield*/
-          , axios_config_1["default"].post("/add-category", {
+          , axios_config_1["default"].post("/category", {
             category_name: cat.name
           })];
 
@@ -26079,7 +26121,7 @@ var getCategoryAction = toolkit_1.createAsyncThunk("category/get", function (_, 
 
           return [4
           /*yield*/
-          , axios_config_1["default"].get("/get-category")];
+          , axios_config_1["default"].get("/category")];
 
         case 1:
           data = _a.sent().data;
@@ -26308,7 +26350,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.LogoutIcon = exports.CategoryIcon = exports.ListIcon = exports.ReportIcon = exports.UsersIcon = exports.UserIcon = exports.ClipboardCopyIcon = exports.ClipboardIcon = exports.CollectionIcon = exports.AddIcon = exports.DashboardIcon = exports.AcademicCapIcon = void 0;
+exports.DeleteIcon = exports.EditIcon = exports.LogoutIcon = exports.CategoryIcon = exports.ListIcon = exports.ReportIcon = exports.UsersIcon = exports.UserIcon = exports.ClipboardCopyIcon = exports.ClipboardIcon = exports.CollectionIcon = exports.AddIcon = exports.DashboardIcon = exports.AcademicCapIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -26533,6 +26575,40 @@ var LogoutIcon = function LogoutIcon() {
 };
 
 exports.LogoutIcon = LogoutIcon;
+
+var EditIcon = function EditIcon() {
+  return react_1["default"].createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-6 w-6",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "#A78BFA"
+  }, react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+  }));
+};
+
+exports.EditIcon = EditIcon;
+
+var DeleteIcon = function DeleteIcon() {
+  return react_1["default"].createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-6 w-6",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "#F87171"
+  }, react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+  }));
+};
+
+exports.DeleteIcon = DeleteIcon;
 
 /***/ }),
 

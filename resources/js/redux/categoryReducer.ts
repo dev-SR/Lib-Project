@@ -35,7 +35,7 @@ const addCategoryAction = createAsyncThunk<
 
     async (cat: Category, thunkApi) => {
         try {
-            const { data } = await Api.post(`/add-category`, {
+            const { data } = await Api.post(`/category`, {
                 category_name: cat.name,
             });
             return data;
@@ -110,7 +110,7 @@ const getCategoryAction = createAsyncThunk<
 
     async (_, thunkApi) => {
         try {
-            const { data } = await Api.get(`/get-category`);
+            const { data } = await Api.get(`/category`);
             return data;
         } catch (error) {
             const message =
