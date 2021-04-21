@@ -11,8 +11,7 @@ type ValidationError = {
 
 type LoginStateType = {
     user: {
-        name: string;
-        email: string;
+        [k: string]: string | null;
     };
     token: string | null;
     is_admin: boolean;
@@ -20,13 +19,13 @@ type LoginStateType = {
     status: "idle" | "loading";
 };
 
-export const initialState = {
+export const initialState: LoginStateType = {
     user: {},
     token: null,
     is_admin: false,
     error: null,
     status: "idle",
-} as LoginStateType;
+};
 
 type UserLoginPostType = {
     email: string;
@@ -63,7 +62,7 @@ const loginSlice = createSlice({
     initialState,
     reducers: {
         //to reset user;
-        logout(state) {
+        resetLogin(state) {
             state.status = "loading";
             state.error = null;
             state.is_admin = false;
@@ -93,6 +92,139 @@ const loginSlice = createSlice({
     },
 });
 
+interface UserRegisterPostType extends UserLoginPostType {
+    password_confirmation: string;
+    id: number;
+}
+
+//Register
+const registerAction = createAsyncThunk<
+    LoginStateType,
+    UserRegisterPostType,
+    { rejectValue: ValidationError }
+>(
+    "auth/register",
+
+    async (u: UserRegisterPostType, thunkApi) => {
+        try {
+            // console.log(u);
+            const { data } = await Api.post(`/register`, {
+                password: u.password,
+                email: u.email,
+                password_confirmation: u.password_confirmation,
+                id: u.id,
+            });
+            return data as LoginStateType;
+        } catch (error) {
+            const message =
+                error.response && error.response.data
+                    ? error.response.data
+                    : error.message;
+            return thunkApi.rejectWithValue(message);
+        }
+    }
+);
+
+const registerSlice = createSlice({
+    name: "auth/register",
+    initialState,
+    reducers: {
+        resetRegister(s) {
+            s.error = null;
+            s.is_admin = false;
+            s.token = null;
+            s.status = "idle";
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(registerAction.pending, (state) => {
+            state.status = "loading";
+            state.error = null;
+        });
+        builder.addCase(registerAction.fulfilled, (s, { payload }) => {
+            s.user = payload.user;
+            s.token = payload.token;
+            s.is_admin = payload.is_admin;
+            s.status = "idle";
+            s.error = null;
+            if (payload.token) {
+                localStorage.setItem("GreenLibToken", payload.token);
+                localStorage.setItem("UserInfo", JSON.stringify(payload));
+            }
+        });
+        builder.addCase(registerAction.rejected, (state, { payload }) => {
+            if (payload) state.error = payload;
+            state.status = "idle";
+        });
+    },
+});
+
+//logout
+type logoutType = {
+    message: null | string;
+    error: null | ValidationError;
+    status: "idle" | "loading";
+};
+
+const logoutInitial: logoutType = {
+    message: null,
+    error: null,
+    status: "idle",
+};
+const logoutAction = createAsyncThunk<
+    logoutType,
+    {},
+    { rejectValue: ValidationError }
+>(
+    "auth/logout",
+
+    async (u, thunkApi) => {
+        try {
+            // console.log(u);
+            const { data } = await Api.post(`/logout`);
+            return data as logoutType;
+        } catch (error) {
+            const message =
+                error.response && error.response.data
+                    ? error.response.data
+                    : error.message;
+            return thunkApi.rejectWithValue(message);
+        }
+    }
+);
+const logoutSlice = createSlice({
+    name: "auth/logout",
+    initialState: { ...logoutInitial },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(logoutAction.pending, (state) => {
+            state.status = "loading";
+            state.error = null;
+            state.message = null;
+        });
+        builder.addCase(logoutAction.fulfilled, (s, { payload }) => {
+            s.message = payload.message;
+            s.status = "idle";
+            s.error = null;
+            if (payload.message) {
+                localStorage.removeItem("GreenLibToken");
+                localStorage.removeItem("UserInfo");
+            }
+        });
+        builder.addCase(loginAction.rejected, (state, { payload }) => {
+            if (payload) state.error = payload;
+            state.status = "idle";
+        });
+    },
+});
+
+//reducers
 export const loginReducer = loginSlice.reducer;
-export const { logout } = loginSlice.actions;
-export { loginAction };
+export const registerReducer = registerSlice.reducer;
+export const logoutReducer = logoutSlice.reducer;
+
+//Actions
+export const { resetLogin } = loginSlice.actions;
+export const { resetRegister } = registerSlice.actions;
+
+export { loginAction, registerAction, logoutAction };

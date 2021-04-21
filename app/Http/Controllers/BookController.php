@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
+use function Symfony\Component\String\b;
+
 class BookController extends Controller
 {
     /**
@@ -37,12 +39,15 @@ class BookController extends Controller
             'price' => 'required|min:2',
             'pages' => 'required|min:2',
             'copies' => 'required',
+            'edition' => 'required',
             'shelf_no' => 'required',
             'subject_id' => 'required',
             'department_id' => 'required'
+
         ]);
 
         $b = Book::create([
+            'img' => $req->img,
             'book_id' => $f['book_id'],
             'title' => $f['title'],
             'isbn' => $f['isbn'],
@@ -51,6 +56,7 @@ class BookController extends Controller
             'price' => $f['price'],
             'pages' => $f['pages'],
             'copies' => $f['copies'],
+            'edition' => $f['edition'],
             'shelf_no' => $f['shelf_no'],
             'subject_id' => $f['subject_id'],
             'department_id' => $f['department_id']
@@ -77,6 +83,7 @@ class BookController extends Controller
         }
         $res = [
             'id' => $b->id,
+            'img' => $b->img,
             'book_id' => $b->book_id,
             'title' => $b->title,
             'isbn' => $b->isbn,
@@ -85,6 +92,7 @@ class BookController extends Controller
             'price' => $b->price,
             'pages' => $b->pages,
             'copies' => $b->copies,
+            'edition' => $b->edition,
             'shelf_no' => $b->shelf_no,
             'subject' => Book::find($id)->subject->subject,
             'department' => Book::find($id)->department->department
@@ -104,6 +112,7 @@ class BookController extends Controller
     {
         //
         $f =  $req->validate([
+
             'book_id' => 'required|min:2',
             'title' => 'required|string|min:5',
             'isbn' => 'required|min:2',
@@ -114,6 +123,7 @@ class BookController extends Controller
             'copies' => 'required',
             'shelf_no' => 'required',
             'subject_id' => 'required',
+            'edition' => 'required',
             'department_id' => 'required'
         ]);
         $b = Book::find($id);
@@ -122,6 +132,7 @@ class BookController extends Controller
             return ['success' => false, 'fail_message' => 'This Book do not exits'];
         }
         $b->update([
+            'img' => $req->img,
             'book_id' => $f['book_id'],
             'title' => $f['title'],
             'isbn' => $f['isbn'],
@@ -131,6 +142,7 @@ class BookController extends Controller
             'pages' => $f['pages'],
             'copies' => $f['copies'],
             'shelf_no' => $f['shelf_no'],
+            'edition' => $f['edition'],
             'subject_id' => $f['subject_id'],
             'department_id' => $f['department_id']
         ]);

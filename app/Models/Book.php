@@ -11,7 +11,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['book_id', 'title', 'isbn', 'publisher', 'authors', 'price', 'pages', 'copies', 'shelf_no', 'subject_id', 'department_id'];
+    protected $fillable = ['book_id', 'title', 'isbn', 'publisher', 'authors', 'price', 'pages', 'copies', 'shelf_no', 'subject_id', 'department_id', 'img', 'edition'];
     //Book::find(5)->subject
     public function subject()
     {

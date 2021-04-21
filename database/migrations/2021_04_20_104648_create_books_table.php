@@ -20,12 +20,14 @@ class CreateBooksTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('book_id')->unique();
             $table->string('title')->unique();
+            $table->string('img')->nullable();
             $table->string('isbn');
             $table->string('publisher');
             $table->text('authors');
             $table->unsignedDecimal('price', 5, 2);
             $table->unsignedInteger('pages');
             $table->unsignedInteger('copies');
+            $table->unsignedInteger('edition');
             $table->unsignedInteger('shelf_no');
             $table->foreignId('subject_id'); //belongs to Subject Model
             $table->foreignId('department_id'); //De Model

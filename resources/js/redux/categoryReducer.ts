@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import Api from "./axios_config";
-
+/**
+ * * Adding NEW SUBJECT NOT CATeGORY
+ */
 type ValidationError = {
     message: string;
     errors: {

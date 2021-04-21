@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\IssueBookController;
+use App\Http\Controllers\ReturnController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 
 /*
@@ -20,17 +23,11 @@ use App\Http\Controllers\SubjectController;
 //Public Route
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
-
-
 //Protected Route
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/test', function () {
         return "Middleware Worked";
     });
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/make-admin', [AuthController::class, 'makeAdmin']);
-    Route::post('/revoke-admin', [AuthController::class, 'revokeAdmin']);
     Route::post('/subject', [SubjectController::class, 'store']);
     Route::get('/subject', [SubjectController::class, 'index']);
     Route::get('/subject/{id}', [SubjectController::class, 'show']);
@@ -46,4 +43,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/book/{id}', [BookController::class, 'show']);
     Route::put('/book/{id}', [BookController::class, 'update']);
     Route::delete('/book/{id}', [BookController::class, 'destroy']);
+    Route::post('/issue_book', [IssueBookController::class, 'store']);
+    Route::get('/issue_book', [IssueBookController::class, 'index']);
+    Route::get('/issue_book/{id}', [IssueBookController::class, 'show']);
+    Route::put('/issue_book/{id}', [IssueBookController::class, 'update']);
+    Route::delete('/issue_book/{id}', [IssueBookController::class, 'destroy']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/make-admin', [AuthController::class, 'makeAdmin']);
+    Route::post('/revoke-admin', [AuthController::class, 'revokeAdmin']);
+    Route::post('/revoke-admin', [AuthController::class, 'revokeAdmin']);
+    Route::get('/student-details/{id}', [AuthController::class, 'show']);
+    Route::post('/return-book', [AuthController::class, 'return_book']);
 });

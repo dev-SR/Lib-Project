@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\IssueBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,6 +29,7 @@ class AuthController extends Controller
     {
         //      
         $fields = $req->validate([
+            'id' => 'required|min:8',
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed'
@@ -36,6 +38,7 @@ class AuthController extends Controller
 
         $user = User::create(
             [
+                'id' => $fields['id'],
                 'name' => $fields['name'],
                 'email' => $fields['email'],
                 'password' => bcrypt($fields['password'])
@@ -136,6 +139,31 @@ class AuthController extends Controller
     public function show($id)
     {
         //
+        $u = User::find($id);
+
+        if (!$u) {
+            return ['success' => false, 'fail_message' => 'This info do not exits'];
+        }
+
+        $res = [
+            'user' => [
+                'user_id' => $u->id,
+                'user_name' => $u->name,
+            ],
+            'issue_books' => IssueBook::with(['book:id,book_id,title,img'])->where('user_id', '=', $u->id)->get()
+
+        ];
+        return ['lists' => $res];
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function return_book(Request $req)
+    {
     }
 
     /**

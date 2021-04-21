@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
+
 import {
     addCategoryReducer,
     addCategoryAction,
@@ -8,13 +10,23 @@ import {
 import {
     loginAction,
     loginReducer,
-    logout,
+    resetLogin,
     initialState as LoginInitialState,
+    registerReducer,
+    resetRegister,
+    registerAction,
+    logoutAction,
+    logoutReducer,
 } from "./authReducer";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
 
+import {
+    resetDepartment,
+    addDepartmentReducer,
+    addDepartmentAction,
+} from "./department";
+
+//Local Storage
 const userInfo = localStorage.getItem("UserInfo");
-
 const preloadedState = {
     login: userInfo ? JSON.parse(userInfo) : LoginInitialState,
 };
@@ -23,6 +35,9 @@ const store = configureStore({
         addCategory: addCategoryReducer,
         login: loginReducer,
         getCategory: getCategoryReducer,
+        register: registerReducer,
+        logout: logoutReducer,
+        addDepartment: addDepartmentReducer,
     },
     preloadedState,
 });
@@ -36,8 +51,20 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const addCategorySelector = (s: RootState) => s.addCategory;
 export const getCategorySelector = (s: RootState) => s.getCategory;
 
-//login
+//auth
 export const loginSelector = (s: RootState) => s.login;
+export const registerSelector = (s: RootState) => s.register;
+
+//department
+export const addDepartmentSelector = (s: RootState) => s.addDepartment;
 
 //Actions
-export { addCategoryAction, loginAction, getCategoryAction, logout };
+export {
+    addCategoryAction,
+    loginAction,
+    getCategoryAction,
+    resetLogin,
+    resetRegister,
+    registerAction,
+    logoutAction,
+};
