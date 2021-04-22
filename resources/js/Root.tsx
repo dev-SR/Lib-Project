@@ -7,7 +7,7 @@ const LazyAddCategory = React.lazy(
 const LazyListCategory = React.lazy(
     () => import("./Pages/Admin/Category/ListCategories")
 );
-import AdminRoute from "./utils/AdminRoute";
+import AdminRoute from "./components/AdminRoute";
 import NotFound from "./components/Shared/NotFound";
 const App = () => {
     return (

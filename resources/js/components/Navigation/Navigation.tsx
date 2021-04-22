@@ -1,7 +1,7 @@
 import React from "react";
 import { LogoutIcon } from "../../utils/icons/svg";
 import Api from "../../redux/axios_config";
-import { resetLogin, resetRegister } from "../../redux/store";
+import { logoutAction } from "../../redux/store";
 
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
@@ -9,12 +9,9 @@ import { useDispatch } from "react-redux";
 export default function Navigation() {
     let history = useHistory();
     let dispatch = useDispatch();
-    const logoutHandler = async () => {
-        await Api.post(`/logout`);
-        localStorage.removeItem("GreenLibToken");
-        localStorage.removeItem("UserInfo");
-        dispatch(resetLogin()); //reset login
-        dispatch(resetRegister());
+    const logoutHandler = () => {
+        // await Api.post(`/logout`);
+        dispatch(logoutAction()); //reset login
         // history.push("/login");
     };
     return (

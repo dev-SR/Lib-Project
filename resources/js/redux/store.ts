@@ -10,10 +10,8 @@ import {
 import {
     loginAction,
     loginReducer,
-    resetLogin,
     initialState as LoginInitialState,
     registerReducer,
-    resetRegister,
     registerAction,
     logoutAction,
     logoutReducer,
@@ -63,8 +61,6 @@ export {
     addCategoryAction,
     loginAction,
     getCategoryAction,
-    resetLogin,
-    resetRegister,
     registerAction,
     logoutAction,
 };

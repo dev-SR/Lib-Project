@@ -12,7 +12,7 @@ type ValidationError = {
 type LoginStateType = {
     user: {
         [k: string]: string | null;
-    };
+    } | null;
     token: string | null;
     is_admin: boolean;
     error: null | ValidationError;
@@ -20,7 +20,7 @@ type LoginStateType = {
 };
 
 export const initialState: LoginStateType = {
-    user: {},
+    user: null,
     token: null,
     is_admin: false,
     error: null,
@@ -67,6 +67,7 @@ const loginSlice = createSlice({
             state.error = null;
             state.is_admin = false;
             state.token = null;
+            state.user = null;
         },
     },
     extraReducers: (builder) => {
@@ -134,6 +135,7 @@ const registerSlice = createSlice({
             s.is_admin = false;
             s.token = null;
             s.status = "idle";
+            s.user = null;
         },
     },
     extraReducers: (builder) => {
@@ -173,22 +175,26 @@ const logoutInitial: logoutType = {
 };
 const logoutAction = createAsyncThunk<
     logoutType,
-    {},
+    void,
     { rejectValue: ValidationError }
 >(
     "auth/logout",
 
-    async (u, thunkApi) => {
+    async (_, { dispatch, rejectWithValue }) => {
         try {
-            // console.log(u);
             const { data } = await Api.post(`/logout`);
+
+            if (data) {
+                dispatch(resetLogin());
+                dispatch(resetRegister());
+            }
             return data as logoutType;
         } catch (error) {
             const message =
                 error.response && error.response.data
                     ? error.response.data
                     : error.message;
-            return thunkApi.rejectWithValue(message);
+            return rejectWithValue(message);
         }
     }
 );
@@ -224,7 +230,7 @@ export const registerReducer = registerSlice.reducer;
 export const logoutReducer = logoutSlice.reducer;
 
 //Actions
-export const { resetLogin } = loginSlice.actions;
-export const { resetRegister } = registerSlice.actions;
+const { resetLogin } = loginSlice.actions;
+const { resetRegister } = registerSlice.actions;
 
 export { loginAction, registerAction, logoutAction };
