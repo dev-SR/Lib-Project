@@ -24670,6 +24670,8 @@ var Yup = __importStar(__webpack_require__(/*! yup */ "./node_modules/yup/es/ind
 
 var store_1 = __webpack_require__(/*! ../../redux/store */ "./resources/js/redux/store.ts");
 
+var SnackBar_1 = __importStar(__webpack_require__(/*! ../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
+
 var initialValues = {
   email: "",
   password: ""
@@ -24683,21 +24685,44 @@ var Login = function Login() {
   var u = store_1.useTypedSelector(store_1.loginSelector);
   var history = react_router_1.useHistory();
 
+  var _a = SnackBar_1.useSnackBar(),
+      open = _a.open,
+      setOpen = _a.setOpen,
+      setSeverity = _a.setSeverity,
+      handleClose = _a.handleClose,
+      severity = _a.severity,
+      message = _a.message,
+      setMessage = _a.setMessage;
+
   var handleSubmit = function handleSubmit(values, _a) {
     var setSubmitting = _a.setSubmitting,
         resetForm = _a.resetForm;
     dispatch(store_1.loginAction(__assign({}, values)));
     setSubmitting(true);
+    setTimeout(function () {
+      setSubmitting(false);
+    }, 500);
   };
 
   react_1.useEffect(function () {
     if (u.is_admin) {
       history.push("/add-category");
     }
+
+    if (u.error && u.error.message) {
+      setOpen(true);
+      setMessage("" + u.error.message);
+      setSeverity("error");
+    }
   }, [u]);
   return react_1["default"].createElement("div", {
     className: "flex flex-col h-screen justify-center items-center  bg-gradient-to-tr from-teal-100 to-purple-100"
-  }, react_1["default"].createElement(formik_1.Formik, {
+  }, react_1["default"].createElement(SnackBar_1["default"], {
+    open: open,
+    handleClose: handleClose,
+    severity: severity,
+    message: message
+  }), react_1["default"].createElement(formik_1.Formik, {
     initialValues: initialValues,
     onSubmit: handleSubmit,
     validationSchema: exports.validator
@@ -25808,8 +25833,10 @@ var loginAction = toolkit_1.createAsyncThunk("auth/login", function (u, thunkApi
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
-          _a.trys.push([0, 2,, 3]);
+          _a.trys.push([0, 2,, 3]); // console.log(u);
 
+
+          thunkApi.dispatch(resetLogin());
           return [4
           /*yield*/
           , axios_config_1["default"].post("/login", {
@@ -25884,8 +25911,10 @@ var registerAction = toolkit_1.createAsyncThunk("auth/register", function (u, th
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
-          _a.trys.push([0, 2,, 3]);
+          _a.trys.push([0, 2,, 3]); // console.log(u);
 
+
+          thunkApi.dispatch(resetLogin());
           return [4
           /*yield*/
           , axios_config_1["default"].post("/register", {

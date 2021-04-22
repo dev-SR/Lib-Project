@@ -1,5 +1,5 @@
 import { Form, Formik, FormikHelpers } from "formik";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { MyTextInput } from "../../components/Formik";
@@ -32,8 +32,8 @@ const Login: FC<{}> = () => {
     const {
         open,
         setOpen,
-        handleClose,
         setSeverity,
+        handleClose,
         severity,
         message,
         setMessage,
@@ -44,7 +44,11 @@ const Login: FC<{}> = () => {
     ) => {
         dispatch(loginAction({ ...values }));
         setSubmitting(true);
+        setTimeout(() => {
+            setSubmitting(false);
+        }, 500);
     };
+
     useEffect(() => {
         if (u.is_admin) {
             history.push("/add-category");

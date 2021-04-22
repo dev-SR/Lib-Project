@@ -42,6 +42,7 @@ const loginAction = createAsyncThunk<
     async (u: UserLoginPostType, thunkApi) => {
         try {
             // console.log(u);
+            thunkApi.dispatch(resetLogin());
             const { data } = await Api.post(`/login`, {
                 password: u.password,
                 email: u.email,
@@ -109,6 +110,7 @@ const registerAction = createAsyncThunk<
     async (u: UserRegisterPostType, thunkApi) => {
         try {
             // console.log(u);
+            thunkApi.dispatch(resetLogin());
             const { data } = await Api.post(`/register`, {
                 password: u.password,
                 email: u.email,
@@ -183,7 +185,6 @@ const logoutAction = createAsyncThunk<
     async (_, { dispatch, rejectWithValue }) => {
         try {
             const { data } = await Api.post(`/logout`);
-
             if (data) {
                 dispatch(resetLogin());
                 dispatch(resetRegister());
