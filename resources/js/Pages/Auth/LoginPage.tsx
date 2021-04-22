@@ -10,6 +10,7 @@ import {
     useTypedSelector,
     loginSelector,
 } from "../../redux/store";
+import SnackBar, { useSnackBar } from "../../components/reuseable/SnackBar";
 type Values = {
     email: string;
     password: string;
@@ -28,6 +29,15 @@ const Login: FC<{}> = () => {
     const dispatch = useDispatch();
     const u = useTypedSelector(loginSelector);
     const history = useHistory();
+    const {
+        open,
+        setOpen,
+        handleClose,
+        setSeverity,
+        severity,
+        message,
+        setMessage,
+    } = useSnackBar();
     const handleSubmit = (
         values: Values,
         { setSubmitting, resetForm }: FormikHelpers<Values>
@@ -39,9 +49,20 @@ const Login: FC<{}> = () => {
         if (u.is_admin) {
             history.push("/add-category");
         }
+        if (u.error && u.error.message) {
+            setOpen(true);
+            setMessage(`${u.error.message}`);
+            setSeverity("error");
+        }
     }, [u]);
     return (
         <div className="flex flex-col h-screen justify-center items-center  bg-gradient-to-tr from-teal-100 to-purple-100">
+            <SnackBar
+                open={open}
+                handleClose={handleClose}
+                severity={severity}
+                message={message}
+            />
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
