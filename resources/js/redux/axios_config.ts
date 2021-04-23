@@ -4,7 +4,7 @@ import axios from "axios";
 // axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
 // axios.defaults.headers.post["Accept"] = "application/json";
 // axios.defaults.headers.get["Accept"] = "application/json";
-// const api = process.env.MIX_BASE_API;
+// const local = process.env.MIX_BASE_API;
 const build = "https://greenlib.herokuapp.com/api";
 const instance = axios.create({
     baseURL: build,
@@ -14,7 +14,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("GreenLibToken");
-        console.log(token);
+        // console.log(token);
 
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;

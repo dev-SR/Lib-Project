@@ -32,6 +32,7 @@ const initialValues: Values = {
 
 export const validator = Yup.object({
     email: Yup.string().email("Invalid email address").required("Required"),
+    name: Yup.string().required("Required"),
     id: Yup.string().min(9, "Minimum 9 character").required("Required"),
     password: Yup.string().min(3, "Minimum 3 character").required("Required"),
     password_confirmation: Yup.string()
