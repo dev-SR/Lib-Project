@@ -11,6 +11,7 @@ import {
     loginSelector,
 } from "../../redux/store";
 import SnackBar, { useSnackBar } from "../../components/reuseable/SnackBar";
+import { Link } from "react-router-dom";
 type Values = {
     email: string;
     password: string;
@@ -23,6 +24,7 @@ const initialValues: Values = {
 
 export const validator = Yup.object({
     email: Yup.string().email("Invalid email address").required("Required"),
+    password: Yup.string().min(3, "Minimum 3 character").required("Required"),
 });
 
 const Login: FC<{}> = () => {
@@ -99,6 +101,9 @@ const Login: FC<{}> = () => {
                             {isSubmitting ? "Loading..." : "Login"}
                         </button>
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                        <div>
+                            <Link to="/register">Register</Link>
+                        </div>
                     </Form>
                 )}
             </Formik>

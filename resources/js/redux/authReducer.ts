@@ -96,7 +96,8 @@ const loginSlice = createSlice({
 
 interface UserRegisterPostType extends UserLoginPostType {
     password_confirmation: string;
-    id: number;
+    id: string;
+    name: string;
 }
 
 //Register
@@ -111,11 +112,14 @@ const registerAction = createAsyncThunk<
         try {
             // console.log(u);
             thunkApi.dispatch(resetLogin());
+            thunkApi.dispatch(resetRegister());
+
             const { data } = await Api.post(`/register`, {
                 password: u.password,
                 email: u.email,
                 password_confirmation: u.password_confirmation,
                 id: u.id,
+                name: u.name,
             });
             return data as LoginStateType;
         } catch (error) {

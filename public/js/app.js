@@ -24672,12 +24672,15 @@ var store_1 = __webpack_require__(/*! ../../redux/store */ "./resources/js/redux
 
 var SnackBar_1 = __importStar(__webpack_require__(/*! ../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
 
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 var initialValues = {
   email: "",
   password: ""
 };
 exports.validator = Yup.object({
-  email: Yup.string().email("Invalid email address").required("Required")
+  email: Yup.string().email("Invalid email address").required("Required"),
+  password: Yup.string().min(3, "Minimum 3 character").required("Required")
 });
 
 var Login = function Login() {
@@ -24746,11 +24749,207 @@ var Login = function Login() {
       type: "submit",
       className: " py-2 w-full bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out",
       disabled: isSubmitting || errors.email ? true : false
-    }, isSubmitting ? "Loading..." : "Login"));
+    }, isSubmitting ? "Loading..." : "Login"), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/register"
+    }, "Register")));
   }));
 };
 
 exports.default = Login;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Auth/RegisterPage.tsx":
+/*!**************************************************!*\
+  !*** ./resources/js/Pages/Auth/RegisterPage.tsx ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.validator = void 0;
+
+var formik_1 = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+
+var Formik_1 = __webpack_require__(/*! ../../components/Formik */ "./resources/js/components/Formik/index.tsx");
+
+var Yup = __importStar(__webpack_require__(/*! yup */ "./node_modules/yup/es/index.js"));
+
+var store_1 = __webpack_require__(/*! ../../redux/store */ "./resources/js/redux/store.ts");
+
+var SnackBar_1 = __importStar(__webpack_require__(/*! ../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+var initialValues = {
+  email: "",
+  id: "",
+  name: "",
+  password: "",
+  password_confirmation: ""
+};
+exports.validator = Yup.object({
+  email: Yup.string().email("Invalid email address").required("Required"),
+  id: Yup.string().min(9, "Minimum 9 character").required("Required"),
+  password: Yup.string().min(3, "Minimum 3 character").required("Required"),
+  password_confirmation: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match").required("Required")
+});
+
+var Register = function Register() {
+  var dispatch = react_redux_1.useDispatch();
+  var u = store_1.useTypedSelector(store_1.registerSelector);
+  var history = react_router_1.useHistory();
+
+  var _a = SnackBar_1.useSnackBar(),
+      open = _a.open,
+      setOpen = _a.setOpen,
+      setSeverity = _a.setSeverity,
+      handleClose = _a.handleClose,
+      severity = _a.severity,
+      message = _a.message,
+      setMessage = _a.setMessage;
+
+  var handleSubmit = function handleSubmit(values, _a) {
+    var setSubmitting = _a.setSubmitting,
+        resetForm = _a.resetForm;
+    dispatch(store_1.registerAction(__assign({}, values)));
+    setSubmitting(true);
+    setTimeout(function () {
+      setSubmitting(false);
+    }, 500);
+  };
+
+  react_1.useEffect(function () {
+    if (u.is_admin) {
+      history.push("/add-category");
+    }
+
+    if (u.error && u.error.message) {
+      setOpen(true);
+      setMessage("" + u.error.message);
+      setSeverity("error");
+    }
+
+    if (u.user && u.token) {
+      setOpen(true);
+      setMessage("Account Created Successfully");
+      setSeverity("success");
+    }
+  }, [u]);
+  return react_1["default"].createElement("div", {
+    className: "flex flex-col h-screen justify-center items-center  bg-gradient-to-tr from-teal-100 to-purple-100 overflow-y-auto"
+  }, react_1["default"].createElement(SnackBar_1["default"], {
+    open: open,
+    handleClose: handleClose,
+    severity: severity,
+    message: message
+  }), react_1["default"].createElement(formik_1.Formik, {
+    initialValues: initialValues,
+    onSubmit: handleSubmit,
+    validationSchema: exports.validator
+  }, function (_a) {
+    var isSubmitting = _a.isSubmitting,
+        errors = _a.errors,
+        values = _a.values;
+    return react_1["default"].createElement(formik_1.Form, {
+      className: "w-2/5 sm:w-1/3 flex flex-col space-y-2 mt-10",
+      autoComplete: "off"
+    }, react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "id",
+      type: "text",
+      placeholder: "191902061",
+      id: "id"
+    }), react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "name",
+      type: "text",
+      placeholder: "Jhon",
+      id: "name"
+    }), react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "email",
+      type: "email",
+      placeholder: "jhon@gmail.com",
+      id: "email"
+    }), react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "password",
+      type: "password",
+      id: "password",
+      placeholder: "Password"
+    }), react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "password_confirmation",
+      type: "password",
+      id: "password_confirmation",
+      placeholder: "Confirm Password"
+    }), react_1["default"].createElement("button", {
+      type: "submit",
+      className: " py-2 w-full bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out",
+      disabled: isSubmitting || errors.email ? true : false
+    }, isSubmitting ? "Loading..." : "Register"), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/login"
+    }, "Login")), react_1["default"].createElement("pre", null, JSON.stringify(values, null, 2)));
+  }));
+};
+
+exports.default = Register;
 
 /***/ }),
 
@@ -24813,6 +25012,8 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 
 var LoginPage_1 = __importDefault(__webpack_require__(/*! ./Pages/Auth/LoginPage */ "./resources/js/Pages/Auth/LoginPage.tsx"));
 
+var RegisterPage_1 = __importDefault(__webpack_require__(/*! ./Pages/Auth/RegisterPage */ "./resources/js/Pages/Auth/RegisterPage.tsx"));
+
 var LazyAddCategory = react_1["default"].lazy(function () {
   return Promise.resolve().then(function () {
     return __importStar(__webpack_require__(/*! ./Pages/Admin/Category/AddCategory */ "./resources/js/Pages/Admin/Category/AddCategory.tsx"));
@@ -24828,6 +25029,8 @@ var AdminRoute_1 = __importDefault(__webpack_require__(/*! ./components/AdminRou
 
 var NotFound_1 = __importDefault(__webpack_require__(/*! ./components/Shared/NotFound */ "./resources/js/components/Shared/NotFound.tsx"));
 
+var Loading_1 = __importDefault(__webpack_require__(/*! ./components/reuseable/Loading */ "./resources/js/components/reuseable/Loading.tsx"));
+
 var App = function App() {
   return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(react_router_dom_1.Switch, null, react_1["default"].createElement(AdminRoute_1["default"], {
     path: "/",
@@ -24838,16 +25041,19 @@ var App = function App() {
     path: "/add-category",
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
-    fallback: react_1["default"].createElement("h1", null, "Loading....")
+    fallback: react_1["default"].createElement(Loading_1["default"], null)
   }, react_1["default"].createElement(LazyAddCategory, null))), react_1["default"].createElement(AdminRoute_1["default"], {
     path: "/get-category",
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
-    fallback: react_1["default"].createElement("h1", null, "Loading....")
+    fallback: react_1["default"].createElement(Loading_1["default"], null)
   }, react_1["default"].createElement(LazyListCategory, null))), react_1["default"].createElement(react_router_dom_1.Route, {
     path: "/login",
     exact: true
   }, react_1["default"].createElement(LoginPage_1["default"], null)), react_1["default"].createElement(react_router_dom_1.Route, {
+    path: "/register",
+    exact: true
+  }, react_1["default"].createElement(RegisterPage_1["default"], null)), react_1["default"].createElement(react_router_dom_1.Route, {
     path: "*",
     exact: true
   }, react_1["default"].createElement(NotFound_1["default"], null))));
@@ -25530,6 +25736,45 @@ exports.Input = Input;
 
 /***/ }),
 
+/***/ "./resources/js/components/reuseable/Loading.tsx":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/reuseable/Loading.tsx ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+function Loading() {
+  return react_1["default"].createElement("div", {
+    className: "min-h-screen bg-teal-100 py-6 flex flex-col justify-center items-center sm:py-12"
+  }, react_1["default"].createElement("div", {
+    className: "loader bg-white p-5 rounded-full flex space-x-3"
+  }, react_1["default"].createElement("div", {
+    className: "w-5 h-5 bg-gray-800 rounded-full animate-bounce"
+  }), react_1["default"].createElement("div", {
+    className: "w-5 h-5 bg-gray-800 rounded-full animate-bounce"
+  }), react_1["default"].createElement("div", {
+    className: "w-5 h-5 bg-gray-800 rounded-full animate-bounce"
+  })));
+}
+
+exports.default = Loading;
+
+/***/ }),
+
 /***/ "./resources/js/components/reuseable/SnackBar.tsx":
 /*!********************************************************!*\
   !*** ./resources/js/components/reuseable/SnackBar.tsx ***!
@@ -25915,13 +26160,15 @@ var registerAction = toolkit_1.createAsyncThunk("auth/register", function (u, th
 
 
           thunkApi.dispatch(resetLogin());
+          thunkApi.dispatch(resetRegister());
           return [4
           /*yield*/
           , axios_config_1["default"].post("/register", {
             password: u.password,
             email: u.email,
             password_confirmation: u.password_confirmation,
-            id: u.id
+            id: u.id,
+            name: u.name
           })];
 
         case 1:
@@ -26093,8 +26340,9 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 // axios.defaults.headers.get["Accept"] = "application/json";
 
 
+var api = "http://127.0.0.1:8000/api";
 var instance = axios_1["default"].create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: api,
   timeout: 10000
 });
 instance.interceptors.request.use(function (config) {

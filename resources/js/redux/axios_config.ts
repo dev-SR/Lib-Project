@@ -4,9 +4,9 @@ import axios from "axios";
 // axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
 // axios.defaults.headers.post["Accept"] = "application/json";
 // axios.defaults.headers.get["Accept"] = "application/json";
-
+const api = process.env.MIX_BASE_API;
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8000/api",
+    baseURL: api,
     timeout: 10000,
 });
 

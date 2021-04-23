@@ -117,4 +117,13 @@ class IssueBookController extends Controller
         }
         return ['success' => true, 'success_message' => 'Deleted'];
     }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function return_book(Request $req)
+    {
+    }
 }

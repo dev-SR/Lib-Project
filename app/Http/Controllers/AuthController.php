@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\IssueBook;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,6 +18,7 @@ class AuthController extends Controller
     public function index()
     {
         //
+        return User::all();
     }
 
     /**
@@ -31,10 +33,25 @@ class AuthController extends Controller
         $fields = $req->validate([
             'id' => 'required|min:8',
             'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
+            'email' => 'required|string',
             'password' => 'required|string|confirmed'
 
         ]);
+
+        $id = User::find($fields['id']); // find only works with id column
+        $email = User::where('email', $fields['email'])->first();
+
+        if ($id) {
+            return response()->json([
+                'message' => 'This id already exits'
+            ], 500);
+        }
+        if ($email) {
+            return response()->json([
+                'message' => 'This emails already exits'
+            ], 500);
+        }
+
 
         $user = User::create(
             [
@@ -44,7 +61,6 @@ class AuthController extends Controller
                 'password' => bcrypt($fields['password'])
             ]
         );
-
 
         $token = $user->createToken($user->email)->plainTextToken;
 
@@ -149,6 +165,30 @@ class AuthController extends Controller
             'user' => [
                 'user_id' => $u->id,
                 'user_name' => $u->name,
+                'is_admin' => $u->is_admin
+            ],
+        ];
+        return ['lists' => $res];
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function student_details($id)
+    {
+        //
+        $u = User::find($id);
+
+        if (!$u) {
+            return ['success' => false, 'fail_message' => 'This info do not exits'];
+        }
+
+        $res = [
+            'user' => [
+                'user_id' => $u->id,
+                'user_name' => $u->name,
             ],
             'issue_books' => IssueBook::with(['book:id,book_id,title,img'])->where('user_id', '=', $u->id)->get()
 
@@ -156,15 +196,6 @@ class AuthController extends Controller
         return ['lists' => $res];
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function return_book(Request $req)
-    {
-    }
 
     /**
      * Update the specified resource in storage.
