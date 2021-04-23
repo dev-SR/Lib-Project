@@ -1,45 +1,42 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import Api from "./axios_config";
-/**
- * * Adding NEW SUBJECT NOT CATeGORY
- */
+import { Department } from "./../types/typeDef";
 type ValidationError = {
-    message: string;
     errors: {
-        [k: string]: string[];
-    };
+        fail_message: string;
+    } | null;
 };
 
-type AddDepartmentStateType = {
+type AddDepartmentState = {
     success: boolean;
     success_message: string | null;
-    error: null | ValidationError;
+    errors: null | ValidationError;
     status: "idle" | "loading";
 };
 
-const AddDepartmentInitialState: AddDepartmentStateType = {
+const addInitialState: AddDepartmentState = {
     success_message: null,
     success: false,
-    error: null,
+    errors: null,
     status: "idle",
 };
 
-type DepartmentPostType = {
+type DepartmentInput = {
     department: string;
 };
-
-//Adding New Category
+//Adding New Department
 const addDepartmentAction = createAsyncThunk<
-    AddDepartmentStateType,
-    DepartmentPostType,
+    AddDepartmentState,
+    DepartmentInput,
     { rejectValue: ValidationError }
 >(
-    "category/add",
+    "department/add",
 
-    async (d: DepartmentPostType, thunkApi) => {
+    async (s: DepartmentInput, thunkApi) => {
         try {
+            thunkApi.dispatch(resetGetDepartment());
             const { data } = await Api.post(`/department`, {
-                department: d.department,
+                department: s.department,
             });
             return data;
         } catch (error) {
@@ -53,12 +50,12 @@ const addDepartmentAction = createAsyncThunk<
 );
 
 const addDepartmentSlice = createSlice({
-    name: "category/add",
-    initialState: { ...AddDepartmentInitialState },
+    name: "department/add",
+    initialState: { ...addInitialState },
     reducers: {
-        resetDepartment(state) {
-            state.status = "loading";
-            state.error = null;
+        resetAddDepartment(state) {
+            state.status = "idle";
+            state.errors = null;
             state.success = false;
             state.success_message = null;
         },
@@ -66,7 +63,7 @@ const addDepartmentSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(addDepartmentAction.pending, (state) => {
             state.status = "loading";
-            state.error = null;
+            state.errors = null;
             state.success_message = null;
             state.success = false;
         });
@@ -74,10 +71,10 @@ const addDepartmentSlice = createSlice({
             state.success = payload.success;
             state.success_message = payload.success_message;
             state.status = "idle";
-            state.error = null;
+            state.errors = null;
         });
         builder.addCase(addDepartmentAction.rejected, (state, { payload }) => {
-            if (payload) state.error = payload;
+            if (payload) state.errors = payload;
             state.status = "idle";
             state.success_message = null;
             state.success = false;
@@ -85,7 +82,150 @@ const addDepartmentSlice = createSlice({
     },
 });
 
-export const addDepartmentReducer = addDepartmentSlice.reducer;
-export const { resetDepartment } = addDepartmentSlice.actions;
+//Getting All Department
 
-export { addDepartmentAction };
+type GetDepartmentState = {
+    lists: Department[] | null;
+    errors: null | ValidationError;
+    status: "idle" | "loading";
+};
+
+const getInitialState: GetDepartmentState = {
+    lists: [],
+    errors: null,
+    status: "idle",
+};
+
+const getDepartmentAction = createAsyncThunk<
+    GetDepartmentState,
+    void,
+    { rejectValue: ValidationError }
+>(
+    "department/get",
+
+    async (_, thunkApi) => {
+        try {
+            thunkApi.dispatch(resetAddDepartment());
+            thunkApi.dispatch(resetDeleteDepartment());
+            const { data } = await Api.get(`/department`);
+            return data;
+        } catch (error) {
+            const message =
+                error.response && error.response.data
+                    ? error.response.data
+                    : error.message;
+            return thunkApi.rejectWithValue(message);
+        }
+    }
+);
+
+const getDepartmentSlice = createSlice({
+    name: "department/get",
+    initialState: { ...getInitialState },
+    reducers: {
+        resetGetDepartment(state) {
+            state.status = "idle";
+            state.errors = null;
+            state.lists = null;
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getDepartmentAction.pending, (state) => {
+            state.status = "loading";
+            state.errors = null;
+            state.lists = null;
+        });
+        builder.addCase(getDepartmentAction.fulfilled, (state, { payload }) => {
+            state.lists = payload.lists;
+            state.status = "idle";
+            state.errors = null;
+        });
+        builder.addCase(getDepartmentAction.rejected, (state, { payload }) => {
+            if (payload) state.errors = payload;
+            state.status = "idle";
+            state.lists = null;
+        });
+    },
+});
+
+//DELETE DEPARTMENT
+interface DeleteDepartmentState extends AddDepartmentState {}
+
+const deleteInitialState: DeleteDepartmentState = {
+    success: false,
+    success_message: null,
+    errors: null,
+    status: "idle",
+};
+
+const deleteDepartmentAction = createAsyncThunk<
+    DeleteDepartmentState,
+    number,
+    { rejectValue: ValidationError }
+>(
+    "department/delete",
+
+    async (id: number, thunkApi) => {
+        try {
+            thunkApi.dispatch(resetGetDepartment());
+            const { data } = await Api.delete(`/department/${id}`);
+            return data;
+        } catch (error) {
+            const message =
+                error.response && error.response.data
+                    ? error.response.data
+                    : error.message;
+            return thunkApi.rejectWithValue(message);
+        }
+    }
+);
+
+const deleteDepartmentSlice = createSlice({
+    name: "department/delete",
+    initialState: { ...deleteInitialState },
+    reducers: {
+        resetDeleteDepartment(state) {
+            state.status = "idle";
+            state.errors = null;
+            state.success_message = null;
+            state.success = false;
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(deleteDepartmentAction.pending, (state) => {
+            state.status = "loading";
+            state.errors = null;
+            state.success_message = null;
+            state.success = false;
+        });
+        builder.addCase(
+            deleteDepartmentAction.fulfilled,
+            (state, { payload }) => {
+                state.success_message = payload.success_message;
+                state.success = payload.success;
+                state.status = "idle";
+                state.errors = null;
+            }
+        );
+        builder.addCase(
+            deleteDepartmentAction.rejected,
+            (state, { payload }) => {
+                if (payload) state.errors = payload;
+                state.status = "idle";
+                state.success_message = null;
+                state.success = false;
+            }
+        );
+    },
+});
+
+export const addDepartmentReducer = addDepartmentSlice.reducer;
+const { resetAddDepartment } = addDepartmentSlice.actions;
+
+export const getDepartmentReducer = getDepartmentSlice.reducer;
+const { resetGetDepartment } = getDepartmentSlice.actions;
+
+export const deleteDepartmentReducer = deleteDepartmentSlice.reducer;
+const { resetDeleteDepartment } = deleteDepartmentSlice.actions;
+
+export { addDepartmentAction, getDepartmentAction, deleteDepartmentAction };

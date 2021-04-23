@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
     AcademicCapIcon,
     AddIcon,
@@ -10,12 +10,20 @@ import {
     UsersIcon,
     UserIcon,
     ReportIcon,
-    CategoryIcon,
+    DepartmentIcon,
     ListIcon,
 } from "../../utils/icons/svg";
 // import { LoremIpsum } from "react-lorem-ipsum";
 
 const DesktopSideBar = () => {
+    const l = useLocation();
+    const p = l.pathname;
+
+    const isPath = (path: string): boolean => {
+        return p === path;
+    };
+    console.log(isPath(p));
+
     return (
         <div className=" flex flex-col w-full  space-y-3 ">
             <div className="">
@@ -28,7 +36,7 @@ const DesktopSideBar = () => {
                     </div>
                     <div
                         style={{ color: "#0D9488" }}
-                        className=" font-bold font-nunito flex items-center justify-center"
+                        className="font-bold font-nunito flex items-center justify-center"
                     >
                         GREENLib
                     </div>
@@ -41,9 +49,19 @@ const DesktopSideBar = () => {
                 <div className="mt-5">
                     <Link to="/dashboard" className="nav-links">
                         <div className=" nav-icons ">
-                            <DashboardIcon fill={"#0D9488"} />
+                            <DashboardIcon
+                                fill={`${
+                                    isPath("/dashboard") ? "#0D9488" : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-teal-600 font-medium text-sm">
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/dashboard")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
                             Dashboard
                         </div>
                     </Link>
@@ -51,30 +69,42 @@ const DesktopSideBar = () => {
                 <div className="">
                     <Link to="/report" className="nav-links">
                         <div className=" nav-icons ">
-                            <ReportIcon fill={undefined} />
+                            <ReportIcon
+                                fill={`${
+                                    isPath("/report") ? "#0D9488" : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-gray-600 font-medium text-sm">
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/report")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
                             Reports
                         </div>
                     </Link>
                 </div>
                 <div className="">
-                    <Link to="/get-category" className="nav-links">
+                    <Link to="/departments" className="nav-links">
                         <div className=" nav-icons ">
-                            <ListIcon fill={undefined} />
+                            <DepartmentIcon
+                                fill={`${
+                                    isPath("/departments")
+                                        ? "#0D9488"
+                                        : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-gray-600 font-medium text-sm">
-                            List Category
-                        </div>
-                    </Link>
-                </div>
-                <div className="">
-                    <Link to="/add-category" className="nav-links">
-                        <div className=" nav-icons ">
-                            <CategoryIcon fill={undefined} />
-                        </div>
-                        <div className="text-gray-600 font-medium text-sm">
-                            Add Category
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/departments")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
+                            Departments
                         </div>
                     </Link>
                 </div>
@@ -84,9 +114,19 @@ const DesktopSideBar = () => {
                 <div>
                     <Link to="/add-books" className="nav-links">
                         <div className="nav-icons ">
-                            <AddIcon />
+                            <AddIcon
+                                fill={`${
+                                    isPath("/add-books") ? "#0D9488" : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-gray-600 font-medium text-sm">
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/add-books")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
                             Add Books
                         </div>
                     </Link>
@@ -95,9 +135,21 @@ const DesktopSideBar = () => {
                 <div>
                     <Link to="/list-books" className="nav-links">
                         <div className="nav-icons ">
-                            <CollectionIcon />
+                            <CollectionIcon
+                                fill={`${
+                                    isPath("//list-books")
+                                        ? "#0D9488"
+                                        : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-gray-600 font-medium text-sm">
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/list-books")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
                             List Books
                         </div>
                     </Link>
@@ -106,9 +158,21 @@ const DesktopSideBar = () => {
                 <div>
                     <Link to="/issue-books" className="nav-links">
                         <div className="nav-icons ">
-                            <ClipboardIcon />
+                            <ClipboardIcon
+                                fill={`${
+                                    isPath("/issue-books")
+                                        ? "#0D9488"
+                                        : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-gray-600 font-medium text-sm">
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/issue-books")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
                             Issue Books
                         </div>
                     </Link>
@@ -117,9 +181,21 @@ const DesktopSideBar = () => {
                 <div>
                     <Link to="/return-books" className="nav-links">
                         <div className="nav-icons ">
-                            <ClipboardCopyIcon />
+                            <ClipboardCopyIcon
+                                fill={`${
+                                    isPath("/return-books")
+                                        ? "#0D9488"
+                                        : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-gray-600 font-medium text-sm">
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/return-books")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
                             Return Books
                         </div>
                     </Link>
@@ -130,9 +206,19 @@ const DesktopSideBar = () => {
                 <div>
                     <Link to="/add-users" className="nav-links">
                         <div className="nav-icons ">
-                            <UserIcon />
+                            <UserIcon
+                                fill={`${
+                                    isPath("/add-users") ? "#0D9488" : "#A1A1AA"
+                                }`}
+                            />
                         </div>
-                        <div className="text-gray-600 font-medium text-sm">
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/add-users")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
                             Add Users
                         </div>
                     </Link>
@@ -140,7 +226,11 @@ const DesktopSideBar = () => {
                 <div>
                     <Link to="/add-users" className="nav-links">
                         <div className="nav-icons ">
-                            <UserIcon />
+                            <UserIcon
+                                fill={`${
+                                    isPath("/dashboard") ? "#0D9488" : "#A1A1AA"
+                                }`}
+                            />
                         </div>
                         <div className="text-gray-600 sm:font-medium text-sm">
                             Add Users

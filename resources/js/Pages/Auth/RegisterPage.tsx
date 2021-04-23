@@ -35,6 +35,7 @@ export const validator = Yup.object({
     name: Yup.string().required("Required"),
     id: Yup.string().min(9, "Minimum 9 character").required("Required"),
     password: Yup.string().min(3, "Minimum 3 character").required("Required"),
+    //Password Matching Validation
     password_confirmation: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Required"),

@@ -24,7 +24,7 @@ export const MyTextInput: React.FC<MyTextInputProps> = ({
 }) => {
     const [field, meta] = useField(props);
     return (
-        <>
+        <div className="w-full flex flex-col">
             {label && (
                 <label className="text-xs" htmlFor={props.id || props.name}>
                     {label}
@@ -34,7 +34,7 @@ export const MyTextInput: React.FC<MyTextInputProps> = ({
             {meta.touched && meta.error && (
                 <div className="text-red-400 text-xs">{meta.error}</div>
             )}
-        </>
+        </div>
     );
 };
 

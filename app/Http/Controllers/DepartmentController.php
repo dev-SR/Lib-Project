@@ -32,6 +32,21 @@ class DepartmentController extends Controller
             'department' => 'required|string|min:2',
         ]);
 
+        $found = Department::where('department', '=', $f['department'])->first();
+
+
+        if ($found) {
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => 'Department Already Exits'
+                    ]
+                ],
+                503
+            );
+        }
+
+
 
         $cat = Department::create([
             'department' => $f['department'],
@@ -80,7 +95,14 @@ class DepartmentController extends Controller
 
         $cat = Department::find($id);
         if (!$cat) {
-            return ['success' => false, 'fail_message' => 'This Department do not exits'];
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => 'Department Already Exits'
+                    ]
+                ],
+                503
+            );
         }
         $cat->update(['department' => $request->department]);
 
@@ -98,7 +120,14 @@ class DepartmentController extends Controller
         //
         $cat = Department::destroy($id);
         if (!$cat) {
-            return ['success' => false, 'fail_message' => 'This Department do not exits'];
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => 'Department Already Exits'
+                    ]
+                ],
+                503
+            );
         }
         return ['success' => true, 'success_message' => 'Deleted'];
     }
