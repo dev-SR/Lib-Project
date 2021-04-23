@@ -93,7 +93,7 @@ const Register: FC<{}> = () => {
             >
                 {({ isSubmitting, errors, values }) => (
                     <Form
-                        className="w-2/5 sm:w-1/3 flex flex-col space-y-2 mt-10"
+                        className="sm:w-1/3 w-4/5 flex flex-col space-y-2 mt-10"
                         autoComplete="off"
                     >
                         <MyTextInput
@@ -139,7 +139,12 @@ const Register: FC<{}> = () => {
                         </button>
 
                         <div>
-                            <Link to="/login">Login</Link>
+                            <Link
+                                to="/login"
+                                className="text-xs text-purple-500"
+                            >
+                                Login
+                            </Link>
                         </div>
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                     </Form>

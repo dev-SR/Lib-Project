@@ -76,7 +76,7 @@ const Login: FC<{}> = () => {
             >
                 {({ isSubmitting, errors }) => (
                     <Form
-                        className="w-2/5 sm:w-1/3 flex flex-col space-y-2"
+                        className="sm:w-1/3 w-4/5 flex flex-col space-y-2"
                         autoComplete="off"
                     >
                         <MyTextInput
@@ -102,7 +102,12 @@ const Login: FC<{}> = () => {
                         </button>
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                         <div>
-                            <Link to="/register">Register</Link>
+                            <Link
+                                to="/register"
+                                className="text-xs text-purple-500"
+                            >
+                                Register
+                            </Link>
                         </div>
                     </Form>
                 )}

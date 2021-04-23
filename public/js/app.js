@@ -24733,7 +24733,7 @@ var Login = function Login() {
     var isSubmitting = _a.isSubmitting,
         errors = _a.errors;
     return react_1["default"].createElement(formik_1.Form, {
-      className: "w-2/5 sm:w-1/3 flex flex-col space-y-2",
+      className: "sm:w-1/3 w-4/5 flex flex-col space-y-2",
       autoComplete: "off"
     }, react_1["default"].createElement(Formik_1.MyTextInput, {
       name: "email",
@@ -24750,7 +24750,8 @@ var Login = function Login() {
       className: " py-2 w-full bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out",
       disabled: isSubmitting || errors.email ? true : false
     }, isSubmitting ? "Loading..." : "Login"), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/register"
+      to: "/register",
+      className: "text-xs text-purple-500"
     }, "Register")));
   }));
 };
@@ -24912,7 +24913,7 @@ var Register = function Register() {
         errors = _a.errors,
         values = _a.values;
     return react_1["default"].createElement(formik_1.Form, {
-      className: "w-2/5 sm:w-1/3 flex flex-col space-y-2 mt-10",
+      className: "sm:w-1/3 w-4/5 flex flex-col space-y-2 mt-10",
       autoComplete: "off"
     }, react_1["default"].createElement(Formik_1.MyTextInput, {
       name: "id",
@@ -24944,7 +24945,8 @@ var Register = function Register() {
       className: " py-2 w-full bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out",
       disabled: isSubmitting || errors.email ? true : false
     }, isSubmitting ? "Loading..." : "Register"), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/login"
+      to: "/login",
+      className: "text-xs text-purple-500"
     }, "Login")));
   }));
 };
