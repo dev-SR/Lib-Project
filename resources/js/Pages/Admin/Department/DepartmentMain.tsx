@@ -112,7 +112,7 @@ export const Department = () => {
 
                                     <button
                                         type="submit"
-                                        className="py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11"
+                                        className="py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11"
                                         disabled={
                                             isSubmitting || errors.department
                                                 ? true

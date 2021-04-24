@@ -24761,7 +24761,7 @@ var Department = function Department() {
       id: "department"
     }), react_1["default"].createElement("button", {
       type: "submit",
-      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11",
+      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11",
       disabled: isSubmitting || errors.department ? true : false
     }, isSubmitting ? "Loading..." : "ADD"));
   })), react_1["default"].createElement("div", null, lists && react_1["default"].createElement(ListDepartment_1["default"], {
@@ -24978,7 +24978,7 @@ var UpdateDepartment = function UpdateDepartment() {
   var dispatch = react_redux_1.useDispatch();
   var lists = store_1.useTypedSelector(store_1.getOneDepartmentSelector).lists;
 
-  var _c = store_1.useTypedSelector(store_1.upadteDepartmentSelector),
+  var _c = store_1.useTypedSelector(store_1.updateDepartmentSelector),
       success = _c.success,
       success_message = _c.success_message,
       errors = _c.errors;
@@ -24994,7 +24994,6 @@ var UpdateDepartment = function UpdateDepartment() {
     setTimeout(function () {
       setSubmitting(false);
     }, 500);
-    resetForm();
   };
 
   react_1.useEffect(function () {
@@ -25059,8 +25058,8 @@ var UpdateDepartment = function UpdateDepartment() {
       id: "department"
     }), react_1["default"].createElement("button", {
       type: "submit",
-      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11",
-      disabled: isSubmitting || errors.department ? true : false
+      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11",
+      disabled: isSubmitting ? true : false
     }, isSubmitting ? "Loading..." : "ADD"));
   })))));
 };
@@ -27832,7 +27831,7 @@ var resetUpdateDepartment = updateDepartmentSlice.actions.resetUpdateDepartment;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.upadteDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
+exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -27990,11 +27989,11 @@ var getOneDepartmentSelector = function getOneDepartmentSelector(s) {
 
 exports.getOneDepartmentSelector = getOneDepartmentSelector;
 
-var upadteDepartmentSelector = function upadteDepartmentSelector(s) {
+var updateDepartmentSelector = function updateDepartmentSelector(s) {
   return s.updateDepartment;
 };
 
-exports.upadteDepartmentSelector = upadteDepartmentSelector;
+exports.updateDepartmentSelector = updateDepartmentSelector;
 
 /***/ }),
 

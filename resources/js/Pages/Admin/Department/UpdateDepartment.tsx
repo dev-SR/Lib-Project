@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import {
     getOneDepartmentAction,
     getOneDepartmentSelector,
-    upadteDepartmentSelector,
+    updateDepartmentSelector,
     updateDepartmentAction,
     useTypedSelector,
 } from "../../../redux/store";
@@ -45,7 +45,7 @@ const UpdateDepartment = () => {
 
     const { lists } = useTypedSelector(getOneDepartmentSelector);
     const { success, success_message, errors } = useTypedSelector(
-        upadteDepartmentSelector
+        updateDepartmentSelector
     );
 
     const submit = (
@@ -62,7 +62,6 @@ const UpdateDepartment = () => {
         setTimeout(() => {
             setSubmitting(false);
         }, 500);
-        resetForm();
     };
     useEffect(() => {
         dispatch(getOneDepartmentAction(id));
@@ -125,12 +124,8 @@ const UpdateDepartment = () => {
 
                                     <button
                                         type="submit"
-                                        className="py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11"
-                                        disabled={
-                                            isSubmitting || errors.department
-                                                ? true
-                                                : false
-                                        }
+                                        className="py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11"
+                                        disabled={isSubmitting ? true : false}
                                     >
                                         {isSubmitting ? "Loading..." : "ADD"}
                                     </button>

@@ -70,7 +70,7 @@ export const addDepartmentSelector = (s: RootState) => s.addDepartment;
 export const getDepartmentSelector = (s: RootState) => s.getDepartment;
 export const deleteDepartmentSelector = (s: RootState) => s.deleteDepartment;
 export const getOneDepartmentSelector = (s: RootState) => s.getOneDepartment;
-export const upadteDepartmentSelector = (s: RootState) => s.updateDepartment;
+export const updateDepartmentSelector = (s: RootState) => s.updateDepartment;
 
 //Actions
 export {

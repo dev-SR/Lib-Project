@@ -14,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $res = Department::all(['department', 'id']);
+        $res = Department::orderBy('department')->get(['id', 'department']);
         return ['lists' => $res];
     }
 
