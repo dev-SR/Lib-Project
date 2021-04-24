@@ -24160,438 +24160,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Admin/Category/AddSubject.tsx":
-/*!**********************************************************!*\
-  !*** ./resources/js/Pages/Admin/Category/AddSubject.tsx ***!
-  \**********************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  function adopt(value) {
-    return value instanceof P ? value : new P(function (resolve) {
-      resolve(value);
-    });
-  }
-
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var SnackBar_1 = __importStar(__webpack_require__(/*! ../../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
-
-var CustomInput_1 = __webpack_require__(/*! ../../../components/reuseable/CustomInput */ "./resources/js/components/reuseable/CustomInput.tsx");
-
-var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
-
-var subjectReducer_1 = __webpack_require__(/*! ../../../redux/subjectReducer */ "./resources/js/redux/subjectReducer.ts");
-
-var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
-
-var inputArr = [{
-  name: "name",
-  value: "",
-  label: "Category Name"
-}];
-
-var AddSubject = function AddSubject() {
-  var _a = SnackBar_1.useSnackBar(),
-      open = _a.open,
-      setOpen = _a.setOpen,
-      handleClose = _a.handleClose,
-      setSeverity = _a.setSeverity,
-      severity = _a.severity,
-      message = _a.message,
-      setMessage = _a.setMessage;
-
-  var _b = CustomInput_1.useInput(inputArr),
-      onChange = _b.onChange,
-      inputs = _b.inputs;
-
-  var dispatch = react_redux_1.useDispatch();
-
-  var _c = store_1.useTypedSelector(store_1.addCategorySelector),
-      success = _c.success,
-      error = _c.error,
-      success_message = _c.success_message;
-
-  var submit = function submit(e) {
-    return __awaiter(void 0, void 0, void 0, function () {
-      return __generator(this, function (_a) {
-        e.preventDefault();
-        dispatch(store_1.addCategoryAction({
-          name: inputs[0].value
-        }));
-        return [2
-        /*return*/
-        ];
-      });
-    });
-  };
-
-  react_1.useEffect(function () {
-    if (success) {
-      setOpen(true);
-      setMessage(success_message + " Added");
-      setSeverity("success");
-      dispatch(subjectReducer_1.reset());
-    } else {
-      if (error && error.message) {
-        setOpen(true);
-        setMessage("" + error.errors.category_name[0]);
-        setSeverity("error");
-        dispatch(subjectReducer_1.reset());
-      }
-    }
-  }, [success, error]);
-  return react_1["default"].createElement(AdminLayout_1["default"], {
-    title: "Category"
-  }, react_1["default"].createElement("div", {
-    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
-  }, react_1["default"].createElement("div", {
-    className: "text-md font-thin text-gray-700"
-  }, "Add Books"), react_1["default"].createElement(SnackBar_1["default"], {
-    open: open,
-    handleClose: handleClose,
-    severity: severity,
-    message: message
-  }), react_1["default"].createElement("div", {
-    className: "flex justify-center items-center h-full"
-  }, react_1["default"].createElement("form", {
-    method: "post",
-    className: "sm:w-1/3 w-10/12 flex justify-center items-center flex-col space-y-4",
-    onSubmit: submit
-  }, inputs.map(function (input, index) {
-    return react_1["default"].createElement(CustomInput_1.Input, {
-      key: index,
-      name: input.name,
-      value: input.value,
-      label: input.label,
-      onchange: onChange
-    });
-  }), react_1["default"].createElement("div", {
-    className: "w-full"
-  }, react_1["default"].createElement("button", {
-    type: "submit",
-    className: "bg-purple-600 py-2 flex items-center\r\n                               justify-center w-full rounded text-purple-100 hover:bg-purple-500 focus:outline-none transition duration-300 ease-in-out"
-  }, "ADD"))))));
-};
-
-exports.default = AddSubject;
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Admin/Category/ListCategories.tsx":
-/*!**************************************************************!*\
-  !*** ./resources/js/Pages/Admin/Category/ListCategories.tsx ***!
-  \**************************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-
-var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
-
-var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
-
-var svg_1 = __webpack_require__(/*! ../../../utils/icons/svg */ "./resources/js/utils/icons/svg.tsx");
-
-function ListCategories() {
-  var lists = store_1.useTypedSelector(store_1.getCategorySelector).lists;
-  var dispatch = react_redux_1.useDispatch();
-  react_1.useEffect(function () {
-    dispatch(store_1.getCategoryAction(""));
-  }, []);
-
-  var handleDelete = function handleDelete() {
-    dispatch(store_1.getCategoryAction(""));
-  };
-
-  return react_1["default"].createElement(AdminLayout_1["default"], {
-    title: "Category"
-  }, react_1["default"].createElement("div", {
-    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
-  }, react_1["default"].createElement("div", {
-    className: "text-md font-thin text-gray-700"
-  }, "List Of Categories"), react_1["default"].createElement("div", {
-    className: "flex justify-center items-center h-full"
-  }, lists && react_1["default"].createElement("div", {
-    className: "w-7xl mx-auto sm:px-6 lg:px-8"
-  }, react_1["default"].createElement("div", {
-    className: "flex flex-col"
-  }, react_1["default"].createElement("div", {
-    className: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"
-  }, react_1["default"].createElement("div", {
-    className: "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
-  }, react_1["default"].createElement("div", {
-    className: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-  }, react_1["default"].createElement("table", {
-    className: "min-w-full divide-y divide-gray-200"
-  }, react_1["default"].createElement("thead", {
-    className: "bg-gray-50"
-  }, react_1["default"].createElement("tr", null, react_1["default"].createElement("th", {
-    scope: "col",
-    className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-  }, "Cateory Name"), react_1["default"].createElement("th", {
-    scope: "col",
-    className: "relative px-6 py-3"
-  }, react_1["default"].createElement("span", {
-    className: "sr-only"
-  }, "Edit")))), react_1["default"].createElement("tbody", {
-    className: "bg-white divide-y divide-gray-200",
-    "x-max": "1"
-  }, lists.map(function (r, i) {
-    return react_1["default"].createElement("tr", null, react_1["default"].createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-    }, r.category_name), react_1["default"].createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-    }, react_1["default"].createElement("div", {
-      className: "flex space-x-3"
-    }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/edit-category/" + r.id
-    }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
-      className: "focus:outline-none",
-      onClick: handleDelete
-    }, react_1["default"].createElement(svg_1.DeleteIcon, null)))));
-  })))))))))));
-}
-
-exports.default = ListCategories;
-
-/***/ }),
-
 /***/ "./resources/js/Pages/Admin/Department/DepartmentMain.tsx":
 /*!****************************************************************!*\
   !*** ./resources/js/Pages/Admin/Department/DepartmentMain.tsx ***!
@@ -25060,7 +24628,7 @@ var UpdateDepartment = function UpdateDepartment() {
       type: "submit",
       className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11",
       disabled: isSubmitting ? true : false
-    }, isSubmitting ? "Loading..." : "ADD"));
+    }, isSubmitting ? "Loading..." : "UPDATE"));
   })))));
 };
 
@@ -25099,10 +24667,11 @@ var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/re
 
 var ListSubject = function ListSubject(_a) {
   var lists = _a.lists;
+  console.log(lists);
   var dispatch = react_redux_1.useDispatch();
 
   var handleDelete = function handleDelete(id) {
-    dispatch(store_1.deleteDepartmentAction(id));
+    dispatch(store_1.deleteSubjectAction(id));
   };
 
   return react_1["default"].createElement("div", {
@@ -25124,7 +24693,10 @@ var ListSubject = function ListSubject(_a) {
   }, react_1["default"].createElement("tr", null, react_1["default"].createElement("th", {
     scope: "col",
     className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-  }, "Cateory Name"), react_1["default"].createElement("th", {
+  }, "Subject"), react_1["default"].createElement("th", {
+    scope: "col",
+    className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+  }, "Department"), react_1["default"].createElement("th", {
     scope: "col",
     className: "relative px-6 py-3"
   }, react_1["default"].createElement("span", {
@@ -25137,12 +24709,14 @@ var ListSubject = function ListSubject(_a) {
       key: i
     }, react_1["default"].createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-    }, r.department), react_1["default"].createElement("td", {
+    }, r.subject), react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.department && r.department.department), react_1["default"].createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
     }, react_1["default"].createElement("div", {
       className: "flex space-x-3"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/edit-category/" + r.id
+      to: "/subjects/" + r.id
     }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
       className: "focus:outline-none",
       onClick: function onClick() {
@@ -25229,10 +24803,11 @@ var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/
 var ListSubject_1 = __importDefault(__webpack_require__(/*! ./ListSubject */ "./resources/js/Pages/Admin/Subject/ListSubject.tsx"));
 
 var initialValues = {
+  subject: "",
   department: ""
 };
 exports.validator = Yup.object({
-  department: Yup.string().min(2, "Minimum 2 character").required("Required")
+  subject: Yup.string().min(2, "Minimum 2 character").required("Required")
 });
 
 var Department = function Department() {
@@ -25247,18 +24822,18 @@ var Department = function Department() {
 
   var dispatch = react_redux_1.useDispatch();
 
-  var _b = store_1.useTypedSelector(store_1.addDepartmentSelector),
+  var _b = store_1.useTypedSelector(store_1.addSubjectSelector),
       success = _b.success,
       success_message = _b.success_message,
       errors = _b.errors;
 
-  var lists = store_1.useTypedSelector(store_1.getDepartmentSelector).lists;
-  var del = store_1.useTypedSelector(store_1.deleteDepartmentSelector);
+  var lists = store_1.useTypedSelector(store_1.getSubjectSelector).lists;
+  var del = store_1.useTypedSelector(store_1.deleteSubjectSelector);
 
   var submit = function submit(values, _a) {
     var setSubmitting = _a.setSubmitting,
         resetForm = _a.resetForm;
-    dispatch(store_1.addDepartmentAction(values));
+    dispatch(store_1.addSubjectAction(values));
     setSubmitting(true);
     setTimeout(function () {
       setSubmitting(false);
@@ -25267,7 +24842,7 @@ var Department = function Department() {
   };
 
   react_1.useEffect(function () {
-    dispatch(store_1.getDepartmentAction());
+    dispatch(store_1.getSubjectAction());
   }, []);
   react_1.useEffect(function () {
     var _a;
@@ -25290,7 +24865,7 @@ var Department = function Department() {
       setSeverity("error");
     }
 
-    if (!lists) dispatch(store_1.getDepartmentAction());
+    if (!lists) dispatch(store_1.getSubjectAction());
   }, [success, errors, lists, del.success, dispatch]);
   return react_1["default"].createElement(AdminLayout_1["default"], {
     title: "Department"
@@ -25298,7 +24873,7 @@ var Department = function Department() {
     className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
   }, react_1["default"].createElement("div", {
     className: "text-md font-thin text-gray-700"
-  }, "Department"), react_1["default"].createElement(SnackBar_1["default"], {
+  }, "Subject"), react_1["default"].createElement(SnackBar_1["default"], {
     open: open,
     handleClose: handleClose,
     severity: severity,
@@ -25319,14 +24894,19 @@ var Department = function Department() {
       className: "flex space-x-3 w-1/3",
       autoComplete: "off"
     }, react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "subject",
+      type: "text",
+      placeholder: "Add Subject",
+      id: "subject"
+    }), react_1["default"].createElement(Formik_1.MyTextInput, {
       name: "department",
       type: "text",
-      placeholder: "Add Department",
+      placeholder: "Department",
       id: "department"
     }), react_1["default"].createElement("button", {
       type: "submit",
-      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11",
-      disabled: isSubmitting || errors.department ? true : false
+      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11",
+      disabled: isSubmitting || errors.subject ? true : false
     }, isSubmitting ? "Loading..." : "ADD"));
   })), react_1["default"].createElement("div", null, lists && react_1["default"].createElement(ListSubject_1["default"], {
     lists: lists
@@ -25335,6 +24915,212 @@ var Department = function Department() {
 
 exports.Department = Department;
 exports.default = exports.Department;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Admin/Subject/UpdateSubject.tsx":
+/*!************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Subject/UpdateSubject.tsx ***!
+  \************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.validator = void 0;
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var formik_1 = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+var Formik_1 = __webpack_require__(/*! ../../../components/Formik */ "./resources/js/components/Formik/index.tsx");
+
+var Yup = __importStar(__webpack_require__(/*! yup */ "./node_modules/yup/es/index.js"));
+
+var SnackBar_1 = __importStar(__webpack_require__(/*! ../../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
+
+var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+
+var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
+
+var initialValues = {
+  subject: ""
+};
+exports.validator = Yup.object({
+  subject: Yup.string().min(2, "Minimum 2 character").required("Required")
+});
+
+var UpdateSubject = function UpdateSubject() {
+  var id = react_router_1.useParams().id;
+
+  var _a = react_1.useState(initialValues),
+      input = _a[0],
+      setInput = _a[1];
+
+  var history = react_router_1.useHistory();
+
+  var _b = SnackBar_1.useSnackBar(),
+      open = _b.open,
+      setOpen = _b.setOpen,
+      handleClose = _b.handleClose,
+      setSeverity = _b.setSeverity,
+      severity = _b.severity,
+      message = _b.message,
+      setMessage = _b.setMessage;
+
+  var dispatch = react_redux_1.useDispatch();
+  var lists = store_1.useTypedSelector(store_1.getOneSubjectSelector).lists;
+
+  var _c = store_1.useTypedSelector(store_1.updateSubjectSelector),
+      success = _c.success,
+      success_message = _c.success_message,
+      errors = _c.errors;
+
+  var submit = function submit(values, _a) {
+    var setSubmitting = _a.setSubmitting,
+        resetForm = _a.resetForm;
+    dispatch(store_1.updateSubjectAction({
+      id: id,
+      subject: values.subject
+    }));
+    setSubmitting(true);
+    setTimeout(function () {
+      setSubmitting(false);
+    }, 500);
+  };
+
+  react_1.useEffect(function () {
+    dispatch(store_1.getOneSubjectAction(id));
+  }, []);
+  react_1.useEffect(function () {
+    var _a;
+
+    if (success && success_message) {
+      setOpen(true);
+      setMessage(success_message + " Added");
+      setSeverity("success");
+      setTimeout(function () {
+        history.push("/subjects");
+      }, 500);
+    }
+
+    if (errors) {
+      setOpen(true);
+      setMessage("" + ((_a = errors.errors) === null || _a === void 0 ? void 0 : _a.fail_message));
+      setSeverity("error");
+    }
+  }, [success, errors]);
+  react_1.useEffect(function () {
+    if (lists) {
+      setInput(__assign(__assign({}, input), {
+        subject: lists.subject
+      }));
+    }
+  }, [lists]);
+  return react_1["default"].createElement(AdminLayout_1["default"], {
+    title: "Update Subject"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
+  }, react_1["default"].createElement("div", {
+    className: "text-md font-thin text-gray-700"
+  }, "Update Subject"), react_1["default"].createElement(SnackBar_1["default"], {
+    open: open,
+    handleClose: handleClose,
+    severity: severity,
+    message: message
+  }), react_1["default"].createElement("div", {
+    className: "flex flex-col"
+  }, react_1["default"].createElement("div", {
+    className: "h-20 w-full flex justify-center items-center"
+  }, react_1["default"].createElement(formik_1.Formik, {
+    initialValues: input,
+    onSubmit: submit,
+    validationSchema: exports.validator,
+    enableReinitialize: true
+  }, function (_a) {
+    var isSubmitting = _a.isSubmitting,
+        errors = _a.errors,
+        values = _a.values;
+    return react_1["default"].createElement(formik_1.Form, {
+      className: "flex space-x-3 w-1/3",
+      autoComplete: "off"
+    }, react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "subject",
+      type: "text",
+      placeholder: "Add Subject",
+      id: "subject"
+    }), react_1["default"].createElement("button", {
+      type: "submit",
+      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11",
+      disabled: isSubmitting ? true : false
+    }, isSubmitting ? "Loading..." : "UPDATE"));
+  })))));
+};
+
+exports.default = UpdateSubject;
 
 /***/ }),
 
@@ -25802,12 +25588,12 @@ var RegisterPage_1 = __importDefault(__webpack_require__(/*! ./Pages/Auth/Regist
 
 var LazyAddCategory = react_1["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return __importStar(__webpack_require__(/*! ./Pages/Admin/Category/AddSubject */ "./resources/js/Pages/Admin/Category/AddSubject.tsx"));
+    return __importStar(__webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module './Pages/Admin/Category/AddSubject'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
   });
 });
 var LazyListCategory = react_1["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return __importStar(__webpack_require__(/*! ./Pages/Admin/Category/ListCategories */ "./resources/js/Pages/Admin/Category/ListCategories.tsx"));
+    return __importStar(__webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module './Pages/Admin/Category/ListCategories'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
   });
 });
 var LazyDepartment = react_1["default"].lazy(function () {
@@ -25825,6 +25611,11 @@ var LazySubject = react_1["default"].lazy(function () {
     return __importStar(__webpack_require__(/*! ./Pages/Admin/Subject/SubjectMain */ "./resources/js/Pages/Admin/Subject/SubjectMain.tsx"));
   });
 });
+var LazyUpdateSubject = react_1["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return __importStar(__webpack_require__(/*! ./Pages/Admin/Subject/UpdateSubject */ "./resources/js/Pages/Admin/Subject/UpdateSubject.tsx"));
+  });
+});
 
 var AdminRoute_1 = __importDefault(__webpack_require__(/*! ./components/AdminRoute */ "./resources/js/components/AdminRoute.tsx"));
 
@@ -25835,6 +25626,8 @@ var Loading_1 = __importDefault(__webpack_require__(/*! ./components/reuseable/L
 var Home_1 = __importDefault(__webpack_require__(/*! ./Pages/Home */ "./resources/js/Pages/Home.tsx"));
 
 var App = function App() {
+  // localStorage.removeItem("GreenLibToken");
+  // localStorage.removeItem("UserInfo");
   return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(react_router_dom_1.Switch, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: "/",
     exact: true
@@ -25863,7 +25656,12 @@ var App = function App() {
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
     fallback: react_1["default"].createElement(Loading_1["default"], null)
-  }, react_1["default"].createElement(LazyDepartment, null))), react_1["default"].createElement(react_router_dom_1.Route, {
+  }, react_1["default"].createElement(LazySubject, null))), react_1["default"].createElement(AdminRoute_1["default"], {
+    path: "/subjects/:id",
+    exact: true
+  }, react_1["default"].createElement(react_1.Suspense, {
+    fallback: react_1["default"].createElement(Loading_1["default"], null)
+  }, react_1["default"].createElement(LazyUpdateSubject, null))), react_1["default"].createElement(react_router_dom_1.Route, {
     path: "/login",
     exact: true
   }, react_1["default"].createElement(LoginPage_1["default"], null)), react_1["default"].createElement(react_router_dom_1.Route, {
@@ -26471,138 +26269,6 @@ var SEO = function SEO(_a) {
 };
 
 exports.default = SEO;
-
-/***/ }),
-
-/***/ "./resources/js/components/reuseable/CustomInput.tsx":
-/*!***********************************************************!*\
-  !*** ./resources/js/components/reuseable/CustomInput.tsx ***!
-  \***********************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-var __spreadArray = this && this.__spreadArray || function (to, from) {
-  for (var i = 0, il = from.length, j = to.length; i < il; i++, j++) {
-    to[j] = from[i];
-  }
-
-  return to;
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.Input = exports.useInput = void 0;
-
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var useInput = function useInput(inputArr) {
-  var _a = react_1.useState(__spreadArray([], inputArr)),
-      inputs = _a[0],
-      setInputs = _a[1];
-
-  var onChange = function onChange(e) {
-    var _a = e.target,
-        name = _a.name,
-        value = _a.value;
-
-    var newInputs = __spreadArray([], inputs);
-
-    var index = inputs.findIndex(function (input) {
-      return input.name === name;
-    });
-    var input = inputs[index];
-
-    if (input.isValid !== undefined && input.showHelperText !== undefined && input.error !== undefined) {
-      var isValid = input.isValid(value);
-      newInputs[index] = __assign(__assign({}, input), {
-        value: value,
-        error: !isValid,
-        helperText: input.showHelperText(!isValid)
-      });
-    } else newInputs[index] = __assign(__assign({}, input), {
-      value: value
-    });
-
-    setInputs(newInputs);
-  };
-
-  return {
-    onChange: onChange,
-    inputs: inputs
-  };
-};
-
-exports.useInput = useInput;
-
-var Input = function Input(input) {
-  return react_1["default"].createElement("div", {
-    className: "w-full"
-  }, input.label && react_1["default"].createElement("label", {
-    htmlFor: "name",
-    className: "text-gray-600 block text-xs pb-2"
-  }, input.label), react_1["default"].createElement("input", {
-    type: input.type === undefined ? "text" : input.type,
-    name: input.name,
-    className: "rounded-md border-2 focus:ring-purple-500 border-purple-300 bg-purple-50 focus:border-purple-500 w-full",
-    value: input.value,
-    onChange: input.onchange
-  }));
-};
-
-exports.Input = Input;
 
 /***/ }),
 
@@ -27828,7 +27494,7 @@ var resetUpdateDepartment = updateDepartmentSlice.actions.resetUpdateDepartment;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.resetGetOneDepartment = exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
+exports.updateSubjectAction = exports.getOneSubjectAction = exports.deleteSubjectAction = exports.getSubjectAction = exports.addSubjectAction = exports.resetGetOneDepartment = exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.updateSubjectSelector = exports.getOneSubjectSelector = exports.deleteSubjectSelector = exports.getSubjectSelector = exports.addSubjectSelector = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -27913,6 +27579,39 @@ Object.defineProperty(exports, "resetGetOneDepartment", ({
   get: function get() {
     return department_1.resetGetOneDepartment;
   }
+}));
+
+var subject_1 = __webpack_require__(/*! ./subject */ "./resources/js/redux/subject.ts");
+
+Object.defineProperty(exports, "addSubjectAction", ({
+  enumerable: true,
+  get: function get() {
+    return subject_1.addSubjectAction;
+  }
+}));
+Object.defineProperty(exports, "getSubjectAction", ({
+  enumerable: true,
+  get: function get() {
+    return subject_1.getSubjectAction;
+  }
+}));
+Object.defineProperty(exports, "deleteSubjectAction", ({
+  enumerable: true,
+  get: function get() {
+    return subject_1.deleteSubjectAction;
+  }
+}));
+Object.defineProperty(exports, "getOneSubjectAction", ({
+  enumerable: true,
+  get: function get() {
+    return subject_1.getOneSubjectAction;
+  }
+}));
+Object.defineProperty(exports, "updateSubjectAction", ({
+  enumerable: true,
+  get: function get() {
+    return subject_1.updateSubjectAction;
+  }
 })); //Local Storage
 
 var userInfo = localStorage.getItem("UserInfo");
@@ -27930,7 +27629,12 @@ var store = toolkit_1.configureStore({
     getDepartment: department_1.getDepartmentReducer,
     deleteDepartment: department_1.deleteDepartmentReducer,
     getOneDepartment: department_1.getOneDepartmentReducer,
-    updateDepartment: department_1.updateDepartmentReducer
+    updateDepartment: department_1.updateDepartmentReducer,
+    addSubject: subject_1.addSubjectReducer,
+    getSubject: subject_1.getSubjectReducer,
+    deleteSubject: subject_1.deleteSubjectReducer,
+    getOneSubject: subject_1.getOneSubjectReducer,
+    updateSubject: subject_1.updateSubjectReducer
   },
   preloadedState: preloadedState
 });
@@ -27996,7 +27700,611 @@ var updateDepartmentSelector = function updateDepartmentSelector(s) {
   return s.updateDepartment;
 };
 
-exports.updateDepartmentSelector = updateDepartmentSelector;
+exports.updateDepartmentSelector = updateDepartmentSelector; //department
+
+var addSubjectSelector = function addSubjectSelector(s) {
+  return s.addSubject;
+};
+
+exports.addSubjectSelector = addSubjectSelector;
+
+var getSubjectSelector = function getSubjectSelector(s) {
+  return s.getSubject;
+};
+
+exports.getSubjectSelector = getSubjectSelector;
+
+var deleteSubjectSelector = function deleteSubjectSelector(s) {
+  return s.deleteSubject;
+};
+
+exports.deleteSubjectSelector = deleteSubjectSelector;
+
+var getOneSubjectSelector = function getOneSubjectSelector(s) {
+  return s.getOneSubject;
+};
+
+exports.getOneSubjectSelector = getOneSubjectSelector;
+
+var updateSubjectSelector = function updateSubjectSelector(s) {
+  return s.updateSubject;
+};
+
+exports.updateSubjectSelector = updateSubjectSelector;
+
+/***/ }),
+
+/***/ "./resources/js/redux/subject.ts":
+/*!***************************************!*\
+  !*** ./resources/js/redux/subject.ts ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.updateSubjectAction = exports.getOneSubjectAction = exports.deleteSubjectAction = exports.getSubjectAction = exports.addSubjectAction = exports.updateSubjectReducer = exports.deleteSubjectReducer = exports.getOneSubjectReducer = exports.getSubjectReducer = exports.addSubjectReducer = void 0;
+
+var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+var axios_config_1 = __importDefault(__webpack_require__(/*! ./axios_config */ "./resources/js/redux/axios_config.ts"));
+
+var addInitialState = {
+  success_message: null,
+  success: false,
+  errors: null,
+  status: "idle"
+}; //!Adding New Subject
+
+var addSubjectAction = toolkit_1.createAsyncThunk("Subject/add", function (s, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_1, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(resetGetSubject());
+          return [4
+          /*yield*/
+          , axios_config_1["default"].post("/subject", {
+            subject: s.subject,
+            department: s.department
+          })];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_1 = _a.sent();
+          message = error_1.response && error_1.response.data ? error_1.response.data : error_1.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.addSubjectAction = addSubjectAction;
+var addSubjectSlice = toolkit_1.createSlice({
+  name: "Subject/add",
+  initialState: __assign({}, addInitialState),
+  reducers: {
+    resetAddSubject: function resetAddSubject(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success = false;
+      state.success_message = null;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(addSubjectAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(addSubjectAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success = payload.success;
+      state.success_message = payload.success_message;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(addSubjectAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
+var getInitialState = {
+  lists: [],
+  errors: null,
+  status: "idle"
+}; //actions
+
+var getSubjectAction = toolkit_1.createAsyncThunk("Subject/get", function (_, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_2, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(resetAddSubject());
+          thunkApi.dispatch(resetDeleteSubject());
+          thunkApi.dispatch(resetUpdateSubject());
+          return [4
+          /*yield*/
+          , axios_config_1["default"].get("/subject")];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_2 = _a.sent();
+          message = error_2.response && error_2.response.data ? error_2.response.data : error_2.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.getSubjectAction = getSubjectAction; //reducer
+
+var getSubjectSlice = toolkit_1.createSlice({
+  name: "Subject/get",
+  initialState: __assign({}, getInitialState),
+  reducers: {
+    resetGetSubject: function resetGetSubject(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.lists = null;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(getSubjectAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.lists = null;
+    });
+    builder.addCase(getSubjectAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.lists = payload.lists;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(getSubjectAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.lists = null;
+    });
+  }
+});
+var getOneInitialState = {
+  lists: null,
+  errors: null,
+  status: "idle"
+}; //action
+
+var getOneSubjectAction = toolkit_1.createAsyncThunk("Subject/getone", function (id, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_3, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          return [4
+          /*yield*/
+          , axios_config_1["default"].get("/subject/" + id)];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_3 = _a.sent();
+          message = error_3.response && error_3.response.data ? error_3.response.data : error_3.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.getOneSubjectAction = getOneSubjectAction;
+var getOneSubjectSlice = toolkit_1.createSlice({
+  name: "Subject/getone",
+  initialState: __assign({}, getOneInitialState),
+  reducers: {
+    resetGetOneSubject: function resetGetOneSubject(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.lists = null;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(getOneSubjectAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.lists = null;
+    });
+    builder.addCase(getOneSubjectAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.lists = payload.lists;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(getOneSubjectAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.lists = null;
+    });
+  }
+});
+var deleteInitialState = {
+  success: false,
+  success_message: null,
+  errors: null,
+  status: "idle"
+}; //actions
+
+var deleteSubjectAction = toolkit_1.createAsyncThunk("Subject/delete", function (id, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_4, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(resetGetSubject());
+          return [4
+          /*yield*/
+          , axios_config_1["default"]["delete"]("/subject/" + id)];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_4 = _a.sent();
+          message = error_4.response && error_4.response.data ? error_4.response.data : error_4.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.deleteSubjectAction = deleteSubjectAction; //reducers
+
+var deleteSubjectSlice = toolkit_1.createSlice({
+  name: "Subject/delete",
+  initialState: __assign({}, deleteInitialState),
+  reducers: {
+    resetDeleteSubject: function resetDeleteSubject(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(deleteSubjectAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(deleteSubjectAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success_message = payload.success_message;
+      state.success = payload.success;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(deleteSubjectAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
+var updateInitialState = {
+  success: false,
+  success_message: null,
+  errors: null,
+  status: "idle"
+};
+var updateSubjectAction = toolkit_1.createAsyncThunk("Subject/update", function (d, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_5, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(resetGetSubject());
+          return [4
+          /*yield*/
+          , axios_config_1["default"].put("/subject/" + d.id, {
+            subject: d.subject
+          })];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_5 = _a.sent();
+          message = error_5.response && error_5.response.data ? error_5.response.data : error_5.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.updateSubjectAction = updateSubjectAction; //reducers
+
+var updateSubjectSlice = toolkit_1.createSlice({
+  name: "Subject/update",
+  initialState: __assign({}, updateInitialState),
+  reducers: {
+    resetUpdateSubject: function resetUpdateSubject(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(updateSubjectAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(updateSubjectAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success_message = payload.success_message;
+      state.success = payload.success;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(updateSubjectAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
+exports.addSubjectReducer = addSubjectSlice.reducer;
+var resetAddSubject = addSubjectSlice.actions.resetAddSubject;
+exports.getSubjectReducer = getSubjectSlice.reducer;
+var resetGetSubject = getSubjectSlice.actions.resetGetSubject;
+exports.getOneSubjectReducer = getOneSubjectSlice.reducer;
+var resetGetOneSubject = getOneSubjectSlice.actions.resetGetOneSubject;
+exports.deleteSubjectReducer = deleteSubjectSlice.reducer;
+var resetDeleteSubject = deleteSubjectSlice.actions.resetDeleteSubject;
+exports.updateSubjectReducer = updateSubjectSlice.reducer;
+var resetUpdateSubject = updateSubjectSlice.actions.resetUpdateSubject;
 
 /***/ }),
 

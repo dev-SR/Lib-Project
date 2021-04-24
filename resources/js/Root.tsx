@@ -18,12 +18,17 @@ const LazyUpdateDepartment = React.lazy(
 const LazySubject = React.lazy(
     () => import("./Pages/Admin/Subject/SubjectMain")
 );
+const LazyUpdateSubject = React.lazy(
+    () => import("./Pages/Admin/Subject/UpdateSubject")
+);
 
 import AdminRoute from "./components/AdminRoute";
 import NotFound from "./components/Shared/NotFound";
 import Loading from "./components/reuseable/Loading";
 import Home from "./Pages/Home";
 const App = () => {
+    // localStorage.removeItem("GreenLibToken");
+    // localStorage.removeItem("UserInfo");
     return (
         <Router>
             <Switch>
@@ -52,7 +57,12 @@ const App = () => {
                 </AdminRoute>
                 <AdminRoute path="/subjects" exact>
                     <Suspense fallback={<Loading />}>
-                        <LazyDepartment />
+                        <LazySubject />
+                    </Suspense>
+                </AdminRoute>
+                <AdminRoute path="/subjects/:id" exact>
+                    <Suspense fallback={<Loading />}>
+                        <LazyUpdateSubject />
                     </Suspense>
                 </AdminRoute>
                 <Route path="/login" exact>

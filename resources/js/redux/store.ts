@@ -31,6 +31,19 @@ import {
     resetGetOneDepartment,
     updateDepartmentReducer,
 } from "./department";
+
+import {
+    addSubjectAction,
+    getSubjectAction,
+    deleteSubjectAction,
+    getOneSubjectAction,
+    updateSubjectAction,
+    addSubjectReducer,
+    getSubjectReducer,
+    deleteSubjectReducer,
+    getOneSubjectReducer,
+    updateSubjectReducer,
+} from "./subject";
 //Local Storage
 const userInfo = localStorage.getItem("UserInfo");
 const preloadedState = {
@@ -48,6 +61,11 @@ const store = configureStore({
         deleteDepartment: deleteDepartmentReducer,
         getOneDepartment: getOneDepartmentReducer,
         updateDepartment: updateDepartmentReducer,
+        addSubject: addSubjectReducer,
+        getSubject: getSubjectReducer,
+        deleteSubject: deleteSubjectReducer,
+        getOneSubject: getOneSubjectReducer,
+        updateSubject: updateSubjectReducer,
     },
     preloadedState,
 });
@@ -73,6 +91,13 @@ export const deleteDepartmentSelector = (s: RootState) => s.deleteDepartment;
 export const getOneDepartmentSelector = (s: RootState) => s.getOneDepartment;
 export const updateDepartmentSelector = (s: RootState) => s.updateDepartment;
 
+//department
+export const addSubjectSelector = (s: RootState) => s.addSubject;
+export const getSubjectSelector = (s: RootState) => s.getSubject;
+export const deleteSubjectSelector = (s: RootState) => s.deleteSubject;
+export const getOneSubjectSelector = (s: RootState) => s.getOneSubject;
+export const updateSubjectSelector = (s: RootState) => s.updateSubject;
+
 //Actions
 export {
     addCategoryAction,
@@ -87,4 +112,9 @@ export {
     resetLogout,
     updateDepartmentAction,
     resetGetOneDepartment,
+    addSubjectAction,
+    getSubjectAction,
+    deleteSubjectAction,
+    getOneSubjectAction,
+    updateSubjectAction,
 };

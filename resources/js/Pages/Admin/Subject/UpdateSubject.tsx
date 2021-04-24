@@ -9,26 +9,25 @@ import AdminLayout from "../../../components/Shared/AdminLayout";
 import Api from "./../../../redux/axios_config";
 import { useDispatch } from "react-redux";
 import {
-    getOneDepartmentAction,
-    getOneDepartmentSelector,
-    updateDepartmentSelector,
-    updateDepartmentAction,
+    getOneSubjectAction,
+    getOneSubjectSelector,
+    updateSubjectSelector,
+    updateSubjectAction,
     useTypedSelector,
-    resetGetOneDepartment,
 } from "../../../redux/store";
 
 type Values = {
-    department: string;
+    subject: string;
 };
 
 const initialValues: Values = {
-    department: "",
+    subject: "",
 };
 export const validator = Yup.object({
-    department: Yup.string().min(2, "Minimum 2 character").required("Required"),
+    subject: Yup.string().min(2, "Minimum 2 character").required("Required"),
 });
 
-const UpdateDepartment = () => {
+const UpdateSubject = () => {
     const { id } = useParams<{ id: string }>();
     const [input, setInput] = useState(initialValues);
     const history = useHistory();
@@ -44,9 +43,9 @@ const UpdateDepartment = () => {
     } = useSnackBar();
     const dispatch = useDispatch();
 
-    const { lists } = useTypedSelector(getOneDepartmentSelector);
+    const { lists } = useTypedSelector(getOneSubjectSelector);
     const { success, success_message, errors } = useTypedSelector(
-        updateDepartmentSelector
+        updateSubjectSelector
     );
 
     const submit = (
@@ -54,9 +53,9 @@ const UpdateDepartment = () => {
         { setSubmitting, resetForm }: FormikHelpers<Values>
     ) => {
         dispatch(
-            updateDepartmentAction({
+            updateSubjectAction({
                 id: id,
-                department: values.department,
+                subject: values.subject,
             })
         );
         setSubmitting(true);
@@ -65,7 +64,7 @@ const UpdateDepartment = () => {
         }, 500);
     };
     useEffect(() => {
-        dispatch(getOneDepartmentAction(id));
+        dispatch(getOneSubjectAction(id));
     }, []);
 
     useEffect(() => {
@@ -74,7 +73,7 @@ const UpdateDepartment = () => {
             setMessage(`${success_message} Added`);
             setSeverity("success");
             setTimeout(() => {
-                history.push("/departments");
+                history.push("/subjects");
             }, 500);
         }
         if (errors) {
@@ -82,20 +81,20 @@ const UpdateDepartment = () => {
             setMessage(`${errors.errors?.fail_message}`);
             setSeverity("error");
         }
-    }, [success]);
+    }, [success, errors]);
     useEffect(() => {
         if (lists) {
             setInput({
                 ...input,
-                department: lists.department,
+                subject: lists.subject,
             });
         }
     }, [lists]);
     return (
-        <AdminLayout title="Update Department">
+        <AdminLayout title="Update Subject">
             <div className="flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4">
                 <div className="text-md font-thin text-gray-700">
-                    Update Department
+                    Update Subject
                 </div>
                 <SnackBar
                     open={open}
@@ -117,10 +116,10 @@ const UpdateDepartment = () => {
                                     autoComplete="off"
                                 >
                                     <MyTextInput
-                                        name="department"
+                                        name="subject"
                                         type="text"
-                                        placeholder="Add Department"
-                                        id="department"
+                                        placeholder="Add Subject"
+                                        id="subject"
                                     />
 
                                     <button
@@ -140,4 +139,4 @@ const UpdateDepartment = () => {
     );
 };
 
-export default UpdateDepartment;
+export default UpdateSubject;

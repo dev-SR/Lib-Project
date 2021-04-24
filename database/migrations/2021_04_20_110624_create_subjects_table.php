@@ -16,7 +16,7 @@ class CreateSubjectsTable extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('subject');
+            $table->string('subject')->unique();
             $table->foreignId('department_id')->constrained()->onDelete('cascade'); //Department Model
         });
     }

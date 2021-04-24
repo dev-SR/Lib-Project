@@ -22,7 +22,7 @@ const addInitialState: AddSubjectState = {
 
 type SubjectInput = {
     subject: string;
-    department_id: string;
+    department: string;
 };
 //!Adding New Subject
 const addSubjectAction = createAsyncThunk<
@@ -37,7 +37,7 @@ const addSubjectAction = createAsyncThunk<
             thunkApi.dispatch(resetGetSubject());
             const { data } = await Api.post(`/subject`, {
                 subject: s.subject,
-                department_id: s.department_id,
+                department: s.department,
             });
             return data;
         } catch (error) {
@@ -87,6 +87,9 @@ const addSubjectSlice = createSlice({
 type Subject = {
     subject: string;
     id: string;
+    department: {
+        department: string;
+    } | null;
 };
 type GetSubjectState = {
     lists: Subject[] | null;
@@ -176,10 +179,7 @@ const getOneSubjectAction = createAsyncThunk<
 
     async (id: string, thunkApi) => {
         try {
-            thunkApi.dispatch(resetGetOneSubject());
-            // thunkApi.dispatch(resetGetSubject());
-
-            const { data } = await Api.get(`/Subject/${id}`);
+            const { data } = await Api.get(`/subject/${id}`);
             return data;
         } catch (error) {
             const message =
@@ -232,15 +232,15 @@ const deleteInitialState: DeleteSubjectState = {
 //actions
 const deleteSubjectAction = createAsyncThunk<
     DeleteSubjectState,
-    number,
+    string,
     { rejectValue: ValidationError }
 >(
     "Subject/delete",
 
-    async (id: number, thunkApi) => {
+    async (id: string, thunkApi) => {
         try {
             thunkApi.dispatch(resetGetSubject());
-            const { data } = await Api.delete(`/Subject/${id}`);
+            const { data } = await Api.delete(`/subject/${id}`);
             return data;
         } catch (error) {
             const message =
@@ -297,7 +297,7 @@ const updateInitialState: UpdateSubjectState = {
 //actions
 type UpdateSubject = {
     id: string;
-    Subject: string;
+    subject: string;
 };
 const updateSubjectAction = createAsyncThunk<
     UpdateSubjectState,
@@ -309,8 +309,8 @@ const updateSubjectAction = createAsyncThunk<
     async (d: UpdateSubject, thunkApi) => {
         try {
             thunkApi.dispatch(resetGetSubject());
-            const { data } = await Api.put(`/Subject/${d.id}`, {
-                Subject: d.Subject,
+            const { data } = await Api.put(`/subject/${d.id}`, {
+                subject: d.subject,
             });
             return data;
         } catch (error) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Subject;
 use COM;
 use Illuminate\Http\Request;
@@ -16,7 +17,9 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $res = Subject::all(['subject', 'id']);
+        $res = Subject::with(['department' => function ($query) {
+            return $query->select(['id', 'department']);
+        }])->get();
         return ['lists' => $res];
     }
 
@@ -32,15 +35,35 @@ class SubjectController extends Controller
 
         $f =  $req->validate([
             'subject' => 'required|string|min:2',
-            'department_id' => 'required|numeric'
+            'department' => 'required'
 
         ]);
+
+        $found = Subject::where('subject', '=',  $f['subject'])->first();
+
+
+        if ($found) {
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => 'Subject Already Exits'
+                    ]
+                ],
+                503
+            );
+        }
+
+        $d = Department::where('department', 'like', '%' . $f['department'] . '%')->first();
+
 
 
         $cat = Subject::create([
             'subject' => $f['subject'],
-            'department_id' => $f['department_id']
+            'department_id' => $d->id
         ]);
+
+
+
 
         return response(
             ['success' => true, 'success_message' => $f['subject']],
@@ -66,7 +89,7 @@ class SubjectController extends Controller
             'id' => $cat->id
         ];
 
-        return ['success' => true, 'cat' => $res];
+        return ['success' => true, 'lists' => $res];
     }
 
     /**
@@ -83,11 +106,27 @@ class SubjectController extends Controller
             'subject' => 'required'
         ]);
 
-        $cat = Subject::find($id);
-        if (!$cat) {
-            return ['success' => false, 'fail_message' => 'This Subject do not exits'];
+        $sub = Subject::find($id);
+        if (!$sub) {
+            return ['success' => false, 'fail_message' => $sub];
         }
-        $cat->update(['subject' => $request->subject]);
+        //find duplicate
+
+        $found = Subject::where('subject', '=',  $f['subject'])->first();
+        if ($found) {
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => 'Duplicate Subject'
+                    ]
+                ],
+                503
+            );
+        }
+
+
+
+        $sub->update(['subject' => $request->subject]);
 
         return ['success' => true, 'success_message' => 'Updated'];
     }

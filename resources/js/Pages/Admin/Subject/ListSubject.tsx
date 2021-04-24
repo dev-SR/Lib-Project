@@ -2,16 +2,23 @@ import { Link } from "react-router-dom";
 import React, { FC } from "react";
 import { DeleteIcon, EditIcon } from "../../../utils/icons/svg";
 import { useDispatch } from "react-redux";
-import { deleteDepartmentAction } from "../../../redux/store";
-import { Department } from "../../../types/typeDef";
+import { deleteSubjectAction } from "../../../redux/store";
+type Subject = {
+    subject: string;
+    id: string;
+    department: {
+        department: string;
+    } | null;
+};
 type ListPrpps = {
-    lists: Department[];
+    lists: Subject[];
 };
 
 const ListSubject: FC<ListPrpps> = ({ lists }) => {
+    console.log(lists);
     const dispatch = useDispatch();
-    const handleDelete = (id: number) => {
-        dispatch(deleteDepartmentAction(id));
+    const handleDelete = (id: string) => {
+        dispatch(deleteSubjectAction(id));
     };
     return (
         <div className="flex justify-center items-center h-full">
@@ -28,9 +35,14 @@ const ListSubject: FC<ListPrpps> = ({ lists }) => {
                                                     scope="col"
                                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                                 >
-                                                    Cateory Name
+                                                    Subject
                                                 </th>
-
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                >
+                                                    Department
+                                                </th>
                                                 <th
                                                     scope="col"
                                                     className="relative px-6 py-3"
@@ -48,12 +60,17 @@ const ListSubject: FC<ListPrpps> = ({ lists }) => {
                                             {lists.map((r, i) => (
                                                 <tr key={i}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {r.department}
+                                                        {r.subject}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        {r.department &&
+                                                            r.department
+                                                                .department}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                         <div className="flex space-x-3">
                                                             <Link
-                                                                to={`/edit-category/${r.id}`}
+                                                                to={`/subjects/${r.id}`}
                                                             >
                                                                 <EditIcon />
                                                             </Link>

@@ -11,6 +11,11 @@ import {
     getDepartmentSelector,
     getDepartmentAction,
     deleteDepartmentSelector,
+    getSubjectSelector,
+    deleteSubjectSelector,
+    addSubjectAction,
+    addSubjectSelector,
+    getSubjectAction,
 } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 import AdminLayout from "../../../components/Shared/AdminLayout";
@@ -18,14 +23,16 @@ import AdminLayout from "../../../components/Shared/AdminLayout";
 import ListSubject from "./ListSubject";
 
 type Values = {
+    subject: string;
     department: string;
 };
 
 const initialValues: Values = {
+    subject: "",
     department: "",
 };
 export const validator = Yup.object({
-    department: Yup.string().min(2, "Minimum 2 character").required("Required"),
+    subject: Yup.string().min(2, "Minimum 2 character").required("Required"),
 });
 
 export const Department = () => {
@@ -41,15 +48,15 @@ export const Department = () => {
     const dispatch = useDispatch();
 
     const { success, success_message, errors } = useTypedSelector(
-        addDepartmentSelector
+        addSubjectSelector
     );
-    const { lists } = useTypedSelector(getDepartmentSelector);
-    const del = useTypedSelector(deleteDepartmentSelector);
+    const { lists } = useTypedSelector(getSubjectSelector);
+    const del = useTypedSelector(deleteSubjectSelector);
     const submit = (
         values: Values,
         { setSubmitting, resetForm }: FormikHelpers<Values>
     ) => {
-        dispatch(addDepartmentAction(values));
+        dispatch(addSubjectAction(values));
         setSubmitting(true);
         setTimeout(() => {
             setSubmitting(false);
@@ -58,7 +65,7 @@ export const Department = () => {
     };
 
     useEffect(() => {
-        dispatch(getDepartmentAction());
+        dispatch(getSubjectAction());
     }, []);
     useEffect(() => {
         if (success && success_message) {
@@ -76,15 +83,13 @@ export const Department = () => {
             setMessage(`${errors.errors?.fail_message}`);
             setSeverity("error");
         }
-        if (!lists) dispatch(getDepartmentAction());
+        if (!lists) dispatch(getSubjectAction());
     }, [success, errors, lists, del.success, dispatch]);
 
     return (
         <AdminLayout title="Department">
             <div className="flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4">
-                <div className="text-md font-thin text-gray-700">
-                    Department
-                </div>
+                <div className="text-md font-thin text-gray-700">Subject</div>
                 <SnackBar
                     open={open}
                     handleClose={handleClose}
@@ -104,17 +109,23 @@ export const Department = () => {
                                     autoComplete="off"
                                 >
                                     <MyTextInput
+                                        name="subject"
+                                        type="text"
+                                        placeholder="Add Subject"
+                                        id="subject"
+                                    />
+                                    <MyTextInput
                                         name="department"
                                         type="text"
-                                        placeholder="Add Department"
+                                        placeholder="Department"
                                         id="department"
                                     />
 
                                     <button
                                         type="submit"
-                                        className="py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11"
+                                        className="py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11"
                                         disabled={
-                                            isSubmitting || errors.department
+                                            isSubmitting || errors.subject
                                                 ? true
                                                 : false
                                         }
