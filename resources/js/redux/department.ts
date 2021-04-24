@@ -107,6 +107,8 @@ const getDepartmentAction = createAsyncThunk<
         try {
             thunkApi.dispatch(resetAddDepartment());
             thunkApi.dispatch(resetDeleteDepartment());
+            thunkApi.dispatch(resetUpdateDepartment());
+
             const { data } = await Api.get(`/department`);
             return data;
         } catch (error) {
@@ -292,6 +294,85 @@ const deleteDepartmentSlice = createSlice({
     },
 });
 
+//!Update DEPARTMENT
+interface UpdateDepartmentState extends AddDepartmentState {}
+
+const updateInitialState: UpdateDepartmentState = {
+    success: false,
+    success_message: null,
+    errors: null,
+    status: "idle",
+};
+//actions
+type UpdateDepartment = {
+    id: string;
+    department: string;
+};
+const updateDepartmentAction = createAsyncThunk<
+    UpdateDepartmentState,
+    UpdateDepartment,
+    { rejectValue: ValidationError }
+>(
+    "department/update",
+
+    async (d: UpdateDepartment, thunkApi) => {
+        try {
+            thunkApi.dispatch(resetGetDepartment());
+            thunkApi.dispatch(resetGetDepartment());
+
+            const { data } = await Api.put(`/department/${d.id}`, {
+                department: d.department,
+            });
+            return data;
+        } catch (error) {
+            const message =
+                error.response && error.response.data
+                    ? error.response.data
+                    : error.message;
+            return thunkApi.rejectWithValue(message);
+        }
+    }
+);
+//reducers
+const updateDepartmentSlice = createSlice({
+    name: "department/update",
+    initialState: { ...updateInitialState },
+    reducers: {
+        resetUpdateDepartment(state) {
+            state.status = "idle";
+            state.errors = null;
+            state.success_message = null;
+            state.success = false;
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(updateDepartmentAction.pending, (state) => {
+            state.status = "loading";
+            state.errors = null;
+            state.success_message = null;
+            state.success = false;
+        });
+        builder.addCase(
+            updateDepartmentAction.fulfilled,
+            (state, { payload }) => {
+                state.success_message = payload.success_message;
+                state.success = payload.success;
+                state.status = "idle";
+                state.errors = null;
+            }
+        );
+        builder.addCase(
+            updateDepartmentAction.rejected,
+            (state, { payload }) => {
+                if (payload) state.errors = payload;
+                state.status = "idle";
+                state.success_message = null;
+                state.success = false;
+            }
+        );
+    },
+});
+
 export const addDepartmentReducer = addDepartmentSlice.reducer;
 const { resetAddDepartment } = addDepartmentSlice.actions;
 
@@ -304,9 +385,13 @@ const { resetGetOneDepartment } = getOneDepartmentSlice.actions;
 export const deleteDepartmentReducer = deleteDepartmentSlice.reducer;
 const { resetDeleteDepartment } = deleteDepartmentSlice.actions;
 
+export const updateDepartmentReducer = updateDepartmentSlice.reducer;
+const { resetUpdateDepartment } = updateDepartmentSlice.actions;
+
 export {
     addDepartmentAction,
     getDepartmentAction,
     deleteDepartmentAction,
     getOneDepartmentAction,
+    updateDepartmentAction,
 };

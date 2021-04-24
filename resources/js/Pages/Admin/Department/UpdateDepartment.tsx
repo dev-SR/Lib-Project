@@ -4,18 +4,20 @@ import { MyTextInput } from "../../../components/Formik";
 import * as Yup from "yup";
 import SnackBar, { useSnackBar } from "../../../components/reuseable/SnackBar";
 
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import AdminLayout from "../../../components/Shared/AdminLayout";
 import Api from "./../../../redux/axios_config";
 import { useDispatch } from "react-redux";
 import {
     getOneDepartmentAction,
     getOneDepartmentSelector,
+    upadteDepartmentSelector,
+    updateDepartmentAction,
     useTypedSelector,
 } from "../../../redux/store";
 
 type Values = {
-    department?: string;
+    department: string;
 };
 
 const initialValues: Values = {
@@ -27,8 +29,8 @@ export const validator = Yup.object({
 
 const UpdateDepartment = () => {
     const { id } = useParams<{ id: string }>();
-    const [vals, setValues] = useState<{ lists: { department: string } }>();
     const [input, setInput] = useState(initialValues);
+    const history = useHistory();
 
     const {
         open,
@@ -42,12 +44,20 @@ const UpdateDepartment = () => {
     const dispatch = useDispatch();
 
     const { lists } = useTypedSelector(getOneDepartmentSelector);
+    const { success, success_message, errors } = useTypedSelector(
+        upadteDepartmentSelector
+    );
 
     const submit = (
         values: Values,
         { setSubmitting, resetForm }: FormikHelpers<Values>
     ) => {
-        // dispatch(addDepartmentAction(values));
+        dispatch(
+            updateDepartmentAction({
+                id: id,
+                department: values.department,
+            })
+        );
         setSubmitting(true);
         setTimeout(() => {
             setSubmitting(false);
@@ -57,6 +67,22 @@ const UpdateDepartment = () => {
     useEffect(() => {
         dispatch(getOneDepartmentAction(id));
     }, []);
+
+    useEffect(() => {
+        if (success && success_message) {
+            setOpen(true);
+            setMessage(`${success_message} Added`);
+            setSeverity("success");
+            setTimeout(() => {
+                history.push("/departments");
+            }, 500);
+        }
+        if (errors) {
+            setOpen(true);
+            setMessage(`${errors.errors?.fail_message}`);
+            setSeverity("error");
+        }
+    }, [success]);
     useEffect(() => {
         if (lists) {
             setInput({

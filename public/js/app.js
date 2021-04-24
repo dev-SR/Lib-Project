@@ -24960,30 +24960,36 @@ exports.validator = Yup.object({
 var UpdateDepartment = function UpdateDepartment() {
   var id = react_router_1.useParams().id;
 
-  var _a = react_1.useState(),
-      vals = _a[0],
-      setValues = _a[1];
+  var _a = react_1.useState(initialValues),
+      input = _a[0],
+      setInput = _a[1];
 
-  var _b = react_1.useState(initialValues),
-      input = _b[0],
-      setInput = _b[1];
+  var history = react_router_1.useHistory();
 
-  var _c = SnackBar_1.useSnackBar(),
-      open = _c.open,
-      setOpen = _c.setOpen,
-      handleClose = _c.handleClose,
-      setSeverity = _c.setSeverity,
-      severity = _c.severity,
-      message = _c.message,
-      setMessage = _c.setMessage;
+  var _b = SnackBar_1.useSnackBar(),
+      open = _b.open,
+      setOpen = _b.setOpen,
+      handleClose = _b.handleClose,
+      setSeverity = _b.setSeverity,
+      severity = _b.severity,
+      message = _b.message,
+      setMessage = _b.setMessage;
 
   var dispatch = react_redux_1.useDispatch();
   var lists = store_1.useTypedSelector(store_1.getOneDepartmentSelector).lists;
 
+  var _c = store_1.useTypedSelector(store_1.upadteDepartmentSelector),
+      success = _c.success,
+      success_message = _c.success_message,
+      errors = _c.errors;
+
   var submit = function submit(values, _a) {
     var setSubmitting = _a.setSubmitting,
-        resetForm = _a.resetForm; // dispatch(addDepartmentAction(values));
-
+        resetForm = _a.resetForm;
+    dispatch(store_1.updateDepartmentAction({
+      id: id,
+      department: values.department
+    }));
     setSubmitting(true);
     setTimeout(function () {
       setSubmitting(false);
@@ -24994,6 +25000,24 @@ var UpdateDepartment = function UpdateDepartment() {
   react_1.useEffect(function () {
     dispatch(store_1.getOneDepartmentAction(id));
   }, []);
+  react_1.useEffect(function () {
+    var _a;
+
+    if (success && success_message) {
+      setOpen(true);
+      setMessage(success_message + " Added");
+      setSeverity("success");
+      setTimeout(function () {
+        history.push("/departments");
+      }, 500);
+    }
+
+    if (errors) {
+      setOpen(true);
+      setMessage("" + ((_a = errors.errors) === null || _a === void 0 ? void 0 : _a.fail_message));
+      setSeverity("error");
+    }
+  }, [success]);
   react_1.useEffect(function () {
     if (lists) {
       setInput(__assign(__assign({}, input), {
@@ -27398,7 +27422,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.deleteDepartmentReducer = exports.getOneDepartmentReducer = exports.getDepartmentReducer = exports.addDepartmentReducer = void 0;
+exports.updateDepartmentAction = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.updateDepartmentReducer = exports.deleteDepartmentReducer = exports.getOneDepartmentReducer = exports.getDepartmentReducer = exports.addDepartmentReducer = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -27498,6 +27522,7 @@ var getDepartmentAction = toolkit_1.createAsyncThunk("department/get", function 
 
           thunkApi.dispatch(resetAddDepartment());
           thunkApi.dispatch(resetDeleteDepartment());
+          thunkApi.dispatch(resetUpdateDepartment());
           return [4
           /*yield*/
           , axios_config_1["default"].get("/department")];
@@ -27703,6 +27728,85 @@ var deleteDepartmentSlice = toolkit_1.createSlice({
     });
   }
 });
+var updateInitialState = {
+  success: false,
+  success_message: null,
+  errors: null,
+  status: "idle"
+};
+var updateDepartmentAction = toolkit_1.createAsyncThunk("department/update", function (d, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_5, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(resetGetDepartment());
+          thunkApi.dispatch(resetGetDepartment());
+          return [4
+          /*yield*/
+          , axios_config_1["default"].put("/department/" + d.id, {
+            department: d.department
+          })];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_5 = _a.sent();
+          message = error_5.response && error_5.response.data ? error_5.response.data : error_5.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.updateDepartmentAction = updateDepartmentAction; //reducers
+
+var updateDepartmentSlice = toolkit_1.createSlice({
+  name: "department/update",
+  initialState: __assign({}, updateInitialState),
+  reducers: {
+    resetUpdateDepartment: function resetUpdateDepartment(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(updateDepartmentAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(updateDepartmentAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success_message = payload.success_message;
+      state.success = payload.success;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(updateDepartmentAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
 exports.addDepartmentReducer = addDepartmentSlice.reducer;
 var resetAddDepartment = addDepartmentSlice.actions.resetAddDepartment;
 exports.getDepartmentReducer = getDepartmentSlice.reducer;
@@ -27711,6 +27815,8 @@ exports.getOneDepartmentReducer = getOneDepartmentSlice.reducer;
 var resetGetOneDepartment = getOneDepartmentSlice.actions.resetGetOneDepartment;
 exports.deleteDepartmentReducer = deleteDepartmentSlice.reducer;
 var resetDeleteDepartment = deleteDepartmentSlice.actions.resetDeleteDepartment;
+exports.updateDepartmentReducer = updateDepartmentSlice.reducer;
+var resetUpdateDepartment = updateDepartmentSlice.actions.resetUpdateDepartment;
 
 /***/ }),
 
@@ -27726,7 +27832,7 @@ var resetDeleteDepartment = deleteDepartmentSlice.actions.resetDeleteDepartment;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
+exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.upadteDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -27799,6 +27905,12 @@ Object.defineProperty(exports, "getOneDepartmentAction", ({
   get: function get() {
     return department_1.getOneDepartmentAction;
   }
+}));
+Object.defineProperty(exports, "updateDepartmentAction", ({
+  enumerable: true,
+  get: function get() {
+    return department_1.updateDepartmentAction;
+  }
 })); //Local Storage
 
 var userInfo = localStorage.getItem("UserInfo");
@@ -27815,7 +27927,8 @@ var store = toolkit_1.configureStore({
     addDepartment: department_1.addDepartmentReducer,
     getDepartment: department_1.getDepartmentReducer,
     deleteDepartment: department_1.deleteDepartmentReducer,
-    getOneDepartment: department_1.getOneDepartmentReducer
+    getOneDepartment: department_1.getOneDepartmentReducer,
+    updateDepartment: department_1.updateDepartmentReducer
   },
   preloadedState: preloadedState
 });
@@ -27876,6 +27989,12 @@ var getOneDepartmentSelector = function getOneDepartmentSelector(s) {
 };
 
 exports.getOneDepartmentSelector = getOneDepartmentSelector;
+
+var upadteDepartmentSelector = function upadteDepartmentSelector(s) {
+  return s.updateDepartment;
+};
+
+exports.upadteDepartmentSelector = upadteDepartmentSelector;
 
 /***/ }),
 

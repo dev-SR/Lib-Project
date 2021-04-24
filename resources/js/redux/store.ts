@@ -27,6 +27,8 @@ import {
     deleteDepartmentReducer,
     getOneDepartmentReducer,
     getOneDepartmentAction,
+    updateDepartmentAction,
+    updateDepartmentReducer,
 } from "./department";
 //Local Storage
 const userInfo = localStorage.getItem("UserInfo");
@@ -44,6 +46,7 @@ const store = configureStore({
         getDepartment: getDepartmentReducer,
         deleteDepartment: deleteDepartmentReducer,
         getOneDepartment: getOneDepartmentReducer,
+        updateDepartment: updateDepartmentReducer,
     },
     preloadedState,
 });
@@ -67,6 +70,7 @@ export const addDepartmentSelector = (s: RootState) => s.addDepartment;
 export const getDepartmentSelector = (s: RootState) => s.getDepartment;
 export const deleteDepartmentSelector = (s: RootState) => s.deleteDepartment;
 export const getOneDepartmentSelector = (s: RootState) => s.getOneDepartment;
+export const upadteDepartmentSelector = (s: RootState) => s.updateDepartment;
 
 //Actions
 export {
@@ -80,4 +84,5 @@ export {
     deleteDepartmentAction,
     getOneDepartmentAction,
     resetLogout,
+    updateDepartmentAction,
 };
