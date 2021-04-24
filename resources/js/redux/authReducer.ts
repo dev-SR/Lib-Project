@@ -100,7 +100,7 @@ interface UserRegisterPostType extends UserLoginPostType {
     name: string;
 }
 
-//Register
+//!Register
 const registerAction = createAsyncThunk<
     LoginStateType,
     UserRegisterPostType,
@@ -167,7 +167,7 @@ const registerSlice = createSlice({
     },
 });
 
-//logout
+//!logout
 type logoutType = {
     message: null | string;
     error: null | ValidationError;
@@ -206,7 +206,13 @@ const logoutAction = createAsyncThunk<
 const logoutSlice = createSlice({
     name: "auth/logout",
     initialState: { ...logoutInitial },
-    reducers: {},
+    reducers: {
+        resetLogout(state) {
+            state.status = "idle";
+            state.error = null;
+            state.message = null;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(logoutAction.pending, (state) => {
             state.status = "loading";
@@ -237,5 +243,6 @@ export const logoutReducer = logoutSlice.reducer;
 //Actions
 const { resetLogin } = loginSlice.actions;
 const { resetRegister } = registerSlice.actions;
+const { resetLogout } = logoutSlice.actions;
 
-export { loginAction, registerAction, logoutAction };
+export { loginAction, registerAction, logoutAction, resetLogout };

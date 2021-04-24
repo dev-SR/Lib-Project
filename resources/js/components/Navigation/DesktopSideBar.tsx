@@ -22,7 +22,6 @@ const DesktopSideBar = () => {
     const isPath = (path: string): boolean => {
         return p === path;
     };
-    console.log(isPath(p));
 
     return (
         <div className=" flex flex-col w-full  space-y-3 ">
@@ -66,6 +65,7 @@ const DesktopSideBar = () => {
                         </div>
                     </Link>
                 </div>
+
                 <div className="">
                     <Link to="/report" className="nav-links">
                         <div className=" nav-icons ">
@@ -105,6 +105,26 @@ const DesktopSideBar = () => {
                             }`}
                         >
                             Departments
+                        </div>
+                    </Link>
+                </div>
+                <div className="">
+                    <Link to="/subjects" className="nav-links">
+                        <div className=" nav-icons ">
+                            <DashboardIcon
+                                fill={`${
+                                    isPath("/subjects") ? "#0D9488" : "#A1A1AA"
+                                }`}
+                            />
+                        </div>
+                        <div
+                            className={` font-medium text-sm ${
+                                isPath("/subjects")
+                                    ? "text-teal-600"
+                                    : "text-gray-600 "
+                            }`}
+                        >
+                            Subject
                         </div>
                     </Link>
                 </div>

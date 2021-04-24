@@ -8,7 +8,7 @@ type ListPrpps = {
     lists: Department[];
 };
 
-const ListDepartment: FC<ListPrpps> = ({ lists }) => {
+const ListSubject: FC<ListPrpps> = ({ lists }) => {
     const dispatch = useDispatch();
     const handleDelete = (id: number) => {
         dispatch(deleteDepartmentAction(id));
@@ -53,7 +53,7 @@ const ListDepartment: FC<ListPrpps> = ({ lists }) => {
                                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                         <div className="flex space-x-3">
                                                             <Link
-                                                                to={`/departments/${r.id}`}
+                                                                to={`/edit-category/${r.id}`}
                                                             >
                                                                 <EditIcon />
                                                             </Link>
@@ -84,4 +84,4 @@ const ListDepartment: FC<ListPrpps> = ({ lists }) => {
     );
 };
 
-export default ListDepartment;
+export default ListSubject;

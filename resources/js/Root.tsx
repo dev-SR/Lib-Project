@@ -12,6 +12,12 @@ const LazyListCategory = React.lazy(
 const LazyDepartment = React.lazy(
     () => import("./Pages/Admin/Department/DepartmentMain")
 );
+const LazyUpdateDepartment = React.lazy(
+    () => import("./Pages/Admin/Department/UpdateDepartment")
+);
+const LazySubject = React.lazy(
+    () => import("./Pages/Admin/Subject/SubjectMain")
+);
 
 import AdminRoute from "./components/AdminRoute";
 import NotFound from "./components/Shared/NotFound";
@@ -35,6 +41,16 @@ const App = () => {
                     </Suspense>
                 </AdminRoute>
                 <AdminRoute path="/departments" exact>
+                    <Suspense fallback={<Loading />}>
+                        <LazyDepartment />
+                    </Suspense>
+                </AdminRoute>
+                <AdminRoute path="/departments/:id" exact>
+                    <Suspense fallback={<Loading />}>
+                        <LazyUpdateDepartment />
+                    </Suspense>
+                </AdminRoute>
+                <AdminRoute path="/subjects" exact>
                     <Suspense fallback={<Loading />}>
                         <LazyDepartment />
                     </Suspense>

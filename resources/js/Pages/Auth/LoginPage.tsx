@@ -53,7 +53,10 @@ const Login: FC<{}> = () => {
 
     useEffect(() => {
         if (u.is_admin) {
-            history.push("/add-category");
+            history.push("/departments");
+        }
+        if (u.token && !u.is_admin) {
+            history.push("/");
         }
         if (u.error && u.error.message) {
             setOpen(true);

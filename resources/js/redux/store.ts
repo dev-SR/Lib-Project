@@ -15,6 +15,7 @@ import {
     registerAction,
     logoutAction,
     logoutReducer,
+    resetLogout,
 } from "./authReducer";
 
 import {
@@ -24,6 +25,8 @@ import {
     getDepartmentReducer,
     deleteDepartmentAction,
     deleteDepartmentReducer,
+    getOneDepartmentReducer,
+    getOneDepartmentAction,
 } from "./department";
 //Local Storage
 const userInfo = localStorage.getItem("UserInfo");
@@ -40,6 +43,7 @@ const store = configureStore({
         addDepartment: addDepartmentReducer,
         getDepartment: getDepartmentReducer,
         deleteDepartment: deleteDepartmentReducer,
+        getOneDepartment: getOneDepartmentReducer,
     },
     preloadedState,
 });
@@ -56,11 +60,13 @@ export const getCategorySelector = (s: RootState) => s.getCategory;
 //auth
 export const loginSelector = (s: RootState) => s.login;
 export const registerSelector = (s: RootState) => s.register;
+export const logoutSelector = (s: RootState) => s.logout.message;
 
 //department
 export const addDepartmentSelector = (s: RootState) => s.addDepartment;
 export const getDepartmentSelector = (s: RootState) => s.getDepartment;
 export const deleteDepartmentSelector = (s: RootState) => s.deleteDepartment;
+export const getOneDepartmentSelector = (s: RootState) => s.getOneDepartment;
 
 //Actions
 export {
@@ -72,4 +78,6 @@ export {
     addDepartmentAction,
     getDepartmentAction,
     deleteDepartmentAction,
+    getOneDepartmentAction,
+    resetLogout,
 };

@@ -24742,7 +24742,7 @@ var Department = function Department() {
   }), react_1["default"].createElement("div", {
     className: "flex flex-col"
   }, react_1["default"].createElement("div", {
-    className: "h-20 w-full flex justify-end items-center"
+    className: "h-20 w-full flex justify-center items-center"
   }, react_1["default"].createElement(formik_1.Formik, {
     initialValues: initialValues,
     onSubmit: submit,
@@ -24839,7 +24839,280 @@ var ListDepartment = function ListDepartment(_a) {
     className: "bg-white divide-y divide-gray-200",
     "x-max": "1"
   }, lists.map(function (r, i) {
-    return react_1["default"].createElement("tr", null, react_1["default"].createElement("td", {
+    return react_1["default"].createElement("tr", {
+      key: i
+    }, react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.department), react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+    }, react_1["default"].createElement("div", {
+      className: "flex space-x-3"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/departments/" + r.id
+    }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
+      className: "focus:outline-none",
+      onClick: function onClick() {
+        return handleDelete(r.id);
+      }
+    }, react_1["default"].createElement(svg_1.DeleteIcon, null)))));
+  })))))))));
+};
+
+exports.default = ListDepartment;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Admin/Department/UpdateDepartment.tsx":
+/*!******************************************************************!*\
+  !*** ./resources/js/Pages/Admin/Department/UpdateDepartment.tsx ***!
+  \******************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.validator = void 0;
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var formik_1 = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+var Formik_1 = __webpack_require__(/*! ../../../components/Formik */ "./resources/js/components/Formik/index.tsx");
+
+var Yup = __importStar(__webpack_require__(/*! yup */ "./node_modules/yup/es/index.js"));
+
+var SnackBar_1 = __importStar(__webpack_require__(/*! ../../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
+
+var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+
+var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
+
+var initialValues = {
+  department: ""
+};
+exports.validator = Yup.object({
+  department: Yup.string().min(2, "Minimum 2 character").required("Required")
+});
+
+var UpdateDepartment = function UpdateDepartment() {
+  var id = react_router_1.useParams().id;
+
+  var _a = react_1.useState(),
+      vals = _a[0],
+      setValues = _a[1];
+
+  var _b = react_1.useState(initialValues),
+      input = _b[0],
+      setInput = _b[1];
+
+  var _c = SnackBar_1.useSnackBar(),
+      open = _c.open,
+      setOpen = _c.setOpen,
+      handleClose = _c.handleClose,
+      setSeverity = _c.setSeverity,
+      severity = _c.severity,
+      message = _c.message,
+      setMessage = _c.setMessage;
+
+  var dispatch = react_redux_1.useDispatch();
+  var lists = store_1.useTypedSelector(store_1.getOneDepartmentSelector).lists;
+
+  var submit = function submit(values, _a) {
+    var setSubmitting = _a.setSubmitting,
+        resetForm = _a.resetForm; // dispatch(addDepartmentAction(values));
+
+    setSubmitting(true);
+    setTimeout(function () {
+      setSubmitting(false);
+    }, 500);
+    resetForm();
+  };
+
+  react_1.useEffect(function () {
+    dispatch(store_1.getOneDepartmentAction(id));
+  }, []);
+  react_1.useEffect(function () {
+    if (lists) {
+      setInput(__assign(__assign({}, input), {
+        department: lists.department
+      }));
+    }
+  }, [lists]);
+  return react_1["default"].createElement(AdminLayout_1["default"], {
+    title: "Update Department"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
+  }, react_1["default"].createElement("div", {
+    className: "text-md font-thin text-gray-700"
+  }, "Update Department"), react_1["default"].createElement(SnackBar_1["default"], {
+    open: open,
+    handleClose: handleClose,
+    severity: severity,
+    message: message
+  }), react_1["default"].createElement("div", {
+    className: "flex flex-col"
+  }, react_1["default"].createElement("div", {
+    className: "h-20 w-full flex justify-center items-center"
+  }, react_1["default"].createElement(formik_1.Formik, {
+    initialValues: input,
+    onSubmit: submit,
+    validationSchema: exports.validator,
+    enableReinitialize: true
+  }, function (_a) {
+    var isSubmitting = _a.isSubmitting,
+        errors = _a.errors,
+        values = _a.values;
+    return react_1["default"].createElement(formik_1.Form, {
+      className: "flex space-x-3 w-1/3",
+      autoComplete: "off"
+    }, react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "department",
+      type: "text",
+      placeholder: "Add Department",
+      id: "department"
+    }), react_1["default"].createElement("button", {
+      type: "submit",
+      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11",
+      disabled: isSubmitting || errors.department ? true : false
+    }, isSubmitting ? "Loading..." : "ADD"));
+  })))));
+};
+
+exports.default = UpdateDepartment;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Admin/Subject/ListSubject.tsx":
+/*!**********************************************************!*\
+  !*** ./resources/js/Pages/Admin/Subject/ListSubject.tsx ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var svg_1 = __webpack_require__(/*! ../../../utils/icons/svg */ "./resources/js/utils/icons/svg.tsx");
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
+
+var ListSubject = function ListSubject(_a) {
+  var lists = _a.lists;
+  var dispatch = react_redux_1.useDispatch();
+
+  var handleDelete = function handleDelete(id) {
+    dispatch(store_1.deleteDepartmentAction(id));
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "flex justify-center items-center h-full"
+  }, lists && react_1["default"].createElement("div", {
+    className: "w-7xl mx-auto sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col"
+  }, react_1["default"].createElement("div", {
+    className: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"
+  }, react_1["default"].createElement("div", {
+    className: "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+  }, react_1["default"].createElement("table", {
+    className: "min-w-full divide-y divide-gray-200"
+  }, react_1["default"].createElement("thead", {
+    className: "bg-gray-50"
+  }, react_1["default"].createElement("tr", null, react_1["default"].createElement("th", {
+    scope: "col",
+    className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+  }, "Cateory Name"), react_1["default"].createElement("th", {
+    scope: "col",
+    className: "relative px-6 py-3"
+  }, react_1["default"].createElement("span", {
+    className: "sr-only"
+  }, "Edit")))), react_1["default"].createElement("tbody", {
+    className: "bg-white divide-y divide-gray-200",
+    "x-max": "1"
+  }, lists.map(function (r, i) {
+    return react_1["default"].createElement("tr", {
+      key: i
+    }, react_1["default"].createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
     }, r.department), react_1["default"].createElement("td", {
       className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
@@ -24856,7 +25129,189 @@ var ListDepartment = function ListDepartment(_a) {
   })))))))));
 };
 
-exports.default = ListDepartment;
+exports.default = ListSubject;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Admin/Subject/SubjectMain.tsx":
+/*!**********************************************************!*\
+  !*** ./resources/js/Pages/Admin/Subject/SubjectMain.tsx ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Department = exports.validator = void 0;
+
+var formik_1 = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Formik_1 = __webpack_require__(/*! ../../../components/Formik */ "./resources/js/components/Formik/index.tsx");
+
+var Yup = __importStar(__webpack_require__(/*! yup */ "./node_modules/yup/es/index.js"));
+
+var SnackBar_1 = __importStar(__webpack_require__(/*! ../../../components/reuseable/SnackBar */ "./resources/js/components/reuseable/SnackBar.tsx"));
+
+var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
+
+var ListSubject_1 = __importDefault(__webpack_require__(/*! ./ListSubject */ "./resources/js/Pages/Admin/Subject/ListSubject.tsx"));
+
+var initialValues = {
+  department: ""
+};
+exports.validator = Yup.object({
+  department: Yup.string().min(2, "Minimum 2 character").required("Required")
+});
+
+var Department = function Department() {
+  var _a = SnackBar_1.useSnackBar(),
+      open = _a.open,
+      setOpen = _a.setOpen,
+      handleClose = _a.handleClose,
+      setSeverity = _a.setSeverity,
+      severity = _a.severity,
+      message = _a.message,
+      setMessage = _a.setMessage;
+
+  var dispatch = react_redux_1.useDispatch();
+
+  var _b = store_1.useTypedSelector(store_1.addDepartmentSelector),
+      success = _b.success,
+      success_message = _b.success_message,
+      errors = _b.errors;
+
+  var lists = store_1.useTypedSelector(store_1.getDepartmentSelector).lists;
+  var del = store_1.useTypedSelector(store_1.deleteDepartmentSelector);
+
+  var submit = function submit(values, _a) {
+    var setSubmitting = _a.setSubmitting,
+        resetForm = _a.resetForm;
+    dispatch(store_1.addDepartmentAction(values));
+    setSubmitting(true);
+    setTimeout(function () {
+      setSubmitting(false);
+    }, 500);
+    resetForm();
+  };
+
+  react_1.useEffect(function () {
+    dispatch(store_1.getDepartmentAction());
+  }, []);
+  react_1.useEffect(function () {
+    var _a;
+
+    if (success && success_message) {
+      setOpen(true);
+      setMessage(success_message + " Added");
+      setSeverity("success");
+    }
+
+    if (del.success && del.success_message) {
+      setOpen(true);
+      setMessage("" + del.success_message);
+      setSeverity("warning");
+    }
+
+    if (errors) {
+      setOpen(true);
+      setMessage("" + ((_a = errors.errors) === null || _a === void 0 ? void 0 : _a.fail_message));
+      setSeverity("error");
+    }
+
+    if (!lists) dispatch(store_1.getDepartmentAction());
+  }, [success, errors, lists, del.success, dispatch]);
+  return react_1["default"].createElement(AdminLayout_1["default"], {
+    title: "Department"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
+  }, react_1["default"].createElement("div", {
+    className: "text-md font-thin text-gray-700"
+  }, "Department"), react_1["default"].createElement(SnackBar_1["default"], {
+    open: open,
+    handleClose: handleClose,
+    severity: severity,
+    message: message
+  }), react_1["default"].createElement("div", {
+    className: "flex flex-col"
+  }, react_1["default"].createElement("div", {
+    className: "h-20 w-full flex justify-center items-center"
+  }, react_1["default"].createElement(formik_1.Formik, {
+    initialValues: initialValues,
+    onSubmit: submit,
+    validationSchema: exports.validator
+  }, function (_a) {
+    var isSubmitting = _a.isSubmitting,
+        errors = _a.errors,
+        values = _a.values;
+    return react_1["default"].createElement(formik_1.Form, {
+      className: "flex space-x-3 w-1/3",
+      autoComplete: "off"
+    }, react_1["default"].createElement(Formik_1.MyTextInput, {
+      name: "department",
+      type: "text",
+      placeholder: "Add Department",
+      id: "department"
+    }), react_1["default"].createElement("button", {
+      type: "submit",
+      className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-20 h-11",
+      disabled: isSubmitting || errors.department ? true : false
+    }, isSubmitting ? "Loading..." : "ADD"));
+  })), react_1["default"].createElement("div", null, lists && react_1["default"].createElement(ListSubject_1["default"], {
+    lists: lists
+  })))));
+};
+
+exports.Department = Department;
+exports.default = exports.Department;
 
 /***/ }),
 
@@ -24977,7 +25432,11 @@ var Login = function Login() {
 
   react_1.useEffect(function () {
     if (u.is_admin) {
-      history.push("/add-category");
+      history.push("/departments");
+    }
+
+    if (u.token && !u.is_admin) {
+      history.push("/");
     }
 
     if (u.error && u.error.message) {
@@ -25246,9 +25705,11 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
+var NavigationAdmin_1 = __importDefault(__webpack_require__(/*! ../components/Navigation/NavigationAdmin */ "./resources/js/components/Navigation/NavigationAdmin.tsx"));
+
 var Home = function Home() {
   console.log("object");
-  return react_1["default"].createElement("div", null, "Home");
+  return react_1["default"].createElement("div", null, react_1["default"].createElement(NavigationAdmin_1["default"], null));
 };
 
 exports.default = Home;
@@ -25331,6 +25792,16 @@ var LazyDepartment = react_1["default"].lazy(function () {
     return __importStar(__webpack_require__(/*! ./Pages/Admin/Department/DepartmentMain */ "./resources/js/Pages/Admin/Department/DepartmentMain.tsx"));
   });
 });
+var LazyUpdateDepartment = react_1["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return __importStar(__webpack_require__(/*! ./Pages/Admin/Department/UpdateDepartment */ "./resources/js/Pages/Admin/Department/UpdateDepartment.tsx"));
+  });
+});
+var LazySubject = react_1["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return __importStar(__webpack_require__(/*! ./Pages/Admin/Subject/SubjectMain */ "./resources/js/Pages/Admin/Subject/SubjectMain.tsx"));
+  });
+});
 
 var AdminRoute_1 = __importDefault(__webpack_require__(/*! ./components/AdminRoute */ "./resources/js/components/AdminRoute.tsx"));
 
@@ -25356,6 +25827,16 @@ var App = function App() {
     fallback: react_1["default"].createElement(Loading_1["default"], null)
   }, react_1["default"].createElement(LazyListCategory, null))), react_1["default"].createElement(AdminRoute_1["default"], {
     path: "/departments",
+    exact: true
+  }, react_1["default"].createElement(react_1.Suspense, {
+    fallback: react_1["default"].createElement(Loading_1["default"], null)
+  }, react_1["default"].createElement(LazyDepartment, null))), react_1["default"].createElement(AdminRoute_1["default"], {
+    path: "/departments/:id",
+    exact: true
+  }, react_1["default"].createElement(react_1.Suspense, {
+    fallback: react_1["default"].createElement(Loading_1["default"], null)
+  }, react_1["default"].createElement(LazyUpdateDepartment, null))), react_1["default"].createElement(AdminRoute_1["default"], {
+    path: "/subjects",
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
     fallback: react_1["default"].createElement(Loading_1["default"], null)
@@ -25616,7 +26097,6 @@ var DesktopSideBar = function DesktopSideBar() {
     return p === path;
   };
 
-  console.log(isPath(p));
   return react_1["default"].createElement("div", {
     className: " flex flex-col w-full  space-y-3 "
   }, react_1["default"].createElement("div", {
@@ -25671,6 +26151,17 @@ var DesktopSideBar = function DesktopSideBar() {
   })), react_1["default"].createElement("div", {
     className: " font-medium text-sm " + (isPath("/departments") ? "text-teal-600" : "text-gray-600 ")
   }, "Departments"))), react_1["default"].createElement("div", {
+    className: ""
+  }, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/subjects",
+    className: "nav-links"
+  }, react_1["default"].createElement("div", {
+    className: " nav-icons "
+  }, react_1["default"].createElement(svg_1.DashboardIcon, {
+    fill: "" + (isPath("/subjects") ? "#0D9488" : "#A1A1AA")
+  })), react_1["default"].createElement("div", {
+    className: " font-medium text-sm " + (isPath("/subjects") ? "text-teal-600" : "text-gray-600 ")
+  }, "Subject"))), react_1["default"].createElement("div", {
     className: "text-gray-400 font-medium pl-3 w-11/12 text-xs  pt-7 mb-2"
   }, "BOOKS"), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/add-books",
@@ -25744,31 +26235,69 @@ exports.default = DesktopSideBar;
 "use strict";
 
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
 };
 
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var svg_1 = __webpack_require__(/*! ../../utils/icons/svg */ "./resources/js/utils/icons/svg.tsx");
 
 var store_1 = __webpack_require__(/*! ../../redux/store */ "./resources/js/redux/store.ts");
 
+var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
 function Navigation() {
   var dispatch = react_redux_1.useDispatch();
+  var history = react_router_1.useHistory();
+  var message = store_1.useTypedSelector(store_1.logoutSelector);
 
   var logoutHandler = function logoutHandler() {
-    dispatch(store_1.logoutAction()); //reset login
+    dispatch(store_1.logoutAction());
   };
 
+  react_1.useEffect(function () {
+    if (message) {
+      dispatch(store_1.resetLogout());
+      history.push("/login");
+    }
+  }, [message]);
   return react_1["default"].createElement("div", {
     className: "bg-white h-12 w-full border-b flex-shrink-0 flex  items-center px-4 space-x-4  justify-end"
   }, react_1["default"].createElement("div", {
@@ -25814,7 +26343,7 @@ var DesktopSideBar_1 = __importDefault(__webpack_require__(/*! ../Navigation/Des
 
 var NavigationAdmin_1 = __importDefault(__webpack_require__(/*! ../Navigation/NavigationAdmin */ "./resources/js/components/Navigation/NavigationAdmin.tsx"));
 
-var Layout = function Layout(_a) {
+var AdminLayout = function AdminLayout(_a) {
   var title = _a.title,
       children = _a.children;
   return react_1["default"].createElement("div", {
@@ -25834,7 +26363,7 @@ var Layout = function Layout(_a) {
   }, react_1["default"].createElement(NavigationAdmin_1["default"], null), children)));
 };
 
-exports.default = Layout;
+exports.default = AdminLayout;
 
 /***/ }),
 
@@ -26377,7 +26906,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.logoutAction = exports.registerAction = exports.loginAction = exports.logoutReducer = exports.registerReducer = exports.loginReducer = exports.initialState = void 0;
+exports.resetLogout = exports.logoutAction = exports.registerAction = exports.loginAction = exports.logoutReducer = exports.registerReducer = exports.loginReducer = exports.initialState = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -26466,7 +26995,7 @@ var loginSlice = toolkit_1.createSlice({
       state.status = "idle";
     });
   }
-}); //Register
+}); //!Register
 
 var registerAction = toolkit_1.createAsyncThunk("auth/register", function (u, thunkApi) {
   return __awaiter(void 0, void 0, void 0, function () {
@@ -26598,7 +27127,13 @@ exports.logoutAction = logoutAction;
 var logoutSlice = toolkit_1.createSlice({
   name: "auth/logout",
   initialState: __assign({}, logoutInitial),
-  reducers: {},
+  reducers: {
+    resetLogout: function resetLogout(state) {
+      state.status = "idle";
+      state.error = null;
+      state.message = null;
+    }
+  },
   extraReducers: function extraReducers(builder) {
     builder.addCase(logoutAction.pending, function (state) {
       state.status = "loading";
@@ -26630,6 +27165,8 @@ exports.logoutReducer = logoutSlice.reducer; //Actions
 
 var resetLogin = loginSlice.actions.resetLogin;
 var resetRegister = registerSlice.actions.resetRegister;
+var resetLogout = logoutSlice.actions.resetLogout;
+exports.resetLogout = resetLogout;
 
 /***/ }),
 
@@ -26861,7 +27398,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.deleteDepartmentReducer = exports.getDepartmentReducer = exports.addDepartmentReducer = void 0;
+exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.deleteDepartmentReducer = exports.getOneDepartmentReducer = exports.getDepartmentReducer = exports.addDepartmentReducer = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -26872,7 +27409,7 @@ var addInitialState = {
   success: false,
   errors: null,
   status: "idle"
-}; //Adding New Department
+}; //!Adding New Department
 
 var addDepartmentAction = toolkit_1.createAsyncThunk("department/add", function (s, thunkApi) {
   return __awaiter(void 0, void 0, void 0, function () {
@@ -26949,7 +27486,8 @@ var getInitialState = {
   lists: [],
   errors: null,
   status: "idle"
-};
+}; //actions
+
 var getDepartmentAction = toolkit_1.createAsyncThunk("department/get", function (_, thunkApi) {
   return __awaiter(void 0, void 0, void 0, function () {
     var data, error_2, message;
@@ -26985,7 +27523,8 @@ var getDepartmentAction = toolkit_1.createAsyncThunk("department/get", function 
     });
   });
 });
-exports.getDepartmentAction = getDepartmentAction;
+exports.getDepartmentAction = getDepartmentAction; //reducer
+
 var getDepartmentSlice = toolkit_1.createSlice({
   name: "department/get",
   initialState: __assign({}, getInitialState),
@@ -27016,13 +27555,13 @@ var getDepartmentSlice = toolkit_1.createSlice({
     });
   }
 });
-var deleteInitialState = {
-  success: false,
-  success_message: null,
+var getOneInitialState = {
+  lists: null,
   errors: null,
   status: "idle"
-};
-var deleteDepartmentAction = toolkit_1.createAsyncThunk("department/delete", function (id, thunkApi) {
+}; //action
+
+var getOneDepartmentAction = toolkit_1.createAsyncThunk("department/getone", function (id, thunkApi) {
   return __awaiter(void 0, void 0, void 0, function () {
     var data, error_3, message;
     return __generator(this, function (_a) {
@@ -27030,10 +27569,10 @@ var deleteDepartmentAction = toolkit_1.createAsyncThunk("department/delete", fun
         case 0:
           _a.trys.push([0, 2,, 3]);
 
-          thunkApi.dispatch(resetGetDepartment());
+          thunkApi.dispatch(resetGetOneDepartment());
           return [4
           /*yield*/
-          , axios_config_1["default"]["delete"]("/department/" + id)];
+          , axios_config_1["default"].get("/department/" + id)];
 
         case 1:
           data = _a.sent().data;
@@ -27056,7 +27595,80 @@ var deleteDepartmentAction = toolkit_1.createAsyncThunk("department/delete", fun
     });
   });
 });
-exports.deleteDepartmentAction = deleteDepartmentAction;
+exports.getOneDepartmentAction = getOneDepartmentAction;
+var getOneDepartmentSlice = toolkit_1.createSlice({
+  name: "department/getone",
+  initialState: __assign({}, getOneInitialState),
+  reducers: {
+    resetGetOneDepartment: function resetGetOneDepartment(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.lists = null;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(getOneDepartmentAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.lists = null;
+    });
+    builder.addCase(getOneDepartmentAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.lists = payload.lists;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(getOneDepartmentAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.lists = null;
+    });
+  }
+});
+var deleteInitialState = {
+  success: false,
+  success_message: null,
+  errors: null,
+  status: "idle"
+}; //actions
+
+var deleteDepartmentAction = toolkit_1.createAsyncThunk("department/delete", function (id, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_4, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(resetGetDepartment());
+          return [4
+          /*yield*/
+          , axios_config_1["default"]["delete"]("/department/" + id)];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_4 = _a.sent();
+          message = error_4.response && error_4.response.data ? error_4.response.data : error_4.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.deleteDepartmentAction = deleteDepartmentAction; //reducers
+
 var deleteDepartmentSlice = toolkit_1.createSlice({
   name: "department/delete",
   initialState: __assign({}, deleteInitialState),
@@ -27095,6 +27707,8 @@ exports.addDepartmentReducer = addDepartmentSlice.reducer;
 var resetAddDepartment = addDepartmentSlice.actions.resetAddDepartment;
 exports.getDepartmentReducer = getDepartmentSlice.reducer;
 var resetGetDepartment = getDepartmentSlice.actions.resetGetDepartment;
+exports.getOneDepartmentReducer = getOneDepartmentSlice.reducer;
+var resetGetOneDepartment = getOneDepartmentSlice.actions.resetGetOneDepartment;
 exports.deleteDepartmentReducer = deleteDepartmentSlice.reducer;
 var resetDeleteDepartment = deleteDepartmentSlice.actions.resetDeleteDepartment;
 
@@ -27112,7 +27726,7 @@ var resetDeleteDepartment = deleteDepartmentSlice.actions.resetDeleteDepartment;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
+exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -27153,6 +27767,12 @@ Object.defineProperty(exports, "logoutAction", ({
     return authReducer_1.logoutAction;
   }
 }));
+Object.defineProperty(exports, "resetLogout", ({
+  enumerable: true,
+  get: function get() {
+    return authReducer_1.resetLogout;
+  }
+}));
 
 var department_1 = __webpack_require__(/*! ./department */ "./resources/js/redux/department.ts");
 
@@ -27173,6 +27793,12 @@ Object.defineProperty(exports, "deleteDepartmentAction", ({
   get: function get() {
     return department_1.deleteDepartmentAction;
   }
+}));
+Object.defineProperty(exports, "getOneDepartmentAction", ({
+  enumerable: true,
+  get: function get() {
+    return department_1.getOneDepartmentAction;
+  }
 })); //Local Storage
 
 var userInfo = localStorage.getItem("UserInfo");
@@ -27188,7 +27814,8 @@ var store = toolkit_1.configureStore({
     logout: authReducer_1.logoutReducer,
     addDepartment: department_1.addDepartmentReducer,
     getDepartment: department_1.getDepartmentReducer,
-    deleteDepartment: department_1.deleteDepartmentReducer
+    deleteDepartment: department_1.deleteDepartmentReducer,
+    getOneDepartment: department_1.getOneDepartmentReducer
   },
   preloadedState: preloadedState
 });
@@ -27218,7 +27845,13 @@ var registerSelector = function registerSelector(s) {
   return s.register;
 };
 
-exports.registerSelector = registerSelector; //department
+exports.registerSelector = registerSelector;
+
+var logoutSelector = function logoutSelector(s) {
+  return s.logout.message;
+};
+
+exports.logoutSelector = logoutSelector; //department
 
 var addDepartmentSelector = function addDepartmentSelector(s) {
   return s.addDepartment;
@@ -27237,6 +27870,12 @@ var deleteDepartmentSelector = function deleteDepartmentSelector(s) {
 };
 
 exports.deleteDepartmentSelector = deleteDepartmentSelector;
+
+var getOneDepartmentSelector = function getOneDepartmentSelector(s) {
+  return s.getOneDepartment;
+};
+
+exports.getOneDepartmentSelector = getOneDepartmentSelector;
 
 /***/ }),
 

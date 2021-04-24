@@ -76,7 +76,7 @@ class DepartmentController extends Controller
             'id' => $cat->id
         ];
 
-        return ['success' => true, 'cat' => $res];
+        return ['success' => true, 'lists' => $res];
     }
 
     /**

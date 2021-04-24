@@ -5,7 +5,7 @@ import Navigation from "../Navigation/NavigationAdmin";
 type LayoutProps = {
     title: string;
 };
-const Layout: React.FC<LayoutProps> = ({ title, children }) => {
+const AdminLayout: React.FC<LayoutProps> = ({ title, children }) => {
     return (
         <div className="bg-teal-100">
             <SEO title={title} />
@@ -25,4 +25,4 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
     );
 };
 
-export default Layout;
+export default AdminLayout;

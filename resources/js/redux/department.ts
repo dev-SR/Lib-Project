@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Api from "./axios_config";
 import { Department } from "./../types/typeDef";
 type ValidationError = {
@@ -24,7 +24,7 @@ const addInitialState: AddDepartmentState = {
 type DepartmentInput = {
     department: string;
 };
-//Adding New Department
+//!Adding New Department
 const addDepartmentAction = createAsyncThunk<
     AddDepartmentState,
     DepartmentInput,
@@ -95,7 +95,7 @@ const getInitialState: GetDepartmentState = {
     errors: null,
     status: "idle",
 };
-
+//actions
 const getDepartmentAction = createAsyncThunk<
     GetDepartmentState,
     void,
@@ -118,7 +118,7 @@ const getDepartmentAction = createAsyncThunk<
         }
     }
 );
-
+//reducer
 const getDepartmentSlice = createSlice({
     name: "department/get",
     initialState: { ...getInitialState },
@@ -148,7 +148,80 @@ const getDepartmentSlice = createSlice({
     },
 });
 
-//DELETE DEPARTMENT
+//!Get Single Department
+type GetOneDepartmentState = {
+    lists: Department | null;
+    errors: null | ValidationError;
+    status: "idle" | "loading";
+};
+
+const getOneInitialState: GetOneDepartmentState = {
+    lists: null,
+    errors: null,
+    status: "idle",
+};
+//action
+
+const getOneDepartmentAction = createAsyncThunk<
+    GetOneDepartmentState,
+    string,
+    { rejectValue: ValidationError }
+>(
+    "department/getone",
+
+    async (id: string, thunkApi) => {
+        try {
+            thunkApi.dispatch(resetGetOneDepartment());
+            // thunkApi.dispatch(resetGetDepartment());
+
+            const { data } = await Api.get(`/department/${id}`);
+            return data;
+        } catch (error) {
+            const message =
+                error.response && error.response.data
+                    ? error.response.data
+                    : error.message;
+            return thunkApi.rejectWithValue(message);
+        }
+    }
+);
+
+const getOneDepartmentSlice = createSlice({
+    name: "department/getone",
+    initialState: { ...getOneInitialState },
+    reducers: {
+        resetGetOneDepartment(state) {
+            state.status = "idle";
+            state.errors = null;
+            state.lists = null;
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getOneDepartmentAction.pending, (state) => {
+            state.status = "loading";
+            state.errors = null;
+            state.lists = null;
+        });
+        builder.addCase(
+            getOneDepartmentAction.fulfilled,
+            (state, { payload }) => {
+                state.lists = payload.lists;
+                state.status = "idle";
+                state.errors = null;
+            }
+        );
+        builder.addCase(
+            getOneDepartmentAction.rejected,
+            (state, { payload }) => {
+                if (payload) state.errors = payload;
+                state.status = "idle";
+                state.lists = null;
+            }
+        );
+    },
+});
+
+//!DELETE DEPARTMENT
 interface DeleteDepartmentState extends AddDepartmentState {}
 
 const deleteInitialState: DeleteDepartmentState = {
@@ -157,7 +230,7 @@ const deleteInitialState: DeleteDepartmentState = {
     errors: null,
     status: "idle",
 };
-
+//actions
 const deleteDepartmentAction = createAsyncThunk<
     DeleteDepartmentState,
     number,
@@ -179,7 +252,7 @@ const deleteDepartmentAction = createAsyncThunk<
         }
     }
 );
-
+//reducers
 const deleteDepartmentSlice = createSlice({
     name: "department/delete",
     initialState: { ...deleteInitialState },
@@ -225,7 +298,15 @@ const { resetAddDepartment } = addDepartmentSlice.actions;
 export const getDepartmentReducer = getDepartmentSlice.reducer;
 const { resetGetDepartment } = getDepartmentSlice.actions;
 
+export const getOneDepartmentReducer = getOneDepartmentSlice.reducer;
+const { resetGetOneDepartment } = getOneDepartmentSlice.actions;
+
 export const deleteDepartmentReducer = deleteDepartmentSlice.reducer;
 const { resetDeleteDepartment } = deleteDepartmentSlice.actions;
 
-export { addDepartmentAction, getDepartmentAction, deleteDepartmentAction };
+export {
+    addDepartmentAction,
+    getDepartmentAction,
+    deleteDepartmentAction,
+    getOneDepartmentAction,
+};

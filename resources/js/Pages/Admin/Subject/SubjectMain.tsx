@@ -15,7 +15,7 @@ import {
 import { useDispatch } from "react-redux";
 import AdminLayout from "../../../components/Shared/AdminLayout";
 
-import ListDepartment from "./ListDepartment";
+import ListSubject from "./ListSubject";
 
 type Values = {
     department: string;
@@ -125,7 +125,7 @@ export const Department = () => {
                             )}
                         </Formik>
                     </div>
-                    <div>{lists && <ListDepartment lists={lists} />}</div>
+                    <div>{lists && <ListSubject lists={lists} />}</div>
                 </div>
             </div>
         </AdminLayout>
