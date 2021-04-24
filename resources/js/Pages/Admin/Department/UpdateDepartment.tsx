@@ -14,6 +14,7 @@ import {
     updateDepartmentSelector,
     updateDepartmentAction,
     useTypedSelector,
+    resetGetOneDepartment,
 } from "../../../redux/store";
 
 type Values = {

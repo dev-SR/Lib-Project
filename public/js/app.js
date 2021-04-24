@@ -27421,7 +27421,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.updateDepartmentAction = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.updateDepartmentReducer = exports.deleteDepartmentReducer = exports.getOneDepartmentReducer = exports.getDepartmentReducer = exports.addDepartmentReducer = void 0;
+exports.updateDepartmentAction = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.updateDepartmentReducer = exports.deleteDepartmentReducer = exports.resetGetOneDepartment = exports.getOneDepartmentReducer = exports.getDepartmentReducer = exports.addDepartmentReducer = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -27593,7 +27593,6 @@ var getOneDepartmentAction = toolkit_1.createAsyncThunk("department/getone", fun
         case 0:
           _a.trys.push([0, 2,, 3]);
 
-          thunkApi.dispatch(resetGetOneDepartment());
           return [4
           /*yield*/
           , axios_config_1["default"].get("/department/" + id)];
@@ -27741,8 +27740,6 @@ var updateDepartmentAction = toolkit_1.createAsyncThunk("department/update", fun
         case 0:
           _a.trys.push([0, 2,, 3]);
 
-          thunkApi.dispatch(resetGetDepartment());
-          thunkApi.dispatch(resetGetDepartment());
           return [4
           /*yield*/
           , axios_config_1["default"].put("/department/" + d.id, {
@@ -27811,7 +27808,7 @@ var resetAddDepartment = addDepartmentSlice.actions.resetAddDepartment;
 exports.getDepartmentReducer = getDepartmentSlice.reducer;
 var resetGetDepartment = getDepartmentSlice.actions.resetGetDepartment;
 exports.getOneDepartmentReducer = getOneDepartmentSlice.reducer;
-var resetGetOneDepartment = getOneDepartmentSlice.actions.resetGetOneDepartment;
+exports.resetGetOneDepartment = getOneDepartmentSlice.actions.resetGetOneDepartment;
 exports.deleteDepartmentReducer = deleteDepartmentSlice.reducer;
 var resetDeleteDepartment = deleteDepartmentSlice.actions.resetDeleteDepartment;
 exports.updateDepartmentReducer = updateDepartmentSlice.reducer;
@@ -27831,7 +27828,7 @@ var resetUpdateDepartment = updateDepartmentSlice.actions.resetUpdateDepartment;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
+exports.resetGetOneDepartment = exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -27909,6 +27906,12 @@ Object.defineProperty(exports, "updateDepartmentAction", ({
   enumerable: true,
   get: function get() {
     return department_1.updateDepartmentAction;
+  }
+}));
+Object.defineProperty(exports, "resetGetOneDepartment", ({
+  enumerable: true,
+  get: function get() {
+    return department_1.resetGetOneDepartment;
   }
 })); //Local Storage
 

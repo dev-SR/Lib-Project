@@ -173,9 +173,6 @@ const getOneDepartmentAction = createAsyncThunk<
 
     async (id: string, thunkApi) => {
         try {
-            thunkApi.dispatch(resetGetOneDepartment());
-            // thunkApi.dispatch(resetGetDepartment());
-
             const { data } = await Api.get(`/department/${id}`);
             return data;
         } catch (error) {
@@ -317,9 +314,6 @@ const updateDepartmentAction = createAsyncThunk<
 
     async (d: UpdateDepartment, thunkApi) => {
         try {
-            thunkApi.dispatch(resetGetDepartment());
-            thunkApi.dispatch(resetGetDepartment());
-
             const { data } = await Api.put(`/department/${d.id}`, {
                 department: d.department,
             });
@@ -380,7 +374,7 @@ export const getDepartmentReducer = getDepartmentSlice.reducer;
 const { resetGetDepartment } = getDepartmentSlice.actions;
 
 export const getOneDepartmentReducer = getOneDepartmentSlice.reducer;
-const { resetGetOneDepartment } = getOneDepartmentSlice.actions;
+export const { resetGetOneDepartment } = getOneDepartmentSlice.actions;
 
 export const deleteDepartmentReducer = deleteDepartmentSlice.reducer;
 const { resetDeleteDepartment } = deleteDepartmentSlice.actions;

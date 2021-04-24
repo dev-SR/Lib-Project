@@ -28,6 +28,7 @@ import {
     getOneDepartmentReducer,
     getOneDepartmentAction,
     updateDepartmentAction,
+    resetGetOneDepartment,
     updateDepartmentReducer,
 } from "./department";
 //Local Storage
@@ -85,4 +86,5 @@ export {
     getOneDepartmentAction,
     resetLogout,
     updateDepartmentAction,
+    resetGetOneDepartment,
 };
