@@ -48,6 +48,11 @@ import {
     getBookReducer,
     deleteBookReducer,
     deleteBookAction,
+    getSingleBookAction,
+    getSingleBookReducer,
+    resetSingleGetBook,
+    updateBookAction,
+    updateBookReducer,
 } from "./books";
 //Local Storage
 const userInfo = localStorage.getItem("UserInfo");
@@ -72,6 +77,8 @@ const store = configureStore({
         addBook: addBookReducer,
         getBooks: getBookReducer,
         deleteBook: deleteBookReducer,
+        getSingleBook: getSingleBookReducer,
+        updateBook: updateBookReducer,
     },
     preloadedState,
 });
@@ -103,6 +110,9 @@ export const updateSubjectSelector = (s: RootState) => s.updateSubject;
 //BOOK
 export const addBookSelector = (s: RootState) => s.addBook;
 export const getBookSelector = (s: RootState) => s.getBooks;
+export const deleteBookSelector = (s: RootState) => s.deleteBook;
+export const getSingleBookSelector = (s: RootState) => s.getSingleBook;
+export const updateBookSelector = (s: RootState) => s.updateBook;
 
 //Actions
 export {
@@ -126,4 +136,7 @@ export {
     getBookAction,
     resetGetBook,
     deleteBookAction,
+    getSingleBookAction,
+    resetSingleGetBook,
+    updateBookAction,
 };

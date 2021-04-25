@@ -19,7 +19,7 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('book_id')->unique();
-            $table->string('title')->unique();
+            $table->string('title');
             $table->string('img')->nullable();
             $table->string('isbn');
             $table->string('publisher');

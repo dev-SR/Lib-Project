@@ -34,7 +34,7 @@ class BookController extends Controller
         //
         $f =  $req->validate([
             'book_id' => 'required|unique:books,book_id',
-            'title' => 'required|string|unique:books,title',
+            'title' => 'required|string',
             'isbn' => 'required|min:2',
             'publisher' => 'required|string|min:2',
             'authors' => 'required|string|min:2',
@@ -81,7 +81,8 @@ class BookController extends Controller
     public function show($id)
     {
         //
-        $b = Book::find($id);
+
+        $b = Book::where('book_id', '=', $id)->first();
         if (!$b) {
             return ['success' => false, 'fail_message' => 'This Book do not exits'];
         }
@@ -98,11 +99,11 @@ class BookController extends Controller
             'copies' => $b->copies,
             'edition' => $b->edition,
             'shelf_no' => $b->shelf_no,
-            'subject' => Book::find($id)->subject->subject,
-            'department' => Book::find($id)->department->department
+            'subject' => Book::where('book_id', '=', $id)->first()->subject->subject,
+            'department' => Book::where('book_id', '=', $id)->first()->department->department
         ];
 
-        return ['success' => true, 'cat' => $res];
+        return ['success' => true, 'lists' => $res];
     }
 
     /**
@@ -116,25 +117,34 @@ class BookController extends Controller
     {
         //
         $f =  $req->validate([
-
-            'book_id' => 'required|min:2',
-            'title' => 'required|string|min:5',
+            'book_id' => 'required',
+            'title' => 'required|min:2',
             'isbn' => 'required|min:2',
             'publisher' => 'required|string|min:2',
             'authors' => 'required|string|min:2',
-            'price' => 'required|min:2',
-            'pages' => 'required|min:2',
+            'price' => 'required',
+            'pages' => 'required',
             'copies' => 'required',
-            'shelf_no' => 'required',
-            'subject_id' => 'required',
             'edition' => 'required',
-            'department_id' => 'required'
-        ]);
-        $b = Book::find($id);
+            'shelf_no' => 'required',
+            'subject' => 'required',
+            'department' => 'required'
 
+        ]);
+        $b = Book::where('book_id', '=', $id)->first();
         if (!$b) {
-            return ['success' => false, 'fail_message' => 'This Book do not exits'];
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => ['Cant Change Book ID']
+                    ]
+                ],
+                503
+            );
         }
+        $sub = Subject::where('subject', '=', $f['subject'])->first();
+
+
         $b->update([
             'img' => $req->img,
             'book_id' => $f['book_id'],
@@ -145,10 +155,10 @@ class BookController extends Controller
             'price' => $f['price'],
             'pages' => $f['pages'],
             'copies' => $f['copies'],
-            'shelf_no' => $f['shelf_no'],
             'edition' => $f['edition'],
-            'subject_id' => $f['subject_id'],
-            'department_id' => $f['department_id']
+            'shelf_no' => $f['shelf_no'],
+            'subject_id' => $sub->id,
+            'department_id' => $sub->department_id
         ]);
 
         return ['success' => true, 'success_message' => 'Updated'];

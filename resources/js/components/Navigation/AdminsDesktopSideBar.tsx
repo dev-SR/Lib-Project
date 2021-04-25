@@ -143,7 +143,7 @@ const DesktopSideBar = () => {
                         </div>
                         <div
                             className={` font-medium text-sm ${
-                                isPath("/add-books")
+                                isPath("/books")
                                     ? "text-teal-600"
                                     : "text-gray-600 "
                             }`}
@@ -158,7 +158,7 @@ const DesktopSideBar = () => {
                         <div className="nav-icons ">
                             <CollectionIcon
                                 fill={`${
-                                    isPath("//list-books")
+                                    isPath("/books-lists")
                                         ? "#0D9488"
                                         : "#A1A1AA"
                                 }`}
@@ -166,7 +166,7 @@ const DesktopSideBar = () => {
                         </div>
                         <div
                             className={` font-medium text-sm ${
-                                isPath("/list-books")
+                                isPath("/books-lists")
                                     ? "text-teal-600"
                                     : "text-gray-600 "
                             }`}

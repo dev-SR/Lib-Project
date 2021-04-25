@@ -26,7 +26,7 @@ export default function Navigation() {
     }, [message]);
     return (
         <div className="bg-white h-12 w-full border-b flex-shrink-0 flex  items-center px-4 space-x-4  justify-end">
-            <div className="w-60 flex justify-center">
+            {/* <div className="w-60 flex justify-center">
                 <input
                     type="text"
                     placeholder="search..."
@@ -34,7 +34,7 @@ export default function Navigation() {
                     focus:border-gray-500
                     focus:ring-gray-700 w-40 rounded-md focus:w-60 placeholder-gray-300 transition ease-in-out"
                 />
-            </div>
+            </div> */}
             <div>
                 <button
                     className="h-8 w-8  bg-gray-200 flex justify-center items-center rounded-full focus:outline-none hover:bg-gray-300 shadow"
