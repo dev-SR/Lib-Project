@@ -39,7 +39,16 @@ import {
     updateSubjectReducer,
 } from "./subject";
 
-import { addBookAction, addBookReducer, resetAddBook } from "./books";
+import {
+    addBookAction,
+    addBookReducer,
+    resetAddBook,
+    getBookAction,
+    resetGetBook,
+    getBookReducer,
+    deleteBookReducer,
+    deleteBookAction,
+} from "./books";
 //Local Storage
 const userInfo = localStorage.getItem("UserInfo");
 const preloadedState = {
@@ -61,6 +70,8 @@ const store = configureStore({
         getOneSubject: getOneSubjectReducer,
         updateSubject: updateSubjectReducer,
         addBook: addBookReducer,
+        getBooks: getBookReducer,
+        deleteBook: deleteBookReducer,
     },
     preloadedState,
 });
@@ -91,6 +102,7 @@ export const updateSubjectSelector = (s: RootState) => s.updateSubject;
 
 //BOOK
 export const addBookSelector = (s: RootState) => s.addBook;
+export const getBookSelector = (s: RootState) => s.getBooks;
 
 //Actions
 export {
@@ -111,4 +123,7 @@ export {
     updateSubjectAction,
     addBookAction,
     resetAddBook,
+    getBookAction,
+    resetGetBook,
+    deleteBookAction,
 };

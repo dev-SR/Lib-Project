@@ -9,6 +9,7 @@
 
 .navscroll::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 .navscroll::-webkit-scrollbar-track {
@@ -20,6 +21,7 @@
 }
 .mainscroll::-webkit-scrollbar {
     width: 7px;
+    height: 10px;
 }
 
 .mainscroll::-webkit-scrollbar-track {

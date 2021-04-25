@@ -24939,12 +24939,14 @@ var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/
 
 var Pagination_1 = __webpack_require__(/*! ../../../components/reuseable/Pagination */ "./resources/js/components/reuseable/Pagination.tsx");
 
-var Header = function Header(_a) {
-  var headLists = _a.headLists;
+var books_1 = __webpack_require__(/*! ../../../redux/books */ "./resources/js/redux/books.ts");
+
+var Header = function Header() {
+  var headLists = ["book_id", "title", "img", "authors", "copies", "course", "department", "edition", "pages", "price", "self no", "publisher", "isbn"];
   return react_1["default"].createElement(react_1["default"].Fragment, null, headLists.map(function (h, i) {
     return react_1["default"].createElement("th", {
       scope: "col",
-      className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+      className: "px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
       key: i
     }, h);
   }));
@@ -24955,18 +24957,42 @@ var Rows = function Rows(_a) {
   var dispatch = react_redux_1.useDispatch();
 
   var handleDelete = function handleDelete(id) {
-    dispatch(store_1.deleteDepartmentAction(id));
+    dispatch(books_1.deleteBookAction(id));
   };
 
   return react_1["default"].createElement(react_1["default"].Fragment, null, rowLists.map(function (r, i) {
     return react_1["default"].createElement("tr", {
       key: i
     }, react_1["default"].createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+      className: "px-4 py-4 w-40 text-sm text-gray-500"
     }, r.book_id), react_1["default"].createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+      className: "px-4 py-4 whitespace-nowrap  text-sm text-gray-500  w-40 overflow-x-hidden"
     }, r.title), react_1["default"].createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+      className: "px-2 py-2 text-sm text-gray-500"
+    }, react_1["default"].createElement("img", {
+      src: r.img,
+      alt: r.title,
+      className: "w-16 h-16 object-contain"
+    })), react_1["default"].createElement("td", {
+      className: "px-4 py-4 w-40 whitespace-nowrap text-sm text-gray-500"
+    }, r.authors), react_1["default"].createElement("td", {
+      className: "px-4 py-4 w-40  text-sm " + (r.copies <= 5 ? "text-red-500" : "text-gray-500")
+    }, r.copies), react_1["default"].createElement("td", {
+      className: "px-4 py-4 whitespace-nowrap  text-sm text-gray-500"
+    }, r.subject && r.subject.subject), react_1["default"].createElement("td", {
+      className: "px-4 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.department && r.department.department), react_1["default"].createElement("td", {
+      className: "px-4 py-4 w-20  text-sm text-gray-500"
+    }, r.edition), react_1["default"].createElement("td", {
+      className: "px-4 py-4 w-20  text-sm text-gray-500"
+    }, r.pages), react_1["default"].createElement("td", {
+      className: "px-4 py-4 w-20  text-sm text-gray-500"
+    }, "$", r.price), react_1["default"].createElement("td", {
+      className: "px-4 py-4 w-20 text-sm text-gray-500"
+    }, r.shelf_no), react_1["default"].createElement("td", {
+      className: "px-4 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.isbn), react_1["default"].createElement("td", {
+      className: "px-4 py-4 whitespace-nowrap text-right text-sm font-medium"
     }, react_1["default"].createElement("div", {
       className: "flex space-x-3"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
@@ -24974,66 +25000,59 @@ var Rows = function Rows(_a) {
     }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
       className: "focus:outline-none",
       onClick: function onClick() {
-        return handleDelete(r.book_id);
+        return handleDelete(r.id);
       }
     }, react_1["default"].createElement(svg_1.DeleteIcon, null)))));
   }));
 };
 
 var ListBooks = function ListBooks() {
-  var lists = [{
-    department: "",
-    id: 0
-  }];
+  // const [lists,UpdateList] = useState();
+  var lists = store_1.useTypedSelector(store_1.getBookSelector).lists;
 
-  var _a = Pagination_1.useMuiPagination(5),
+  var _a = Pagination_1.useMuiPagination(),
       page = _a.page,
-      MuiPagination = _a.MuiPagination;
+      MuiPagination = _a.MuiPagination,
+      setPageCount = _a.setPageCount;
 
+  var dispatch = react_redux_1.useDispatch();
   react_1.useEffect(function () {
-    console.log(page);
+    dispatch(store_1.getBookAction(page));
   }, [page]);
+  react_1.useEffect(function () {
+    if (!lists) dispatch(store_1.getBookAction(page));
+
+    if (lists) {
+      var total = lists.total;
+      var count = total / 4;
+      setPageCount(count);
+    }
+  }, [lists]);
   return react_1["default"].createElement(AdminLayout_1["default"], {
     title: "Update Subject"
   }, react_1["default"].createElement("div", {
-    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
+    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto  p-4 overflow-x-hidden"
   }, react_1["default"].createElement("div", {
     className: "text-md font-thin text-gray-700"
-  }, "Books List"), react_1["default"].createElement("div", {
-    className: "flex items-center h-full flex-col"
-  }, lists && react_1["default"].createElement("div", {
-    className: "w-7xl mx-auto sm:px-6 lg:px-8"
-  }, react_1["default"].createElement("div", {
-    className: "flex flex-col"
-  }, react_1["default"].createElement("div", {
-    className: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"
-  }, react_1["default"].createElement("div", {
-    className: "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
-  }, react_1["default"].createElement("div", {
-    className: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+  }, "Books List"), lists && react_1["default"].createElement("div", {
+    className: "overflow-auto mainscroll flex flex-col shadow border-b border-gray-200 pb-4 mt-4"
   }, react_1["default"].createElement("table", {
     className: "min-w-full divide-y divide-gray-200"
   }, react_1["default"].createElement("thead", {
     className: "bg-gray-50"
-  }, react_1["default"].createElement("tr", null, react_1["default"].createElement(Header, {
-    headLists: ["title", "author"]
-  }), react_1["default"].createElement("th", {
+  }, react_1["default"].createElement("tr", null, react_1["default"].createElement(Header, null), react_1["default"].createElement("th", {
     scope: "col",
-    className: "relative px-6 py-3"
+    className: "relative px-4 py-3"
   }, react_1["default"].createElement("span", {
     className: "sr-only"
   }, "Edit")))), react_1["default"].createElement("tbody", {
     className: "bg-white divide-y divide-gray-200",
     "x-max": "1"
   }, react_1["default"].createElement(Rows, {
-    rowLists: [{
-      book_id: 1,
-      title: "How to code"
-    }, {
-      book_id: 1,
-      title: "How to code"
-    }]
-  })))))))), react_1["default"].createElement(MuiPagination, null))));
+    rowLists: lists.data
+  })))), react_1["default"].createElement("div", {
+    className: "flex mr-10 justify-end "
+  }, react_1["default"].createElement(MuiPagination, null))));
 };
 
 exports.default = ListBooks;
@@ -27235,6 +27254,40 @@ exports.default = Loading;
 "use strict";
 
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -27246,19 +27299,23 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.useMuiPagination = void 0;
 
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var Pagination_1 = __importDefault(__webpack_require__(/*! @material-ui/lab/Pagination */ "./node_modules/@material-ui/lab/esm/Pagination/index.js"));
 
-var useMuiPagination = function useMuiPagination(count) {
+var useMuiPagination = function useMuiPagination() {
   /**
    *    offset = (page-1)*limit
    */
   // page ~ (offset/limit)+1
   // postsPerPage ~ limit
-  var _a = react_1["default"].useState(1),
-      page = _a[0],
-      setPage = _a[1];
+  var _a = react_1.useState(2),
+      pageCount = _a[0],
+      setPageCount = _a[1];
+
+  var _b = react_1["default"].useState(1),
+      page = _b[0],
+      setPage = _b[1];
 
   var handleChange = function handleChange(event, value) {
     setPage(value);
@@ -27266,15 +27323,15 @@ var useMuiPagination = function useMuiPagination(count) {
 
   var MuiPagination = function MuiPagination() {
     return react_1["default"].createElement(Pagination_1["default"], {
-      count: count ? count : 5,
+      count: pageCount,
       page: page,
       shape: "rounded",
-      onChange: handleChange,
-      color: "secondary"
+      onChange: handleChange
     });
   };
 
   return {
+    setPageCount: setPageCount,
     MuiPagination: MuiPagination,
     page: page
   };
@@ -28060,7 +28117,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.addBookAction = exports.resetAddBook = exports.addBookReducer = void 0;
+exports.deleteBookAction = exports.getBookAction = exports.addBookAction = exports.updateBookReducer = exports.deleteBookReducer = exports.resetGetBook = exports.getBookReducer = exports.resetAddBook = exports.addBookReducer = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -28141,8 +28198,239 @@ var addBookSlice = toolkit_1.createSlice({
     });
   }
 });
+var getInitialState = {
+  lists: null,
+  errors: null,
+  status: "idle"
+};
+var getBookAction = toolkit_1.createAsyncThunk("Book/get", function (page, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_2, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(resetDeleteBook());
+          return [4
+          /*yield*/
+          , axios_config_1["default"].get("/book?page=" + page)];
+
+        case 1:
+          data = _a.sent().data; // console.log(data);
+
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_2 = _a.sent();
+          message = error_2.response && error_2.response.data ? error_2.response.data : error_2.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.getBookAction = getBookAction;
+var getBookSlice = toolkit_1.createSlice({
+  name: "Book/get",
+  initialState: __assign({}, getInitialState),
+  reducers: {
+    resetGetBook: function resetGetBook(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.lists = null;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(getBookAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.lists = null;
+    });
+    builder.addCase(getBookAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.lists = payload;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(getBookAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.lists = null;
+    });
+  }
+});
+var deleteInitialState = {
+  success: false,
+  success_message: null,
+  errors: null,
+  status: "idle"
+}; //actions
+
+var deleteBookAction = toolkit_1.createAsyncThunk("Book/delete", function (id, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_3, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(exports.resetGetBook());
+          return [4
+          /*yield*/
+          , axios_config_1["default"]["delete"]("/book/" + id)];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_3 = _a.sent();
+          message = error_3.response && error_3.response.data ? error_3.response.data : error_3.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.deleteBookAction = deleteBookAction; //reducers
+
+var deleteBookSlice = toolkit_1.createSlice({
+  name: "Book/delete",
+  initialState: __assign({}, deleteInitialState),
+  reducers: {
+    resetDeleteBook: function resetDeleteBook(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(deleteBookAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(deleteBookAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success_message = payload.success_message;
+      state.success = payload.success;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(deleteBookAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
+var updateInitialState = {
+  success: false,
+  success_message: null,
+  errors: null,
+  status: "idle"
+};
+var updateBookAction = toolkit_1.createAsyncThunk("Book/update", function (d, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_4, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          thunkApi.dispatch(exports.resetGetBook());
+          return [4
+          /*yield*/
+          , axios_config_1["default"].put("/Book/" + d.id, {
+            Book: d.Book
+          })];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_4 = _a.sent();
+          message = error_4.response && error_4.response.data ? error_4.response.data : error_4.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+}); //reducers
+
+var updateBookSlice = toolkit_1.createSlice({
+  name: "Book/update",
+  initialState: __assign({}, updateInitialState),
+  reducers: {
+    resetUpdateBook: function resetUpdateBook(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(updateBookAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(updateBookAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success_message = payload.success_message;
+      state.success = payload.success;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(updateBookAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
 exports.addBookReducer = addBookSlice.reducer;
 exports.resetAddBook = addBookSlice.actions.resetAddBook;
+exports.getBookReducer = getBookSlice.reducer;
+exports.resetGetBook = getBookSlice.actions.resetGetBook;
+exports.deleteBookReducer = deleteBookSlice.reducer;
+var resetDeleteBook = deleteBookSlice.actions.resetDeleteBook;
+exports.updateBookReducer = updateBookSlice.reducer;
+var resetUpdateBook = updateBookSlice.actions.resetUpdateBook;
 
 /***/ }),
 
@@ -28730,7 +29018,7 @@ var resetUpdateDepartment = updateDepartmentSlice.actions.resetUpdateDepartment;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.resetAddBook = exports.addBookAction = exports.updateSubjectAction = exports.getOneSubjectAction = exports.deleteSubjectAction = exports.getSubjectAction = exports.addSubjectAction = exports.resetGetOneDepartment = exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.loginAction = exports.addBookSelector = exports.updateSubjectSelector = exports.getOneSubjectSelector = exports.deleteSubjectSelector = exports.getSubjectSelector = exports.addSubjectSelector = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.useTypedSelector = void 0;
+exports.deleteBookAction = exports.resetGetBook = exports.getBookAction = exports.resetAddBook = exports.addBookAction = exports.updateSubjectAction = exports.getOneSubjectAction = exports.deleteSubjectAction = exports.getSubjectAction = exports.addSubjectAction = exports.resetGetOneDepartment = exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.loginAction = exports.getBookSelector = exports.addBookSelector = exports.updateSubjectSelector = exports.getOneSubjectSelector = exports.deleteSubjectSelector = exports.getSubjectSelector = exports.addSubjectSelector = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -28848,6 +29136,24 @@ Object.defineProperty(exports, "resetAddBook", ({
   get: function get() {
     return books_1.resetAddBook;
   }
+}));
+Object.defineProperty(exports, "getBookAction", ({
+  enumerable: true,
+  get: function get() {
+    return books_1.getBookAction;
+  }
+}));
+Object.defineProperty(exports, "resetGetBook", ({
+  enumerable: true,
+  get: function get() {
+    return books_1.resetGetBook;
+  }
+}));
+Object.defineProperty(exports, "deleteBookAction", ({
+  enumerable: true,
+  get: function get() {
+    return books_1.deleteBookAction;
+  }
 })); //Local Storage
 
 var userInfo = localStorage.getItem("UserInfo");
@@ -28869,7 +29175,9 @@ var store = toolkit_1.configureStore({
     deleteSubject: subject_1.deleteSubjectReducer,
     getOneSubject: subject_1.getOneSubjectReducer,
     updateSubject: subject_1.updateSubjectReducer,
-    addBook: books_1.addBookReducer
+    addBook: books_1.addBookReducer,
+    getBooks: books_1.getBookReducer,
+    deleteBook: books_1.deleteBookReducer
   },
   preloadedState: preloadedState
 });
@@ -28960,6 +29268,12 @@ var addBookSelector = function addBookSelector(s) {
 };
 
 exports.addBookSelector = addBookSelector;
+
+var getBookSelector = function getBookSelector(s) {
+  return s.getBooks;
+};
+
+exports.getBookSelector = getBookSelector;
 
 /***/ }),
 

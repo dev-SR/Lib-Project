@@ -19,7 +19,7 @@ class BookController extends Controller
     public function index()
     {
 
-        $res = Book::with(['subject:id,subject', 'department:id,department'])->paginate(5);
+        $res = Book::with(['subject:id,subject', 'department:id,department'])->paginate(4);
         return response($res, 200);
     }
 

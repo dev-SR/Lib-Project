@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 
-export const useMuiPagination = (count: number) => {
+export const useMuiPagination = () => {
     /**
      *    offset = (page-1)*limit
      */
     // page ~ (offset/limit)+1
     // postsPerPage ~ limit
+    let [pageCount, setPageCount] = useState<number>(2);
+
     const [page, setPage] = React.useState(1);
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
@@ -14,15 +16,15 @@ export const useMuiPagination = (count: number) => {
 
     const MuiPagination = () => (
         <Pagination
-            count={count ? count : 5}
+            count={pageCount}
             page={page}
             shape="rounded"
             onChange={handleChange}
-            color="secondary"
         />
     );
 
     return {
+        setPageCount,
         MuiPagination,
         page,
     };
