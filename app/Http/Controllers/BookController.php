@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Department;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 use function Symfony\Component\String\b;
@@ -17,7 +19,7 @@ class BookController extends Controller
     public function index()
     {
 
-        $res = Book::paginate(2);
+        $res = Book::with(['subject:id,subject', 'department:id,department'])->paginate(5);
         return response($res, 200);
     }
 
@@ -31,20 +33,22 @@ class BookController extends Controller
     {
         //
         $f =  $req->validate([
-            'book_id' => 'required|min:2',
-            'title' => 'required|string|min:5',
+            'book_id' => 'required|unique:books,book_id',
+            'title' => 'required|string|unique:books,title',
             'isbn' => 'required|min:2',
             'publisher' => 'required|string|min:2',
             'authors' => 'required|string|min:2',
-            'price' => 'required|min:2',
-            'pages' => 'required|min:2',
+            'price' => 'required',
+            'pages' => 'required',
             'copies' => 'required',
             'edition' => 'required',
             'shelf_no' => 'required',
-            'subject_id' => 'required',
-            'department_id' => 'required'
+            'subject' => 'required',
+            'department' => 'required'
 
         ]);
+
+        $sub = Subject::where('subject', '=', $f['subject'])->first();
 
         $b = Book::create([
             'img' => $req->img,
@@ -58,8 +62,8 @@ class BookController extends Controller
             'copies' => $f['copies'],
             'edition' => $f['edition'],
             'shelf_no' => $f['shelf_no'],
-            'subject_id' => $f['subject_id'],
-            'department_id' => $f['department_id']
+            'subject_id' => $sub->id,
+            'department_id' => $sub->department_id
         ]);
 
         return response(

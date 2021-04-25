@@ -2,12 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 import {
-    addCategoryReducer,
-    addCategoryAction,
-    getCategoryAction,
-    getCategoryReducer,
-} from "./subjectReducer";
-import {
     loginAction,
     loginReducer,
     initialState as LoginInitialState,
@@ -44,6 +38,8 @@ import {
     getOneSubjectReducer,
     updateSubjectReducer,
 } from "./subject";
+
+import { addBookAction, addBookReducer, resetAddBook } from "./addBook";
 //Local Storage
 const userInfo = localStorage.getItem("UserInfo");
 const preloadedState = {
@@ -51,9 +47,7 @@ const preloadedState = {
 };
 const store = configureStore({
     reducer: {
-        addCategory: addCategoryReducer,
         login: loginReducer,
-        getCategory: getCategoryReducer,
         register: registerReducer,
         logout: logoutReducer,
         addDepartment: addDepartmentReducer,
@@ -66,6 +60,7 @@ const store = configureStore({
         deleteSubject: deleteSubjectReducer,
         getOneSubject: getOneSubjectReducer,
         updateSubject: updateSubjectReducer,
+        addBook: addBookReducer,
     },
     preloadedState,
 });
@@ -75,10 +70,6 @@ export type RootState = ReturnType<typeof store.getState>;
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 //useSelector Callbacks
-//cat
-export const addCategorySelector = (s: RootState) => s.addCategory;
-export const getCategorySelector = (s: RootState) => s.getCategory;
-
 //auth
 export const loginSelector = (s: RootState) => s.login;
 export const registerSelector = (s: RootState) => s.register;
@@ -98,11 +89,12 @@ export const deleteSubjectSelector = (s: RootState) => s.deleteSubject;
 export const getOneSubjectSelector = (s: RootState) => s.getOneSubject;
 export const updateSubjectSelector = (s: RootState) => s.updateSubject;
 
+//BOOK
+export const addBookSelector = (s: RootState) => s.addBook;
+
 //Actions
 export {
-    addCategoryAction,
     loginAction,
-    getCategoryAction,
     registerAction,
     logoutAction,
     addDepartmentAction,
@@ -117,4 +109,6 @@ export {
     deleteSubjectAction,
     getOneSubjectAction,
     updateSubjectAction,
+    addBookAction,
+    resetAddBook,
 };

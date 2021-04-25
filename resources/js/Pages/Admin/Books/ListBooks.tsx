@@ -2,24 +2,17 @@ import { Link } from "react-router-dom";
 import React, { FC } from "react";
 import { DeleteIcon, EditIcon } from "../../../utils/icons/svg";
 import { useDispatch } from "react-redux";
-import { deleteSubjectAction } from "../../../redux/store";
-type Subject = {
-    subject: string;
-    id: number;
-    department: {
-        department: string;
-    } | null;
-};
+import { deleteDepartmentAction } from "../../../redux/store";
+import { Department } from "../../../types/typeDef";
 type ListPrpps = {
-    lists: Subject[];
+    lists: Department[];
 };
 
-const ListSubject: FC<ListPrpps> = ({ lists }) => {
-    console.log(lists);
+const ListBooks = () => {
+    const lists = [{ department: "", id: 0 }];
     const dispatch = useDispatch();
     const handleDelete = (id: number) => {
-        let num = String(id);
-        dispatch(deleteSubjectAction(num));
+        dispatch(deleteDepartmentAction(id));
     };
     return (
         <div className="flex justify-center items-center h-full">
@@ -36,14 +29,9 @@ const ListSubject: FC<ListPrpps> = ({ lists }) => {
                                                     scope="col"
                                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                                 >
-                                                    Subject
+                                                    Cateory Name
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                                >
-                                                    Department
-                                                </th>
+
                                                 <th
                                                     scope="col"
                                                     className="relative px-6 py-3"
@@ -61,17 +49,12 @@ const ListSubject: FC<ListPrpps> = ({ lists }) => {
                                             {lists.map((r, i) => (
                                                 <tr key={i}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {r.subject}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {r.department &&
-                                                            r.department
-                                                                .department}
+                                                        {r.department}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                         <div className="flex space-x-3">
                                                             <Link
-                                                                to={`/subjects/${r.id}`}
+                                                                to={`/departments/${r.id}`}
                                                             >
                                                                 <EditIcon />
                                                             </Link>
@@ -102,4 +85,4 @@ const ListSubject: FC<ListPrpps> = ({ lists }) => {
     );
 };
 
-export default ListSubject;
+export default ListBooks;

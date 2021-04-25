@@ -26,7 +26,10 @@ export const MyTextInput: React.FC<MyTextInputProps> = ({
     return (
         <div className="w-full flex flex-col">
             {label && (
-                <label className="text-xs" htmlFor={props.id || props.name}>
+                <label
+                    className="text-xs text-gray-700"
+                    htmlFor={props.id || props.name}
+                >
                     {label}
                 </label>
             )}
@@ -37,13 +40,36 @@ export const MyTextInput: React.FC<MyTextInputProps> = ({
         </div>
     );
 };
-
+export const MySelect: React.FC<MyTextInputProps> = ({ label, ...props }) => {
+    const [field, meta] = useField(props);
+    return (
+        <div className="w-full flex flex-col">
+            {label && (
+                <label
+                    className="text-xs text-gray-700"
+                    htmlFor={props.id || props.name}
+                >
+                    {label}
+                </label>
+            )}
+            <Field
+                as="select"
+                {...field}
+                {...props}
+                className="input-primary"
+            />
+            {meta.touched && meta.error && (
+                <div className="text-red-400 text-xs">{meta.error}</div>
+            )}
+        </div>
+    );
+};
 export const RadioBox: FC<FieldAttributes<{}>> = ({ children, ...props }) => {
     const [field, meta] = useField(props);
     return (
         <>
             {
-                <label className="text-yellow-100 text-xs flex items-center space-x-2">
+                <label className="text-gray-700 text-xs flex items-center space-x-2">
                     <Field type="radio" {...field} {...props} />
                     <div className="text-gray-100">{children}</div>
                 </label>

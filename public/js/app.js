@@ -4316,6 +4316,320 @@ if (true) {
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/esm/Slide/Slide.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/Slide/Slide.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setTranslateValue": () => (/* binding */ setTranslateValue),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _utils_debounce__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/debounce */ "./node_modules/@material-ui/core/esm/utils/debounce.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/Transition.js");
+/* harmony import */ var _material_ui_utils__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/esm/elementAcceptingRef.js");
+/* harmony import */ var _utils_useForkRef__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/useForkRef */ "./node_modules/@material-ui/core/esm/utils/useForkRef.js");
+/* harmony import */ var _styles_useTheme__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/useTheme */ "./node_modules/@material-ui/core/esm/styles/useTheme.js");
+/* harmony import */ var _styles_transitions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/transitions */ "./node_modules/@material-ui/core/esm/styles/transitions.js");
+/* harmony import */ var _transitions_utils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../transitions/utils */ "./node_modules/@material-ui/core/esm/transitions/utils.js");
+
+
+
+
+
+
+
+
+
+
+
+ // Translate the node so he can't be seen on the screen.
+// Later, we gonna translate back the node to his original location
+// with `none`.`
+
+function getTranslateValue(direction, node) {
+  var rect = node.getBoundingClientRect();
+  var transform;
+
+  if (node.fakeTransform) {
+    transform = node.fakeTransform;
+  } else {
+    var computedStyle = window.getComputedStyle(node);
+    transform = computedStyle.getPropertyValue('-webkit-transform') || computedStyle.getPropertyValue('transform');
+  }
+
+  var offsetX = 0;
+  var offsetY = 0;
+
+  if (transform && transform !== 'none' && typeof transform === 'string') {
+    var transformValues = transform.split('(')[1].split(')')[0].split(',');
+    offsetX = parseInt(transformValues[4], 10);
+    offsetY = parseInt(transformValues[5], 10);
+  }
+
+  if (direction === 'left') {
+    return "translateX(".concat(window.innerWidth, "px) translateX(").concat(offsetX - rect.left, "px)");
+  }
+
+  if (direction === 'right') {
+    return "translateX(-".concat(rect.left + rect.width - offsetX, "px)");
+  }
+
+  if (direction === 'up') {
+    return "translateY(".concat(window.innerHeight, "px) translateY(").concat(offsetY - rect.top, "px)");
+  } // direction === 'down'
+
+
+  return "translateY(-".concat(rect.top + rect.height - offsetY, "px)");
+}
+
+function setTranslateValue(direction, node) {
+  var transform = getTranslateValue(direction, node);
+
+  if (transform) {
+    node.style.webkitTransform = transform;
+    node.style.transform = transform;
+  }
+}
+var defaultTimeout = {
+  enter: _styles_transitions__WEBPACK_IMPORTED_MODULE_5__.duration.enteringScreen,
+  exit: _styles_transitions__WEBPACK_IMPORTED_MODULE_5__.duration.leavingScreen
+};
+/**
+ * The Slide transition is used by the [Drawer](/components/drawers/) component.
+ * It uses [react-transition-group](https://github.com/reactjs/react-transition-group) internally.
+ */
+
+var Slide = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.forwardRef(function Slide(props, ref) {
+  var children = props.children,
+      _props$direction = props.direction,
+      direction = _props$direction === void 0 ? 'down' : _props$direction,
+      inProp = props.in,
+      onEnter = props.onEnter,
+      onEntered = props.onEntered,
+      onEntering = props.onEntering,
+      onExit = props.onExit,
+      onExited = props.onExited,
+      onExiting = props.onExiting,
+      style = props.style,
+      _props$timeout = props.timeout,
+      timeout = _props$timeout === void 0 ? defaultTimeout : _props$timeout,
+      _props$TransitionComp = props.TransitionComponent,
+      TransitionComponent = _props$TransitionComp === void 0 ? react_transition_group__WEBPACK_IMPORTED_MODULE_6__.default : _props$TransitionComp,
+      other = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__.default)(props, ["children", "direction", "in", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting", "style", "timeout", "TransitionComponent"]);
+
+  var theme = (0,_styles_useTheme__WEBPACK_IMPORTED_MODULE_7__.default)();
+  var childrenRef = react__WEBPACK_IMPORTED_MODULE_2__.useRef(null);
+  /**
+   * used in cloneElement(children, { ref: handleRef })
+   */
+
+  var handleOwnRef = react__WEBPACK_IMPORTED_MODULE_2__.useCallback(function (instance) {
+    // #StrictMode ready
+    childrenRef.current = react_dom__WEBPACK_IMPORTED_MODULE_4__.findDOMNode(instance);
+  }, []);
+  var handleRefIntermediary = (0,_utils_useForkRef__WEBPACK_IMPORTED_MODULE_8__.default)(children.ref, handleOwnRef);
+  var handleRef = (0,_utils_useForkRef__WEBPACK_IMPORTED_MODULE_8__.default)(handleRefIntermediary, ref);
+
+  var normalizedTransitionCallback = function normalizedTransitionCallback(callback) {
+    return function (isAppearing) {
+      if (callback) {
+        // onEnterXxx and onExitXxx callbacks have a different arguments.length value.
+        if (isAppearing === undefined) {
+          callback(childrenRef.current);
+        } else {
+          callback(childrenRef.current, isAppearing);
+        }
+      }
+    };
+  };
+
+  var handleEnter = normalizedTransitionCallback(function (node, isAppearing) {
+    setTranslateValue(direction, node);
+    (0,_transitions_utils__WEBPACK_IMPORTED_MODULE_9__.reflow)(node);
+
+    if (onEnter) {
+      onEnter(node, isAppearing);
+    }
+  });
+  var handleEntering = normalizedTransitionCallback(function (node, isAppearing) {
+    var transitionProps = (0,_transitions_utils__WEBPACK_IMPORTED_MODULE_9__.getTransitionProps)({
+      timeout: timeout,
+      style: style
+    }, {
+      mode: 'enter'
+    });
+    node.style.webkitTransition = theme.transitions.create('-webkit-transform', (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({}, transitionProps, {
+      easing: theme.transitions.easing.easeOut
+    }));
+    node.style.transition = theme.transitions.create('transform', (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({}, transitionProps, {
+      easing: theme.transitions.easing.easeOut
+    }));
+    node.style.webkitTransform = 'none';
+    node.style.transform = 'none';
+
+    if (onEntering) {
+      onEntering(node, isAppearing);
+    }
+  });
+  var handleEntered = normalizedTransitionCallback(onEntered);
+  var handleExiting = normalizedTransitionCallback(onExiting);
+  var handleExit = normalizedTransitionCallback(function (node) {
+    var transitionProps = (0,_transitions_utils__WEBPACK_IMPORTED_MODULE_9__.getTransitionProps)({
+      timeout: timeout,
+      style: style
+    }, {
+      mode: 'exit'
+    });
+    node.style.webkitTransition = theme.transitions.create('-webkit-transform', (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({}, transitionProps, {
+      easing: theme.transitions.easing.sharp
+    }));
+    node.style.transition = theme.transitions.create('transform', (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({}, transitionProps, {
+      easing: theme.transitions.easing.sharp
+    }));
+    setTranslateValue(direction, node);
+
+    if (onExit) {
+      onExit(node);
+    }
+  });
+  var handleExited = normalizedTransitionCallback(function (node) {
+    // No need for transitions when the component is hidden
+    node.style.webkitTransition = '';
+    node.style.transition = '';
+
+    if (onExited) {
+      onExited(node);
+    }
+  });
+  var updatePosition = react__WEBPACK_IMPORTED_MODULE_2__.useCallback(function () {
+    if (childrenRef.current) {
+      setTranslateValue(direction, childrenRef.current);
+    }
+  }, [direction]);
+  react__WEBPACK_IMPORTED_MODULE_2__.useEffect(function () {
+    // Skip configuration where the position is screen size invariant.
+    if (inProp || direction === 'down' || direction === 'right') {
+      return undefined;
+    }
+
+    var handleResize = (0,_utils_debounce__WEBPACK_IMPORTED_MODULE_10__.default)(function () {
+      if (childrenRef.current) {
+        setTranslateValue(direction, childrenRef.current);
+      }
+    });
+    window.addEventListener('resize', handleResize);
+    return function () {
+      handleResize.clear();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [direction, inProp]);
+  react__WEBPACK_IMPORTED_MODULE_2__.useEffect(function () {
+    if (!inProp) {
+      // We need to update the position of the drawer when the direction change and
+      // when it's hidden.
+      updatePosition();
+    }
+  }, [inProp, updatePosition]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(TransitionComponent, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({
+    nodeRef: childrenRef,
+    onEnter: handleEnter,
+    onEntered: handleEntered,
+    onEntering: handleEntering,
+    onExit: handleExit,
+    onExited: handleExited,
+    onExiting: handleExiting,
+    appear: true,
+    in: inProp,
+    timeout: timeout
+  }, other), function (state, childProps) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.cloneElement(children, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({
+      ref: handleRef,
+      style: (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({
+        visibility: state === 'exited' && !inProp ? 'hidden' : undefined
+      }, style, children.props.style)
+    }, childProps));
+  });
+});
+ true ? Slide.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
+
+  /**
+   * A single child content element.
+   */
+  children: _material_ui_utils__WEBPACK_IMPORTED_MODULE_11__.default,
+
+  /**
+   * Direction the child node will enter from.
+   */
+  direction: prop_types__WEBPACK_IMPORTED_MODULE_3___default().oneOf(['down', 'left', 'right', 'up']),
+
+  /**
+   * If `true`, show the component; triggers the enter or exit animation.
+   */
+  in: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().bool),
+
+  /**
+   * @ignore
+   */
+  onEnter: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * @ignore
+   */
+  onEntered: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * @ignore
+   */
+  onEntering: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * @ignore
+   */
+  onExit: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * @ignore
+   */
+  onExited: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * @ignore
+   */
+  onExiting: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * @ignore
+   */
+  style: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().object),
+
+  /**
+   * The duration for the transition, in milliseconds.
+   * You may specify a single timeout for all transitions, or individually with an object.
+   */
+  timeout: prop_types__WEBPACK_IMPORTED_MODULE_3___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_3___default().number), prop_types__WEBPACK_IMPORTED_MODULE_3___default().shape({
+    appear: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().number),
+    enter: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().number),
+    exit: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().number)
+  })])
+} : 0;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Slide);
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/esm/SnackbarContent/SnackbarContent.js":
 /*!*******************************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/SnackbarContent/SnackbarContent.js ***!
@@ -8488,6 +8802,35 @@ function createSpacing() {
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/esm/styles/createStyles.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/styles/createStyles.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ createStyles)
+/* harmony export */ });
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/esm/createStyles/createStyles.js");
+ // let warnOnce = false;
+// To remove in v5
+
+function createStyles(styles) {
+  // warning(
+  //   warnOnce,
+  //   [
+  //     'Material-UI: createStyles from @material-ui/core/styles is deprecated.',
+  //     'Please use @material-ui/styles/createStyles',
+  //   ].join('\n'),
+  // );
+  // warnOnce = true;
+  return (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_0__.default)(styles);
+}
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/esm/styles/createTypography.js":
 /*!***********************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/styles/createTypography.js ***!
@@ -8616,6 +8959,35 @@ __webpack_require__.r(__webpack_exports__);
 
 var defaultTheme = (0,_createMuiTheme__WEBPACK_IMPORTED_MODULE_0__.default)();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (defaultTheme);
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/esm/styles/makeStyles.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/styles/makeStyles.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/esm/makeStyles/makeStyles.js");
+/* harmony import */ var _defaultTheme__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./defaultTheme */ "./node_modules/@material-ui/core/esm/styles/defaultTheme.js");
+
+
+
+
+function makeStyles(stylesOrCreator) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_1__.default)(stylesOrCreator, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({
+    defaultTheme: _defaultTheme__WEBPACK_IMPORTED_MODULE_2__.default
+  }, options));
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (makeStyles);
 
 /***/ }),
 
@@ -18614,6 +18986,23 @@ function createGenerateClassName() {
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/styles/esm/createStyles/createStyles.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@material-ui/styles/esm/createStyles/createStyles.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ createStyles)
+/* harmony export */ });
+function createStyles(styles) {
+  return styles;
+}
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/styles/esm/getStylesCreator/getStylesCreator.js":
 /*!***********************************************************************************!*\
   !*** ./node_modules/@material-ui/styles/esm/getStylesCreator/getStylesCreator.js ***!
@@ -24160,6 +24549,419 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Admin/Books/BooksMain.tsx":
+/*!******************************************************!*\
+  !*** ./resources/js/Pages/Admin/Books/BooksMain.tsx ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Books = exports.validator = void 0;
+
+var formik_1 = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Formik_1 = __webpack_require__(/*! ../../../components/Formik */ "./resources/js/components/Formik/index.tsx");
+
+var Yup = __importStar(__webpack_require__(/*! yup */ "./node_modules/yup/es/index.js"));
+
+var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
+
+var notistack_1 = __webpack_require__(/*! notistack */ "./node_modules/notistack/dist/notistack.esm.js");
+
+var initialValues = {
+  book_id: 0,
+  title: "",
+  isbn: "",
+  publisher: "",
+  authors: "",
+  price: 0,
+  pages: 0,
+  copies: 0,
+  shelf_no: 0,
+  subject: "",
+  department: "",
+  img: "",
+  edition: 0
+};
+exports.validator = Yup.object({
+  book_id: Yup.number().required("Required"),
+  title: Yup.string().required("Required"),
+  isbn: Yup.string().required("Required"),
+  publisher: Yup.string().required("Required"),
+  authors: Yup.string().required("Required"),
+  price: Yup.number().required("Required"),
+  pages: Yup.number().required("Required"),
+  copies: Yup.number().required("Required"),
+  shelf_no: Yup.number().required("Required"),
+  img: Yup.string().required("Required"),
+  edition: Yup.number().required("Required"),
+  subject: Yup.string().required("Required"),
+  department: Yup.string().required("Required")
+});
+
+var InnerForm = function InnerForm(_a) {
+  var lists = _a.lists;
+
+  var _b = formik_1.useFormikContext(),
+      values = _b.values,
+      setValues = _b.setValues,
+      isSubmitting = _b.isSubmitting;
+
+  var _c = react_1.useState(""),
+      dep = _c[0],
+      setDep = _c[1];
+
+  react_1.useEffect(function () {
+    if (values.subject) {
+      var selected = lists === null || lists === void 0 ? void 0 : lists.filter(function (r) {
+        return r.subject === values.subject;
+      });
+
+      if (selected) {
+        var s = selected[0].department;
+        setDep(s.department);
+        setValues(__assign(__assign({}, values), {
+          department: s.department
+        }));
+      }
+    }
+  }, [values.subject]);
+  return react_1["default"].createElement("div", {
+    className: "flex flex-col space-y-3"
+  }, react_1["default"].createElement("div", {
+    className: "flex justify-center space-x-3"
+  }, react_1["default"].createElement(Formik_1.MySelect, {
+    label: "Select Subject",
+    name: "subject"
+  }, react_1["default"].createElement("option", {
+    value: ""
+  }, "Select Subject"), lists && lists.map(function (s) {
+    return react_1["default"].createElement("option", {
+      value: s.subject,
+      key: s.id
+    }, s.subject);
+  })), react_1["default"].createElement(Formik_1.MySelect, {
+    label: "Select Department",
+    name: "department"
+  }, react_1["default"].createElement("option", {
+    value: ""
+  }, "Select Department"), react_1["default"].createElement("option", {
+    value: dep
+  }, dep))), react_1["default"].createElement("div", {
+    className: "flex justify-center"
+  }, react_1["default"].createElement("button", {
+    type: "submit",
+    className: "py-2 bg-purple-500 text-white disabled:opacity-50 rounded hover:bg-purple-600 transition ease-in-out w-40 h-11 focus:outline-none",
+    disabled: isSubmitting
+  }, isSubmitting ? "Loading..." : "SUBMIT")));
+};
+
+var Books = function Books() {
+  var _a = store_1.useTypedSelector(store_1.addBookSelector),
+      success = _a.success,
+      success_message = _a.success_message,
+      errors = _a.errors; // const del = useTypedSelector(addBookSelector);
+
+
+  var submit = function submit(values, _a) {
+    var setSubmitting = _a.setSubmitting,
+        resetForm = _a.resetForm;
+    setSubmitting(true);
+    dispatch(store_1.addBookAction(values));
+    setTimeout(function () {
+      setSubmitting(false);
+    }, 300);
+  };
+
+  var lists = store_1.useTypedSelector(store_1.getSubjectSelector).lists;
+  var dispatch = react_redux_1.useDispatch();
+  react_1.useEffect(function () {
+    dispatch(store_1.resetAddBook());
+    dispatch(store_1.getSubjectAction());
+  }, []);
+  var enqueueSnackbar = notistack_1.useSnackbar().enqueueSnackbar;
+  react_1.useEffect(function () {
+    if (success && success_message) {
+      enqueueSnackbar(success_message, {
+        variant: "success",
+        autoHideDuration: 2000
+      });
+      dispatch(store_1.resetAddBook());
+    }
+
+    if (errors) {
+      if (errors.errors) {
+        for (var _i = 0, _a = Object.entries(errors.errors); _i < _a.length; _i++) {
+          var _b = _a[_i],
+              value = _b[1];
+          enqueueSnackbar("" + value[0], {
+            variant: "error"
+          });
+        }
+
+        dispatch(store_1.resetAddBook());
+      }
+    }
+  }, [success, errors, dispatch]);
+  return react_1["default"].createElement(AdminLayout_1["default"], {
+    title: "Add Books"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
+  }, react_1["default"].createElement("div", {
+    className: "text-md font-thin text-gray-700"
+  }, "Add New Book"), react_1["default"].createElement("div", {
+    className: "flex flex-col"
+  }, react_1["default"].createElement("div", {
+    className: "w-full flex justify-center items-center flex-col"
+  }, react_1["default"].createElement(formik_1.Formik, {
+    initialValues: initialValues,
+    onSubmit: submit,
+    validationSchema: exports.validator,
+    enableReinitialize: true
+  }, react_1["default"].createElement(formik_1.Form, {
+    className: "flex space-y-3 w-1/2 flex-col",
+    autoComplete: "off"
+  }, react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "title",
+    type: "text",
+    label: "Title",
+    placeholder: "Introduction To Programming",
+    id: "title"
+  }), react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "img",
+    type: "text",
+    label: "Image",
+    placeholder: "Image",
+    id: "img"
+  }), react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "isbn",
+    type: "text",
+    placeholder: "978-3-16-148410-0",
+    label: "ISBN",
+    id: "isbn"
+  }), react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "publisher",
+    type: "text",
+    label: "Publisher",
+    placeholder: "Publisher",
+    id: "publisher"
+  }), react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "authors",
+    type: "text",
+    label: "Author",
+    placeholder: "Author Name",
+    id: "authors"
+  }), react_1["default"].createElement("div", {
+    className: "flex justify-center space-x-3"
+  }, react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "book_id",
+    type: "number",
+    label: "Book Id",
+    placeholder: "book_id",
+    id: "book_id"
+  }), react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "price",
+    label: "Price",
+    type: "number",
+    placeholder: "price",
+    id: "price",
+    max: "500"
+  })), react_1["default"].createElement("div", {
+    className: "flex justify-center space-x-3"
+  }, react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "pages",
+    type: "number",
+    label: "Pages",
+    placeholder: "pages",
+    id: "pages"
+  }), react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "copies",
+    type: "number",
+    label: "Copies",
+    placeholder: "copies",
+    id: "copies"
+  })), react_1["default"].createElement("div", {
+    className: "flex justify-center space-x-3"
+  }, react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "edition",
+    type: "number",
+    label: "Edition",
+    placeholder: "edition",
+    id: "edition"
+  }), react_1["default"].createElement(Formik_1.MyTextInput, {
+    name: "shelf_no",
+    type: "number",
+    label: "Shelf No.",
+    placeholder: "shelf_no",
+    id: "shelf_no"
+  })), lists && react_1["default"].createElement(InnerForm, {
+    lists: lists
+  })))))));
+};
+
+exports.Books = Books;
+exports.default = exports.Books;
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Admin/Books/ListBooks.tsx":
+/*!******************************************************!*\
+  !*** ./resources/js/Pages/Admin/Books/ListBooks.tsx ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var svg_1 = __webpack_require__(/*! ../../../utils/icons/svg */ "./resources/js/utils/icons/svg.tsx");
+
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
+
+var ListBooks = function ListBooks() {
+  var lists = [{
+    department: "",
+    id: 0
+  }];
+  var dispatch = react_redux_1.useDispatch();
+
+  var handleDelete = function handleDelete(id) {
+    dispatch(store_1.deleteDepartmentAction(id));
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "flex justify-center items-center h-full"
+  }, lists && react_1["default"].createElement("div", {
+    className: "w-7xl mx-auto sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col"
+  }, react_1["default"].createElement("div", {
+    className: "-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"
+  }, react_1["default"].createElement("div", {
+    className: "py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+  }, react_1["default"].createElement("div", {
+    className: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+  }, react_1["default"].createElement("table", {
+    className: "min-w-full divide-y divide-gray-200"
+  }, react_1["default"].createElement("thead", {
+    className: "bg-gray-50"
+  }, react_1["default"].createElement("tr", null, react_1["default"].createElement("th", {
+    scope: "col",
+    className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+  }, "Cateory Name"), react_1["default"].createElement("th", {
+    scope: "col",
+    className: "relative px-6 py-3"
+  }, react_1["default"].createElement("span", {
+    className: "sr-only"
+  }, "Edit")))), react_1["default"].createElement("tbody", {
+    className: "bg-white divide-y divide-gray-200",
+    "x-max": "1"
+  }, lists.map(function (r, i) {
+    return react_1["default"].createElement("tr", {
+      key: i
+    }, react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.department), react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+    }, react_1["default"].createElement("div", {
+      className: "flex space-x-3"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/departments/" + r.id
+    }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
+      className: "focus:outline-none",
+      onClick: function onClick() {
+        return handleDelete(r.id);
+      }
+    }, react_1["default"].createElement(svg_1.DeleteIcon, null)))));
+  })))))))));
+};
+
+exports.default = ListBooks;
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Admin/Department/DepartmentMain.tsx":
 /*!****************************************************************!*\
   !*** ./resources/js/Pages/Admin/Department/DepartmentMain.tsx ***!
@@ -24671,7 +25473,8 @@ var ListSubject = function ListSubject(_a) {
   var dispatch = react_redux_1.useDispatch();
 
   var handleDelete = function handleDelete(id) {
-    dispatch(store_1.deleteSubjectAction(id));
+    var num = String(id);
+    dispatch(store_1.deleteSubjectAction(num));
   };
 
   return react_1["default"].createElement("div", {
@@ -25586,16 +26389,6 @@ var LoginPage_1 = __importDefault(__webpack_require__(/*! ./Pages/Auth/LoginPage
 
 var RegisterPage_1 = __importDefault(__webpack_require__(/*! ./Pages/Auth/RegisterPage */ "./resources/js/Pages/Auth/RegisterPage.tsx"));
 
-var LazyAddCategory = react_1["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return __importStar(__webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module './Pages/Admin/Category/AddSubject'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
-  });
-});
-var LazyListCategory = react_1["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return __importStar(__webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module './Pages/Admin/Category/ListCategories'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
-  });
-});
 var LazyDepartment = react_1["default"].lazy(function () {
   return Promise.resolve().then(function () {
     return __importStar(__webpack_require__(/*! ./Pages/Admin/Department/DepartmentMain */ "./resources/js/Pages/Admin/Department/DepartmentMain.tsx"));
@@ -25616,6 +26409,16 @@ var LazyUpdateSubject = react_1["default"].lazy(function () {
     return __importStar(__webpack_require__(/*! ./Pages/Admin/Subject/UpdateSubject */ "./resources/js/Pages/Admin/Subject/UpdateSubject.tsx"));
   });
 });
+var LazyBooks = react_1["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return __importStar(__webpack_require__(/*! ./Pages/Admin/Books/BooksMain */ "./resources/js/Pages/Admin/Books/BooksMain.tsx"));
+  });
+});
+var LazyListBooks = react_1["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return __importStar(__webpack_require__(/*! ./Pages/Admin/Books/ListBooks */ "./resources/js/Pages/Admin/Books/ListBooks.tsx"));
+  });
+});
 
 var AdminRoute_1 = __importDefault(__webpack_require__(/*! ./components/AdminRoute */ "./resources/js/components/AdminRoute.tsx"));
 
@@ -25632,16 +26435,16 @@ var App = function App() {
     path: "/",
     exact: true
   }, react_1["default"].createElement(Home_1["default"], null)), react_1["default"].createElement(AdminRoute_1["default"], {
-    path: "/add-category",
+    path: "/books",
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
     fallback: react_1["default"].createElement(Loading_1["default"], null)
-  }, react_1["default"].createElement(LazyAddCategory, null))), react_1["default"].createElement(AdminRoute_1["default"], {
-    path: "/get-category",
+  }, react_1["default"].createElement(LazyBooks, null))), react_1["default"].createElement(AdminRoute_1["default"], {
+    path: "/books/lists",
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
     fallback: react_1["default"].createElement(Loading_1["default"], null)
-  }, react_1["default"].createElement(LazyListCategory, null))), react_1["default"].createElement(AdminRoute_1["default"], {
+  }, react_1["default"].createElement(LazyListBooks, null))), react_1["default"].createElement(AdminRoute_1["default"], {
     path: "/departments",
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
@@ -25706,9 +26509,19 @@ var store_1 = __importDefault(__webpack_require__(/*! ./redux/store */ "./resour
 
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
+var notistack_1 = __webpack_require__(/*! notistack */ "./node_modules/notistack/dist/notistack.esm.js");
+
 react_dom_1.render(react_1["default"].createElement(react_redux_1.Provider, {
   store: store_1["default"]
-}, react_1["default"].createElement(Root_1["default"], null)), document.getElementById("app"));
+}, react_1["default"].createElement(notistack_1.SnackbarProvider, {
+  anchorOrigin: {
+    vertical: "top",
+    horizontal: "right"
+  },
+  action: function action(key) {
+    return console.log(key);
+  }
+}, react_1["default"].createElement(Root_1["default"], null))), document.getElementById("app"));
 
 /***/ }),
 
@@ -25833,7 +26646,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.RadioBox = exports.MyTextInput = void 0;
+exports.RadioBox = exports.MySelect = exports.MyTextInput = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -25850,7 +26663,7 @@ var MyTextInput = function MyTextInput(_a) {
   return react_1["default"].createElement("div", {
     className: "w-full flex flex-col"
   }, label && react_1["default"].createElement("label", {
-    className: "text-xs",
+    className: "text-xs text-gray-700",
     htmlFor: props.id || props.name
   }, label), react_1["default"].createElement(formik_1.Field, __assign({}, field, props, {
     className: "input-primary"
@@ -25861,6 +26674,30 @@ var MyTextInput = function MyTextInput(_a) {
 
 exports.MyTextInput = MyTextInput;
 
+var MySelect = function MySelect(_a) {
+  var label = _a.label,
+      props = __rest(_a, ["label"]);
+
+  var _b = formik_1.useField(props),
+      field = _b[0],
+      meta = _b[1];
+
+  return react_1["default"].createElement("div", {
+    className: "w-full flex flex-col"
+  }, label && react_1["default"].createElement("label", {
+    className: "text-xs text-gray-700",
+    htmlFor: props.id || props.name
+  }, label), react_1["default"].createElement(formik_1.Field, __assign({
+    as: "select"
+  }, field, props, {
+    className: "input-primary"
+  })), meta.touched && meta.error && react_1["default"].createElement("div", {
+    className: "text-red-400 text-xs"
+  }, meta.error));
+};
+
+exports.MySelect = MySelect;
+
 var RadioBox = function RadioBox(_a) {
   var children = _a.children,
       props = __rest(_a, ["children"]);
@@ -25870,7 +26707,7 @@ var RadioBox = function RadioBox(_a) {
       meta = _b[1];
 
   return react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("label", {
-    className: "text-yellow-100 text-xs flex items-center space-x-2"
+    className: "text-gray-700 text-xs flex items-center space-x-2"
   }, react_1["default"].createElement(formik_1.Field, __assign({
     type: "radio"
   }, field, props)), react_1["default"].createElement("div", {
@@ -25985,16 +26822,16 @@ var DesktopSideBar = function DesktopSideBar() {
   }, "Subject"))), react_1["default"].createElement("div", {
     className: "text-gray-400 font-medium pl-3 w-11/12 text-xs  pt-7 mb-2"
   }, "BOOKS"), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/add-books",
+    to: "/books",
     className: "nav-links"
   }, react_1["default"].createElement("div", {
     className: "nav-icons "
-  }, react_1["default"].createElement(svg_1.AddIcon, {
-    fill: "" + (isPath("/add-books") ? "#0D9488" : "#A1A1AA")
+  }, react_1["default"].createElement(svg_1.BookIcon, {
+    fill: "" + (isPath("/books") ? "#0D9488" : "#A1A1AA")
   })), react_1["default"].createElement("div", {
     className: " font-medium text-sm " + (isPath("/add-books") ? "text-teal-600" : "text-gray-600 ")
   }, "Add Books"))), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/list-books",
+    to: "/books/lists",
     className: "nav-links"
   }, react_1["default"].createElement("div", {
     className: "nav-icons "
@@ -26415,6 +27252,269 @@ var SnackBar = function SnackBar(_a) {
 };
 
 exports.default = SnackBar;
+
+/***/ }),
+
+/***/ "./resources/js/redux/addBook.ts":
+/*!***************************************!*\
+  !*** ./resources/js/redux/addBook.ts ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.addBookAction = exports.resetAddBook = exports.addBookReducer = void 0;
+
+var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+var axios_config_1 = __importDefault(__webpack_require__(/*! ./axios_config */ "./resources/js/redux/axios_config.ts"));
+
+var addInitialState = {
+  success_message: null,
+  success: false,
+  errors: null,
+  status: "idle"
+}; //!Adding New Book
+
+var addBookAction = toolkit_1.createAsyncThunk("Book/add", function (s, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_1, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          return [4
+          /*yield*/
+          , axios_config_1["default"].post("/book", s)];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_1 = _a.sent();
+          message = error_1.response && error_1.response.data ? error_1.response.data : error_1.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.addBookAction = addBookAction;
+var addBookSlice = toolkit_1.createSlice({
+  name: "Book/add",
+  initialState: __assign({}, addInitialState),
+  reducers: {
+    resetAddBook: function resetAddBook(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success = false;
+      state.success_message = null;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(addBookAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(addBookAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success = payload.success;
+      state.success_message = payload.success_message;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(addBookAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
+exports.addBookReducer = addBookSlice.reducer;
+exports.resetAddBook = addBookSlice.actions.resetAddBook;
 
 /***/ }),
 
@@ -27494,26 +28594,11 @@ var resetUpdateDepartment = updateDepartmentSlice.actions.resetUpdateDepartment;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.updateSubjectAction = exports.getOneSubjectAction = exports.deleteSubjectAction = exports.getSubjectAction = exports.addSubjectAction = exports.resetGetOneDepartment = exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.getCategoryAction = exports.loginAction = exports.addCategoryAction = exports.updateSubjectSelector = exports.getOneSubjectSelector = exports.deleteSubjectSelector = exports.getSubjectSelector = exports.addSubjectSelector = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.getCategorySelector = exports.addCategorySelector = exports.useTypedSelector = void 0;
+exports.resetAddBook = exports.addBookAction = exports.updateSubjectAction = exports.getOneSubjectAction = exports.deleteSubjectAction = exports.getSubjectAction = exports.addSubjectAction = exports.resetGetOneDepartment = exports.updateDepartmentAction = exports.resetLogout = exports.getOneDepartmentAction = exports.deleteDepartmentAction = exports.getDepartmentAction = exports.addDepartmentAction = exports.logoutAction = exports.registerAction = exports.loginAction = exports.addBookSelector = exports.updateSubjectSelector = exports.getOneSubjectSelector = exports.deleteSubjectSelector = exports.getSubjectSelector = exports.addSubjectSelector = exports.updateDepartmentSelector = exports.getOneDepartmentSelector = exports.deleteDepartmentSelector = exports.getDepartmentSelector = exports.addDepartmentSelector = exports.logoutSelector = exports.registerSelector = exports.loginSelector = exports.useTypedSelector = void 0;
 
 var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var subjectReducer_1 = __webpack_require__(/*! ./subjectReducer */ "./resources/js/redux/subjectReducer.ts");
-
-Object.defineProperty(exports, "addCategoryAction", ({
-  enumerable: true,
-  get: function get() {
-    return subjectReducer_1.addCategoryAction;
-  }
-}));
-Object.defineProperty(exports, "getCategoryAction", ({
-  enumerable: true,
-  get: function get() {
-    return subjectReducer_1.getCategoryAction;
-  }
-}));
 
 var authReducer_1 = __webpack_require__(/*! ./authReducer */ "./resources/js/redux/authReducer.ts");
 
@@ -27612,6 +28697,21 @@ Object.defineProperty(exports, "updateSubjectAction", ({
   get: function get() {
     return subject_1.updateSubjectAction;
   }
+}));
+
+var addBook_1 = __webpack_require__(/*! ./addBook */ "./resources/js/redux/addBook.ts");
+
+Object.defineProperty(exports, "addBookAction", ({
+  enumerable: true,
+  get: function get() {
+    return addBook_1.addBookAction;
+  }
+}));
+Object.defineProperty(exports, "resetAddBook", ({
+  enumerable: true,
+  get: function get() {
+    return addBook_1.resetAddBook;
+  }
 })); //Local Storage
 
 var userInfo = localStorage.getItem("UserInfo");
@@ -27620,9 +28720,7 @@ var preloadedState = {
 };
 var store = toolkit_1.configureStore({
   reducer: {
-    addCategory: subjectReducer_1.addCategoryReducer,
     login: authReducer_1.loginReducer,
-    getCategory: subjectReducer_1.getCategoryReducer,
     register: authReducer_1.registerReducer,
     logout: authReducer_1.logoutReducer,
     addDepartment: department_1.addDepartmentReducer,
@@ -27634,25 +28732,14 @@ var store = toolkit_1.configureStore({
     getSubject: subject_1.getSubjectReducer,
     deleteSubject: subject_1.deleteSubjectReducer,
     getOneSubject: subject_1.getOneSubjectReducer,
-    updateSubject: subject_1.updateSubjectReducer
+    updateSubject: subject_1.updateSubjectReducer,
+    addBook: addBook_1.addBookReducer
   },
   preloadedState: preloadedState
 });
 exports.default = store;
 exports.useTypedSelector = react_redux_1.useSelector; //useSelector Callbacks
-//cat
-
-var addCategorySelector = function addCategorySelector(s) {
-  return s.addCategory;
-};
-
-exports.addCategorySelector = addCategorySelector;
-
-var getCategorySelector = function getCategorySelector(s) {
-  return s.getCategory;
-};
-
-exports.getCategorySelector = getCategorySelector; //auth
+//auth
 
 var loginSelector = function loginSelector(s) {
   return s.login;
@@ -27730,7 +28817,13 @@ var updateSubjectSelector = function updateSubjectSelector(s) {
   return s.updateSubject;
 };
 
-exports.updateSubjectSelector = updateSubjectSelector;
+exports.updateSubjectSelector = updateSubjectSelector; //BOOK
+
+var addBookSelector = function addBookSelector(s) {
+  return s.addBook;
+};
+
+exports.addBookSelector = addBookSelector;
 
 /***/ }),
 
@@ -28308,335 +29401,6 @@ var resetUpdateSubject = updateSubjectSlice.actions.resetUpdateSubject;
 
 /***/ }),
 
-/***/ "./resources/js/redux/subjectReducer.ts":
-/*!**********************************************!*\
-  !*** ./resources/js/redux/subjectReducer.ts ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  function adopt(value) {
-    return value instanceof P ? value : new P(function (resolve) {
-      resolve(value);
-    });
-  }
-
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.reset = exports.getCategoryAction = exports.addCategoryAction = exports.getCategoryReducer = exports.addCategoryReducer = void 0;
-
-var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
-var axios_config_1 = __importDefault(__webpack_require__(/*! ./axios_config */ "./resources/js/redux/axios_config.ts"));
-
-var initialState = {
-  success_message: null,
-  success: false,
-  error: null,
-  status: "idle"
-}; //Adding New Category
-
-var addCategoryAction = toolkit_1.createAsyncThunk("category/add", function (cat, thunkApi) {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var data, error_1, message;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          _a.trys.push([0, 2,, 3]);
-
-          return [4
-          /*yield*/
-          , axios_config_1["default"].post("/subject", {
-            category_name: cat.name
-          })];
-
-        case 1:
-          data = _a.sent().data;
-          return [2
-          /*return*/
-          , data];
-
-        case 2:
-          error_1 = _a.sent();
-          message = error_1.response && error_1.response.data ? error_1.response.data : error_1.message;
-          return [2
-          /*return*/
-          , thunkApi.rejectWithValue(message)];
-
-        case 3:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-});
-exports.addCategoryAction = addCategoryAction;
-var addCategorySlice = toolkit_1.createSlice({
-  name: "category/add",
-  initialState: initialState,
-  reducers: {
-    reset: function reset(state) {
-      state.status = "loading";
-      state.error = null;
-      state.success = false;
-      state.success_message = null;
-    }
-  },
-  extraReducers: function extraReducers(builder) {
-    builder.addCase(addCategoryAction.pending, function (state) {
-      state.status = "loading";
-      state.error = null;
-      state.success_message = null;
-      state.success = false;
-    });
-    builder.addCase(addCategoryAction.fulfilled, function (state, _a) {
-      var payload = _a.payload;
-      state.success = payload.success;
-      state.success_message = payload.success_message;
-      state.status = "idle";
-      state.error = null;
-    });
-    builder.addCase(addCategoryAction.rejected, function (state, _a) {
-      var payload = _a.payload;
-      if (payload) state.error = payload;
-      state.status = "idle";
-      state.success_message = null;
-      state.success = false;
-    });
-  }
-});
-var initialStateGetCat = {
-  error: null,
-  status: "idle",
-  lists: []
-}; //Adding New Category
-
-var getCategoryAction = toolkit_1.createAsyncThunk("category/get", function (_, thunkApi) {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var data, error_2, message;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          _a.trys.push([0, 2,, 3]);
-
-          return [4
-          /*yield*/
-          , axios_config_1["default"].get("/category")];
-
-        case 1:
-          data = _a.sent().data;
-          return [2
-          /*return*/
-          , data];
-
-        case 2:
-          error_2 = _a.sent();
-          message = error_2.response && error_2.response.data ? error_2.response.data : error_2.message;
-          return [2
-          /*return*/
-          , thunkApi.rejectWithValue(message)];
-
-        case 3:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-});
-exports.getCategoryAction = getCategoryAction;
-var getCategorySlice = toolkit_1.createSlice({
-  name: "category/get",
-  initialState: __assign({}, initialStateGetCat),
-  reducers: {},
-  extraReducers: function extraReducers(builder) {
-    builder.addCase(getCategoryAction.pending, function (state) {
-      state.status = "loading";
-      state.error = null;
-    });
-    builder.addCase(getCategoryAction.fulfilled, function (state, _a) {
-      var payload = _a.payload;
-      state.status = "idle";
-      state.error = null;
-      state.lists = payload.lists;
-    });
-    builder.addCase(getCategoryAction.rejected, function (state, _a) {
-      var payload = _a.payload;
-      if (payload) state.error = payload;
-      state.status = "idle";
-    });
-  }
-});
-exports.addCategoryReducer = addCategorySlice.reducer;
-var reset = addCategorySlice.actions.reset;
-exports.reset = reset;
-exports.getCategoryReducer = getCategorySlice.reducer;
-
-/***/ }),
-
 /***/ "./resources/js/utils/icons/svg.tsx":
 /*!******************************************!*\
   !*** ./resources/js/utils/icons/svg.tsx ***!
@@ -28655,7 +29419,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.DeleteIcon = exports.EditIcon = exports.LogoutIcon = exports.DepartmentIcon = exports.ListIcon = exports.ReportIcon = exports.UsersIcon = exports.UserIcon = exports.ClipboardCopyIcon = exports.ClipboardIcon = exports.CollectionIcon = exports.AddIcon = exports.DashboardIcon = exports.AcademicCapIcon = void 0;
+exports.BookIcon = exports.DeleteIcon = exports.EditIcon = exports.LogoutIcon = exports.DepartmentIcon = exports.ListIcon = exports.ReportIcon = exports.UsersIcon = exports.UserIcon = exports.ClipboardCopyIcon = exports.ClipboardIcon = exports.CollectionIcon = exports.AddIcon = exports.DashboardIcon = exports.AcademicCapIcon = void 0;
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -28914,6 +29678,25 @@ var DeleteIcon = function DeleteIcon() {
 };
 
 exports.DeleteIcon = DeleteIcon;
+
+var BookIcon = function BookIcon(_a) {
+  var _b = _a.fill,
+      fill = _b === void 0 ? "#A1A1AA" : _b;
+  return react_1["default"].createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    className: "h-4 w-4",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    stroke: "" + fill
+  }, react_1["default"].createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2,
+    d: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+  }));
+};
+
+exports.BookIcon = BookIcon;
 
 /***/ }),
 
@@ -46602,6 +47385,1190 @@ function baseClone (src, circulars, clones) {
 function clone (src) {
   return baseClone(src, [], [])
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/notistack/dist/notistack.esm.js":
+/*!******************************************************!*\
+  !*** ./node_modules/notistack/dist/notistack.esm.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SnackbarContent": () => (/* binding */ SnackbarContent$1),
+/* harmony export */   "SnackbarProvider": () => (/* binding */ SnackbarProvider),
+/* harmony export */   "useSnackbar": () => (/* binding */ useSnackbar),
+/* harmony export */   "withSnackbar": () => (/* binding */ withSnackbar)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.m.js");
+/* harmony import */ var _material_ui_core_Slide__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/Slide */ "./node_modules/@material-ui/core/esm/Slide/Slide.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/createStyles.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/withStyles.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/colorManipulator.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core_Collapse__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/core/Collapse */ "./node_modules/@material-ui/core/esm/Collapse/Collapse.js");
+/* harmony import */ var _material_ui_core_SvgIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core/SvgIcon */ "./node_modules/@material-ui/core/esm/SvgIcon/SvgIcon.js");
+/* harmony import */ var _material_ui_core_ClickAwayListener__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core/ClickAwayListener */ "./node_modules/@material-ui/core/esm/ClickAwayListener/ClickAwayListener.js");
+/* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! hoist-non-react-statics */ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js");
+/* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+
+
+
+
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  subClass.__proto__ = superClass;
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+var SnackbarContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext();
+
+var allClasses = {
+  mui: {
+    root: {},
+    anchorOriginTopCenter: {},
+    anchorOriginBottomCenter: {},
+    anchorOriginTopRight: {},
+    anchorOriginBottomRight: {},
+    anchorOriginTopLeft: {},
+    anchorOriginBottomLeft: {}
+  },
+  container: {
+    containerRoot: {},
+    containerAnchorOriginTopCenter: {},
+    containerAnchorOriginBottomCenter: {},
+    containerAnchorOriginTopRight: {},
+    containerAnchorOriginBottomRight: {},
+    containerAnchorOriginTopLeft: {},
+    containerAnchorOriginBottomLeft: {}
+  }
+};
+var MESSAGES = {
+  NO_PERSIST_ALL: 'WARNING - notistack: Reached maxSnack while all enqueued snackbars have \'persist\' flag. Notistack will dismiss the oldest snackbar anyway to allow other ones in the queue to be presented.'
+};
+var SNACKBAR_INDENTS = {
+  view: {
+    "default": 20,
+    dense: 4
+  },
+  snackbar: {
+    "default": 6,
+    dense: 2
+  }
+};
+var DEFAULTS = {
+  maxSnack: 3,
+  dense: false,
+  hideIconVariant: false,
+  variant: 'default',
+  autoHideDuration: 5000,
+  anchorOrigin: {
+    vertical: 'bottom',
+    horizontal: 'left'
+  },
+  TransitionComponent: _material_ui_core_Slide__WEBPACK_IMPORTED_MODULE_4__.default,
+  transitionDuration: {
+    enter: 225,
+    exit: 195
+  }
+};
+var capitalise = function capitalise(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
+var originKeyExtractor = function originKeyExtractor(anchor) {
+  return "" + capitalise(anchor.vertical) + capitalise(anchor.horizontal);
+};
+/**
+ * Omit SnackbarContainer class keys that are not needed for SnackbarItem
+ */
+
+var omitContainerKeys = function omitContainerKeys(classes) {
+  return (// @ts-ignore
+    Object.keys(classes).filter(function (key) {
+      return !allClasses.container[key];
+    }).reduce(function (obj, key) {
+      var _extends2;
+
+      return _extends({}, obj, (_extends2 = {}, _extends2[key] = classes[key], _extends2));
+    }, {})
+  );
+};
+var REASONS = {
+  TIMEOUT: 'timeout',
+  CLICKAWAY: 'clickaway',
+  MAXSNACK: 'maxsnack',
+  INSTRUCTED: 'instructed'
+};
+/** Tranforms classes name */
+
+var transformer = {
+  toContainerAnchorOrigin: function toContainerAnchorOrigin(origin) {
+    return "anchorOrigin" + origin;
+  },
+  toAnchorOrigin: function toAnchorOrigin(_ref) {
+    var vertical = _ref.vertical,
+        horizontal = _ref.horizontal;
+    return "anchorOrigin" + capitalise(vertical) + capitalise(horizontal);
+  },
+  toVariant: function toVariant(variant) {
+    return "variant" + capitalise(variant);
+  }
+};
+var isDefined = function isDefined(value) {
+  return !!value || value === 0;
+};
+
+var numberOrNull = function numberOrNull(numberish) {
+  return typeof numberish === 'number' || numberish === null;
+}; // @ts-ignore
+
+
+var merge = function merge(options, props, defaults) {
+  return function (name) {
+    if (name === 'autoHideDuration') {
+      if (numberOrNull(options.autoHideDuration)) return options.autoHideDuration;
+      if (numberOrNull(props.autoHideDuration)) return props.autoHideDuration;
+      return DEFAULTS.autoHideDuration;
+    }
+
+    return options[name] || props[name] || defaults[name];
+  };
+};
+function objectMerge(options, props, defaults) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  if (props === void 0) {
+    props = {};
+  }
+
+  if (defaults === void 0) {
+    defaults = {};
+  }
+
+  return _extends({}, defaults, {}, props, {}, options);
+}
+
+var styles = function styles(theme) {
+  var _root;
+
+  return (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__.default)({
+    root: (_root = {
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexGrow: 1
+    }, _root[theme.breakpoints.up('sm')] = {
+      flexGrow: 'initial',
+      minWidth: 288
+    }, _root)
+  });
+};
+
+var SnackbarContent = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function (_ref, ref) {
+  var classes = _ref.classes,
+      className = _ref.className,
+      props = _objectWithoutPropertiesLoose(_ref, ["classes", "className"]);
+
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", Object.assign({
+    ref: ref,
+    className: (0,clsx__WEBPACK_IMPORTED_MODULE_2__.default)(classes.root, className)
+  }, props));
+});
+var SnackbarContent$1 = /*#__PURE__*/(0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__.default)(styles)(SnackbarContent);
+
+var DIRECTION = {
+  right: 'left',
+  left: 'right',
+  bottom: 'up',
+  top: 'down'
+};
+var getTransitionDirection = function getTransitionDirection(anchorOrigin) {
+  if (anchorOrigin.horizontal !== 'center') {
+    return DIRECTION[anchorOrigin.horizontal];
+  }
+
+  return DIRECTION[anchorOrigin.vertical];
+};
+/**
+ * Omit all class keys except what we need for collapse component
+ */
+
+var omitNonCollapseKeys = function omitNonCollapseKeys(classes, dense) {
+  return {
+    container: classes.collapseContainer,
+    wrapper: (0,clsx__WEBPACK_IMPORTED_MODULE_2__.default)(classes.collapseWrapper, dense && classes.collapseWrapperDense),
+    wrapperInner: classes.collapseWrapperInner
+  };
+};
+
+var CheckIcon = function CheckIcon(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_SvgIcon__WEBPACK_IMPORTED_MODULE_7__.default, Object.assign({}, props), react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41\n        10.59L10 14.17L17.59 6.58L19 8L10 17Z"
+  }));
+};
+
+var WarningIcon = function WarningIcon(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_SvgIcon__WEBPACK_IMPORTED_MODULE_7__.default, Object.assign({}, props), react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z"
+  }));
+};
+
+var ErrorIcon = function ErrorIcon(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_SvgIcon__WEBPACK_IMPORTED_MODULE_7__.default, Object.assign({}, props), react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,\n        6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,\n        13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"
+  }));
+};
+
+var InfoIcon = function InfoIcon(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_SvgIcon__WEBPACK_IMPORTED_MODULE_7__.default, Object.assign({}, props), react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,\n        0 22,12A10,10 0 0,0 12,2Z"
+  }));
+};
+
+var iconStyles = {
+  fontSize: 20,
+  marginInlineEnd: 8
+};
+var defaultIconVariants = {
+  "default": undefined,
+  success: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CheckIcon, {
+    style: iconStyles
+  }),
+  warning: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(WarningIcon, {
+    style: iconStyles
+  }),
+  error: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ErrorIcon, {
+    style: iconStyles
+  }),
+  info: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(InfoIcon, {
+    style: iconStyles
+  })
+};
+
+/**
+ * @link https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/utils/createChainedFunction.js
+ */
+function createChainedFunction(funcs, extraArg) {
+  return funcs.reduce(function (acc, func) {
+    if (func == null) return acc;
+
+    if (true) {
+      if (typeof func !== 'function') {
+        // eslint-disable-next-line no-console
+        console.error('Invalid Argument Type. must only provide functions, undefined, or null.');
+      }
+    }
+
+    return function chainedFunction() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      var argums = [].concat(args);
+
+      if (extraArg && argums.indexOf(extraArg) === -1) {
+        argums.push(extraArg);
+      }
+
+      acc.apply(this, argums);
+      func.apply(this, argums);
+    };
+  }, function () {});
+}
+
+/**
+ * @link https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/utils/useEventCallback.js
+ */
+var useEnhancedEffect = typeof window !== 'undefined' ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : react__WEBPACK_IMPORTED_MODULE_0__.useEffect;
+function useEventCallback(fn) {
+  var ref = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(fn);
+  useEnhancedEffect(function () {
+    ref.current = fn;
+  });
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    return (ref.current).apply(void 0, arguments);
+  }, []);
+}
+
+var Snackbar = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function (props, ref) {
+  var children = props.children,
+      autoHideDuration = props.autoHideDuration,
+      ClickAwayListenerProps = props.ClickAwayListenerProps,
+      _props$disableWindowB = props.disableWindowBlurListener,
+      disableWindowBlurListener = _props$disableWindowB === void 0 ? false : _props$disableWindowB,
+      onClose = props.onClose,
+      onMouseEnter = props.onMouseEnter,
+      onMouseLeave = props.onMouseLeave,
+      open = props.open,
+      resumeHideDuration = props.resumeHideDuration,
+      other = _objectWithoutPropertiesLoose(props, ["children", "autoHideDuration", "ClickAwayListenerProps", "disableWindowBlurListener", "onClose", "onMouseEnter", "onMouseLeave", "open", "resumeHideDuration"]);
+
+  var timerAutoHide = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var handleClose = useEventCallback(function () {
+    if (onClose) {
+      onClose.apply(void 0, arguments);
+    }
+  });
+  var setAutoHideTimer = useEventCallback(function (autoHideDurationParam) {
+    if (!onClose || autoHideDurationParam == null) {
+      return;
+    }
+
+    clearTimeout(timerAutoHide.current);
+    timerAutoHide.current = setTimeout(function () {
+      handleClose(null, REASONS.TIMEOUT);
+    }, autoHideDurationParam);
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (open) {
+      setAutoHideTimer(autoHideDuration);
+    }
+
+    return function () {
+      clearTimeout(timerAutoHide.current);
+    };
+  }, [open, autoHideDuration, setAutoHideTimer]);
+  /**
+   * Pause the timer when the user is interacting with the Snackbar
+   * or when the user hide the window.
+   */
+
+  var handlePause = function handlePause() {
+    clearTimeout(timerAutoHide.current);
+  };
+  /**
+   * Restart the timer when the user is no longer interacting with the Snackbar
+   * or when the window is shown back.
+   */
+
+
+  var handleResume = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (autoHideDuration != null) {
+      setAutoHideTimer(resumeHideDuration != null ? resumeHideDuration : autoHideDuration * 0.5);
+    }
+  }, [autoHideDuration, resumeHideDuration, setAutoHideTimer]);
+
+  var handleMouseEnter = function handleMouseEnter(event) {
+    if (onMouseEnter) {
+      onMouseEnter(event);
+    }
+
+    handlePause();
+  };
+
+  var handleMouseLeave = function handleMouseLeave(event) {
+    if (onMouseLeave) {
+      onMouseLeave(event);
+    }
+
+    handleResume();
+  };
+
+  var handleClickAway = function handleClickAway(event) {
+    if (onClose) {
+      onClose(event, REASONS.CLICKAWAY);
+    }
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (!disableWindowBlurListener && open) {
+      window.addEventListener('focus', handleResume);
+      window.addEventListener('blur', handlePause);
+      return function () {
+        window.removeEventListener('focus', handleResume);
+        window.removeEventListener('blur', handlePause);
+      };
+    }
+
+    return undefined;
+  }, [disableWindowBlurListener, handleResume, open]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_material_ui_core_ClickAwayListener__WEBPACK_IMPORTED_MODULE_8__.default, _extends({
+    onClickAway: handleClickAway
+  }, ClickAwayListenerProps), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", _extends({
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    ref: ref
+  }, other), children));
+});
+
+var styles$1 = function styles(theme) {
+  var _collapseContainer, _collapseWrapperInner;
+
+  // @ts-ignore
+  var mode = theme.palette.mode || theme.palette.type;
+  var backgroundColor = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_9__.emphasize)(theme.palette.background["default"], mode === 'light' ? 0.8 : 0.98);
+  return (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__.default)(_extends({}, allClasses.mui, {
+    lessPadding: {
+      paddingLeft: 8 * 2.5
+    },
+    variantSuccess: {
+      backgroundColor: '#43a047 !important',
+      color: '#fff !important'
+    },
+    variantError: {
+      backgroundColor: '#d32f2f !important',
+      color: '#fff !important'
+    },
+    variantInfo: {
+      backgroundColor: '#2196f3 !important',
+      color: '#fff !important'
+    },
+    variantWarning: {
+      backgroundColor: '#ff9800 !important',
+      color: '#fff !important'
+    },
+    contentRoot: _extends({}, theme.typography.body2, {
+      backgroundColor: backgroundColor,
+      color: theme.palette.getContrastText(backgroundColor),
+      alignItems: 'center',
+      padding: '6px 16px',
+      borderRadius: '4px',
+      boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)'
+    }),
+    message: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: '8px 0'
+    },
+    action: {
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: 'auto',
+      paddingLeft: 16,
+      marginRight: -8
+    },
+    wrappedRoot: {
+      position: 'relative',
+      transform: 'translateX(0)',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    },
+    collapseContainer: (_collapseContainer = {}, _collapseContainer[theme.breakpoints.down('xs')] = {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1)
+    }, _collapseContainer),
+    collapseWrapper: {
+      transition: theme.transitions.create(['margin-bottom'], {
+        easing: 'ease'
+      }),
+      marginTop: SNACKBAR_INDENTS.snackbar["default"],
+      marginBottom: SNACKBAR_INDENTS.snackbar["default"]
+    },
+    collapseWrapperDense: {
+      marginTop: SNACKBAR_INDENTS.snackbar.dense,
+      marginBottom: SNACKBAR_INDENTS.snackbar.dense
+    },
+    collapseWrapperInner: (_collapseWrapperInner = {
+      width: 'auto'
+    }, _collapseWrapperInner[theme.breakpoints.down('xs')] = {
+      width: '100%'
+    }, _collapseWrapperInner)
+  }));
+};
+
+var SnackbarItem = function SnackbarItem(_ref) {
+  var classes = _ref.classes,
+      props = _objectWithoutPropertiesLoose(_ref, ["classes"]);
+
+  var timeout = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      collapsed = _useState[0],
+      setCollapsed = _useState[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    return function () {
+      if (timeout.current) {
+        clearTimeout(timeout.current);
+      }
+    };
+  }, []);
+  var handleClose = createChainedFunction([props.snack.onClose, props.onClose], props.snack.key);
+
+  var handleEntered = function handleEntered() {
+    if (props.snack.requestClose) {
+      handleClose(null, REASONS.INSTRCUTED);
+    }
+  };
+
+  var handleExitedScreen = function handleExitedScreen() {
+    timeout.current = setTimeout(function () {
+      setCollapsed(!collapsed);
+    }, 125);
+  };
+
+  var style = props.style,
+      dense = props.dense,
+      otherAriaAttributes = props.ariaAttributes,
+      otherClassName = props.className,
+      hideIconVariant = props.hideIconVariant,
+      iconVariant = props.iconVariant,
+      snack = props.snack,
+      otherAction = props.action,
+      otherContent = props.content,
+      otherTranComponent = props.TransitionComponent,
+      otherTranProps = props.TransitionProps,
+      otherTranDuration = props.transitionDuration,
+      other = _objectWithoutPropertiesLoose(props, ["style", "dense", "ariaAttributes", "className", "hideIconVariant", "iconVariant", "snack", "action", "content", "TransitionComponent", "TransitionProps", "transitionDuration", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting"]);
+
+  var key = snack.key,
+      open = snack.open,
+      singleClassName = snack.className,
+      variant = snack.variant,
+      singleContent = snack.content,
+      singleAction = snack.action,
+      singleAriaAttributes = snack.ariaAttributes,
+      anchorOrigin = snack.anchorOrigin,
+      snackMessage = snack.message,
+      singleTranComponent = snack.TransitionComponent,
+      singleTranProps = snack.TransitionProps,
+      singleTranDuration = snack.transitionDuration,
+      singleSnackProps = _objectWithoutPropertiesLoose(snack, ["persist", "key", "open", "entered", "requestClose", "className", "variant", "content", "action", "ariaAttributes", "anchorOrigin", "message", "TransitionComponent", "TransitionProps", "transitionDuration", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting"]);
+
+  var icon = _extends({}, defaultIconVariants, {}, iconVariant)[variant];
+
+  var ariaAttributes = _extends({
+    'aria-describedby': 'notistack-snackbar'
+  }, objectMerge(singleAriaAttributes, otherAriaAttributes));
+
+  var TransitionComponent = singleTranComponent || otherTranComponent || DEFAULTS.TransitionComponent;
+  var transitionDuration = objectMerge(singleTranDuration, otherTranDuration, DEFAULTS.transitionDuration);
+
+  var transitionProps = _extends({
+    direction: getTransitionDirection(anchorOrigin)
+  }, objectMerge(singleTranProps, otherTranProps));
+
+  var action = singleAction || otherAction;
+
+  if (typeof action === 'function') {
+    action = action(key);
+  }
+
+  var content = singleContent || otherContent;
+
+  if (typeof content === 'function') {
+    content = content(key, snack.message);
+  }
+
+  var callbacks = ['onEnter', 'onEntering', 'onEntered', 'onExit', 'onExiting', 'onExited'].reduce(function (acc, cbName) {
+    var _extends2;
+
+    return _extends({}, acc, (_extends2 = {}, _extends2[cbName] = createChainedFunction([props.snack[cbName], props[cbName]], props.snack.key), _extends2));
+  }, {});
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core_Collapse__WEBPACK_IMPORTED_MODULE_10__.default, {
+    unmountOnExit: true,
+    timeout: 175,
+    "in": collapsed,
+    classes: omitNonCollapseKeys(classes, dense),
+    onExited: callbacks.onExited
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(Snackbar, Object.assign({}, other, singleSnackProps, {
+    open: open,
+    className: (0,clsx__WEBPACK_IMPORTED_MODULE_2__.default)(classes.root, classes.wrappedRoot, classes[transformer.toAnchorOrigin(anchorOrigin)]),
+    onClose: handleClose
+  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(TransitionComponent, Object.assign({
+    appear: true,
+    "in": open,
+    timeout: transitionDuration
+  }, transitionProps, {
+    onExit: callbacks.onExit,
+    onExiting: callbacks.onExiting,
+    onExited: handleExitedScreen,
+    onEnter: callbacks.onEnter,
+    onEntering: callbacks.onEntering,
+    // order matters. first callbacks.onEntered to set entered: true,
+    // then handleEntered to check if there's a request for closing
+    onEntered: createChainedFunction([callbacks.onEntered, handleEntered])
+  }), content || react__WEBPACK_IMPORTED_MODULE_0__.createElement(SnackbarContent$1, Object.assign({}, ariaAttributes, {
+    role: "alert",
+    style: style,
+    className: (0,clsx__WEBPACK_IMPORTED_MODULE_2__.default)(classes.contentRoot, classes[transformer.toVariant(variant)], otherClassName, singleClassName, !hideIconVariant && icon && classes.lessPadding)
+  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    id: ariaAttributes['aria-describedby'],
+    className: classes.message
+  }, !hideIconVariant ? icon : null, snackMessage), action && react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: classes.action
+  }, action)))));
+};
+
+var SnackbarItem$1 = /*#__PURE__*/(0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__.default)(styles$1)(SnackbarItem);
+
+var useStyle = /*#__PURE__*/(0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_11__.default)(function (theme) {
+  var _root, _center;
+
+  return {
+    root: (_root = {
+      boxSizing: 'border-box',
+      display: 'flex',
+      maxHeight: '100%',
+      maxWidth: '100%',
+      position: 'fixed',
+      flexDirection: 'column',
+      zIndex: theme.zIndex.snackbar,
+      height: 'auto',
+      width: 'auto',
+      minWidth: 288,
+      transition: theme.transitions.create(['top', 'right', 'bottom', 'left'], {
+        easing: 'ease'
+      })
+    }, _root[theme.breakpoints.down('xs')] = {
+      left: '0 !important',
+      right: '0 !important',
+      width: '100%'
+    }, _root),
+    reverseColumns: {
+      flexDirection: 'column-reverse'
+    },
+    top: {
+      top: SNACKBAR_INDENTS.view["default"] - SNACKBAR_INDENTS.snackbar["default"]
+    },
+    topDense: {
+      top: SNACKBAR_INDENTS.view.dense - SNACKBAR_INDENTS.snackbar.dense
+    },
+    bottom: {
+      bottom: SNACKBAR_INDENTS.view["default"] - SNACKBAR_INDENTS.snackbar["default"]
+    },
+    bottomDense: {
+      bottom: SNACKBAR_INDENTS.view.dense - SNACKBAR_INDENTS.snackbar.dense
+    },
+    left: {
+      left: SNACKBAR_INDENTS.view["default"]
+    },
+    leftDense: {
+      left: SNACKBAR_INDENTS.view.dense
+    },
+    right: {
+      right: SNACKBAR_INDENTS.view["default"]
+    },
+    rightDense: {
+      right: SNACKBAR_INDENTS.view.dense
+    },
+    center: (_center = {
+      left: '50%',
+      transform: 'translateX(-50%)'
+    }, _center[theme.breakpoints.down('xs')] = {
+      transform: 'translateX(0)'
+    }, _center)
+  };
+});
+
+var SnackbarContainer = function SnackbarContainer(props) {
+  var classes = useStyle();
+
+  var className = props.className,
+      anchorOrigin = props.anchorOrigin,
+      dense = props.dense,
+      other = _objectWithoutPropertiesLoose(props, ["className", "anchorOrigin", "dense"]);
+
+  var combinedClassname = (0,clsx__WEBPACK_IMPORTED_MODULE_2__.default)(classes.root, classes[anchorOrigin.vertical], classes[anchorOrigin.horizontal], // @ts-ignore
+  classes["" + anchorOrigin.vertical + (dense ? 'Dense' : '')], // @ts-ignore
+  classes["" + anchorOrigin.horizontal + (dense ? 'Dense' : '')], className, anchorOrigin.vertical === 'bottom' && classes.reverseColumns);
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", Object.assign({
+    className: combinedClassname
+  }, other));
+};
+
+var SnackbarContainer$1 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.memo(SnackbarContainer);
+
+/* eslint-disable */
+var __DEV__ = "development" !== 'production';
+
+var warning = (function (message) {
+  if (!__DEV__) return;
+
+  if (typeof console !== 'undefined') {
+    console.error(message);
+  }
+
+  try {
+    throw new Error(message);
+  } catch (x) {}
+});
+
+var SnackbarProvider = /*#__PURE__*/function (_Component) {
+  _inheritsLoose(SnackbarProvider, _Component);
+
+  function SnackbarProvider(props) {
+    var _this;
+
+    _this = _Component.call(this, props) || this;
+    /**
+     * Adds a new snackbar to the queue to be presented.
+     * Returns generated or user defined key referencing the new snackbar or null
+     */
+
+    _this.enqueueSnackbar = function (message, opts) {
+      if (opts === void 0) {
+        opts = {};
+      }
+
+      var _opts = opts,
+          key = _opts.key,
+          preventDuplicate = _opts.preventDuplicate,
+          options = _objectWithoutPropertiesLoose(_opts, ["key", "preventDuplicate"]);
+
+      var hasSpecifiedKey = isDefined(key);
+      var id = hasSpecifiedKey ? key : new Date().getTime() + Math.random();
+      var merger = merge(options, _this.props, DEFAULTS);
+
+      var snack = _extends({
+        key: id
+      }, options, {
+        message: message,
+        open: true,
+        entered: false,
+        requestClose: false,
+        variant: merger('variant'),
+        anchorOrigin: merger('anchorOrigin'),
+        autoHideDuration: merger('autoHideDuration')
+      });
+
+      if (options.persist) {
+        snack.autoHideDuration = undefined;
+      }
+
+      _this.setState(function (state) {
+        if (preventDuplicate === undefined && _this.props.preventDuplicate || preventDuplicate) {
+          var compareFunction = function compareFunction(item) {
+            return hasSpecifiedKey ? item.key === key : item.message === message;
+          };
+
+          var inQueue = state.queue.findIndex(compareFunction) > -1;
+          var inView = state.snacks.findIndex(compareFunction) > -1;
+
+          if (inQueue || inView) {
+            return state;
+          }
+        }
+
+        return _this.handleDisplaySnack(_extends({}, state, {
+          queue: [].concat(state.queue, [snack])
+        }));
+      });
+
+      return id;
+    };
+    /**
+     * Reducer: Display snack if there's space for it. Otherwise, immediately
+     * begin dismissing the oldest message to start showing the new one.
+     */
+
+
+    _this.handleDisplaySnack = function (state) {
+      var snacks = state.snacks;
+
+      if (snacks.length >= _this.maxSnack) {
+        return _this.handleDismissOldest(state);
+      }
+
+      return _this.processQueue(state);
+    };
+    /**
+     * Reducer: Display items (notifications) in the queue if there's space for them.
+     */
+
+
+    _this.processQueue = function (state) {
+      var queue = state.queue,
+          snacks = state.snacks;
+
+      if (queue.length > 0) {
+        return _extends({}, state, {
+          snacks: [].concat(snacks, [queue[0]]),
+          queue: queue.slice(1, queue.length)
+        });
+      }
+
+      return state;
+    };
+    /**
+     * Reducer: Hide oldest snackbar on the screen because there exists a new one which we have to display.
+     * (ignoring the one with 'persist' flag. i.e. explicitly told by user not to get dismissed).
+     *
+     * Note 1: If there is already a message leaving the screen, no new messages are dismissed.
+     * Note 2: If the oldest message has not yet entered the screen, only a request to close the
+     *         snackbar is made. Once it entered the screen, it will be immediately dismissed.
+     */
+
+
+    _this.handleDismissOldest = function (state) {
+      if (state.snacks.some(function (item) {
+        return !item.open || item.requestClose;
+      })) {
+        return state;
+      }
+
+      var popped = false;
+      var ignore = false;
+      var persistentCount = state.snacks.reduce(function (acc, current) {
+        return acc + (current.open && current.persist ? 1 : 0);
+      }, 0);
+
+      if (persistentCount === _this.maxSnack) {
+         true ? warning(MESSAGES.NO_PERSIST_ALL) : 0;
+        ignore = true;
+      }
+
+      var snacks = state.snacks.map(function (item) {
+        if (!popped && (!item.persist || ignore)) {
+          popped = true;
+
+          if (!item.entered) {
+            return _extends({}, item, {
+              requestClose: true
+            });
+          }
+
+          if (item.onClose) item.onClose(null, REASONS.MAXSNACK, item.key);
+          if (_this.props.onClose) _this.props.onClose(null, REASONS.MAXSNACK, item.key);
+          return _extends({}, item, {
+            open: false
+          });
+        }
+
+        return _extends({}, item);
+      });
+      return _extends({}, state, {
+        snacks: snacks
+      });
+    };
+    /**
+     * Set the entered state of the snackbar with the given key.
+     */
+
+
+    _this.handleEnteredSnack = function (node, isAppearing, key) {
+      if (!isDefined(key)) {
+        throw new Error('handleEnteredSnack Cannot be called with undefined key');
+      }
+
+      _this.setState(function (_ref) {
+        var snacks = _ref.snacks;
+        return {
+          snacks: snacks.map(function (item) {
+            return item.key === key ? _extends({}, item, {
+              entered: true
+            }) : _extends({}, item);
+          })
+        };
+      });
+    };
+    /**
+     * Hide a snackbar after its timeout.
+     */
+
+
+    _this.handleCloseSnack = function (event, reason, key) {
+      // should not use createChainedFunction for onClose.
+      // because this.closeSnackbar called this function
+      if (_this.props.onClose) {
+        _this.props.onClose(event, reason, key);
+      }
+
+      if (reason === REASONS.CLICKAWAY) return;
+      var shouldCloseAll = key === undefined;
+
+      _this.setState(function (_ref2) {
+        var snacks = _ref2.snacks,
+            queue = _ref2.queue;
+        return {
+          snacks: snacks.map(function (item) {
+            if (!shouldCloseAll && item.key !== key) {
+              return _extends({}, item);
+            }
+
+            return item.entered ? _extends({}, item, {
+              open: false
+            }) : _extends({}, item, {
+              requestClose: true
+            });
+          }),
+          queue: queue.filter(function (item) {
+            return item.key !== key;
+          })
+        };
+      });
+    };
+    /**
+     * Close snackbar with the given key
+     */
+
+
+    _this.closeSnackbar = function (key) {
+      // call individual snackbar onClose callback passed through options parameter
+      var toBeClosed = _this.state.snacks.find(function (item) {
+        return item.key === key;
+      });
+
+      if (isDefined(key) && toBeClosed && toBeClosed.onClose) {
+        toBeClosed.onClose(null, REASONS.INSTRUCTED, key);
+      }
+
+      _this.handleCloseSnack(null, REASONS.INSTRUCTED, key);
+    };
+    /**
+     * When we set open attribute of a snackbar to false (i.e. after we hide a snackbar),
+     * it leaves the screen and immediately after leaving animation is done, this method
+     * gets called. We remove the hidden snackbar from state and then display notifications
+     * waiting in the queue (if any). If after this process the queue is not empty, the
+     * oldest message is dismissed.
+     */
+    // @ts-ignore
+
+
+    _this.handleExitedSnack = function (event, key1, key2) {
+      var key = key1 || key2;
+
+      if (!isDefined(key)) {
+        throw new Error('handleExitedSnack Cannot be called with undefined key');
+      }
+
+      _this.setState(function (state) {
+        var newState = _this.processQueue(_extends({}, state, {
+          snacks: state.snacks.filter(function (item) {
+            return item.key !== key;
+          })
+        }));
+
+        if (newState.queue.length === 0) {
+          return newState;
+        }
+
+        return _this.handleDismissOldest(newState);
+      });
+    };
+
+    _this.state = {
+      snacks: [],
+      queue: [],
+      contextValue: {
+        enqueueSnackbar: _this.enqueueSnackbar,
+        closeSnackbar: _this.closeSnackbar
+      }
+    };
+    return _this;
+  }
+
+  var _proto = SnackbarProvider.prototype;
+
+  _proto.render = function render() {
+    var _this2 = this;
+
+    var contextValue = this.state.contextValue;
+
+    var _this$props = this.props,
+        iconVariant = _this$props.iconVariant,
+        _this$props$dense = _this$props.dense,
+        dense = _this$props$dense === void 0 ? DEFAULTS.dense : _this$props$dense,
+        _this$props$hideIconV = _this$props.hideIconVariant,
+        hideIconVariant = _this$props$hideIconV === void 0 ? DEFAULTS.hideIconVariant : _this$props$hideIconV,
+        domRoot = _this$props.domRoot,
+        children = _this$props.children,
+        _this$props$classes = _this$props.classes,
+        classes = _this$props$classes === void 0 ? {} : _this$props$classes,
+        props = _objectWithoutPropertiesLoose(_this$props, ["maxSnack", "preventDuplicate", "variant", "anchorOrigin", "iconVariant", "dense", "hideIconVariant", "domRoot", "children", "classes"]);
+
+    var categ = this.state.snacks.reduce(function (acc, current) {
+      var _extends2;
+
+      var category = originKeyExtractor(current.anchorOrigin);
+      var existingOfCategory = acc[category] || [];
+      return _extends({}, acc, (_extends2 = {}, _extends2[category] = [].concat(existingOfCategory, [current]), _extends2));
+    }, {});
+    var snackbars = Object.keys(categ).map(function (origin) {
+      var snacks = categ[origin];
+      return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SnackbarContainer$1, {
+        key: origin,
+        dense: dense,
+        anchorOrigin: snacks[0].anchorOrigin,
+        className: (0,clsx__WEBPACK_IMPORTED_MODULE_2__.default)(classes.containerRoot, classes[transformer.toContainerAnchorOrigin(origin)])
+      }, snacks.map(function (snack) {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SnackbarItem$1, Object.assign({}, props, {
+          key: snack.key,
+          snack: snack,
+          dense: dense,
+          iconVariant: iconVariant,
+          hideIconVariant: hideIconVariant,
+          classes: omitContainerKeys(classes),
+          onClose: _this2.handleCloseSnack,
+          onExited: createChainedFunction([_this2.handleExitedSnack, _this2.props.onExited]),
+          onEntered: createChainedFunction([_this2.handleEnteredSnack, _this2.props.onEntered])
+        }));
+      }));
+    });
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SnackbarContext.Provider, {
+      value: contextValue
+    }, children, domRoot ? (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.createPortal)(snackbars, domRoot) : snackbars);
+  };
+
+  _createClass(SnackbarProvider, [{
+    key: "maxSnack",
+    get: function get() {
+      return this.props.maxSnack || DEFAULTS.maxSnack;
+    }
+  }]);
+
+  return SnackbarProvider;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+// https://github.com/JamesMGreene/Function.name/blob/58b314d4a983110c3682f1228f845d39ccca1817/Function.name.js#L3
+var fnNameMatchRegex = /^\s*function(?:\s|\s*\/\*.*\*\/\s*)+([^(\s/]*)\s*/;
+
+var getFunctionName = function getFunctionName(fn) {
+  var match = ("" + fn).match(fnNameMatchRegex);
+  var name = match && match[1];
+  return name || '';
+};
+/**
+ * @param {function} Component
+ * @param {string} fallback
+ * @returns {string | undefined}
+ */
+
+
+var getFunctionComponentName = function getFunctionComponentName(Component, fallback) {
+  if (fallback === void 0) {
+    fallback = '';
+  }
+
+  return Component.displayName || Component.name || getFunctionName(Component) || fallback;
+};
+
+var getWrappedName = function getWrappedName(outerType, innerType, wrapperName) {
+  var functionName = getFunctionComponentName(innerType);
+  return outerType.displayName || (functionName !== '' ? wrapperName + "(" + functionName + ")" : wrapperName);
+};
+/** 
+ * From react-is
+ * @link https://github.com/facebook/react/blob/master/packages/shared/ReactSymbols.js
+ */
+
+
+var ForwardRef = function ForwardRef() {
+  var symbolFor = typeof Symbol === 'function' && Symbol["for"];
+  return symbolFor ? symbolFor('react.forward_ref') : 0xead0;
+};
+/**
+ * https://github.com/facebook/react/blob/769b1f270e1251d9dbdce0fcbd9e92e502d059b8/packages/shared/getComponentName.js
+ *
+ * @param {React.ReactType} Component
+ * @returns {string | undefined}
+ */
+
+
+var getDisplayName = (function (Component) {
+  if (Component == null) {
+    return undefined;
+  }
+
+  if (typeof Component === 'string') {
+    return Component;
+  }
+
+  if (typeof Component === 'function') {
+    return getFunctionComponentName(Component, 'Component');
+  }
+
+  if (typeof Component === 'object') {
+    switch (Component.$$typeof) {
+      case ForwardRef():
+        return getWrappedName(Component, Component.render, 'ForwardRef');
+
+      default:
+        return undefined;
+    }
+  }
+
+  return undefined;
+});
+
+var withSnackbar = function withSnackbar(Component) {
+  var WrappedComponent = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function (props, ref) {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SnackbarContext.Consumer, null, function (context) {
+      return react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, _extends({}, props, {
+        ref: ref,
+        enqueueSnackbar: context.enqueueSnackbar,
+        closeSnackbar: context.closeSnackbar
+      }));
+    });
+  });
+
+  if (true) {
+    WrappedComponent.displayName = "WithSnackbar(" + getDisplayName(Component) + ")";
+  }
+
+  hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_3___default()(WrappedComponent, Component);
+  return WrappedComponent;
+};
+
+var useSnackbar = (function () {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(SnackbarContext);
+});
+
+
+//# sourceMappingURL=notistack.esm.js.map
 
 
 /***/ }),

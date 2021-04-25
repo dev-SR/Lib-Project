@@ -84,12 +84,13 @@ const addSubjectSlice = createSlice({
 });
 
 //Getting All Subject
-type Subject = {
+export type Subject = {
     subject: string;
-    id: string;
+    id: number;
     department: {
+        id: number;
         department: string;
-    } | null;
+    };
 };
 type GetSubjectState = {
     lists: Subject[] | null;

@@ -3,12 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./Pages/Auth/LoginPage";
 import Register from "./Pages/Auth/RegisterPage";
 
-const LazyAddCategory = React.lazy(
-    () => import("./Pages/Admin/Category/AddSubject")
-);
-const LazyListCategory = React.lazy(
-    () => import("./Pages/Admin/Category/ListCategories")
-);
 const LazyDepartment = React.lazy(
     () => import("./Pages/Admin/Department/DepartmentMain")
 );
@@ -21,6 +15,8 @@ const LazySubject = React.lazy(
 const LazyUpdateSubject = React.lazy(
     () => import("./Pages/Admin/Subject/UpdateSubject")
 );
+const LazyBooks = React.lazy(() => import("./Pages/Admin/Books/BooksMain"));
+const LazyListBooks = React.lazy(() => import("./Pages/Admin/Books/ListBooks"));
 
 import AdminRoute from "./components/AdminRoute";
 import NotFound from "./components/Shared/NotFound";
@@ -35,14 +31,14 @@ const App = () => {
                 <Route path="/" exact>
                     <Home />
                 </Route>
-                <AdminRoute path="/add-category" exact>
+                <AdminRoute path="/books" exact>
                     <Suspense fallback={<Loading />}>
-                        <LazyAddCategory />
+                        <LazyBooks />
                     </Suspense>
                 </AdminRoute>
-                <AdminRoute path="/get-category" exact>
+                <AdminRoute path="/books/lists" exact>
                     <Suspense fallback={<Loading />}>
-                        <LazyListCategory />
+                        <LazyListBooks />
                     </Suspense>
                 </AdminRoute>
                 <AdminRoute path="/departments" exact>
@@ -50,6 +46,7 @@ const App = () => {
                         <LazyDepartment />
                     </Suspense>
                 </AdminRoute>
+
                 <AdminRoute path="/departments/:id" exact>
                     <Suspense fallback={<Loading />}>
                         <LazyUpdateDepartment />

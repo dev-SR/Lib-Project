@@ -12,6 +12,7 @@ import {
     ReportIcon,
     DepartmentIcon,
     ListIcon,
+    BookIcon,
 } from "../../utils/icons/svg";
 // import { LoremIpsum } from "react-lorem-ipsum";
 
@@ -132,11 +133,11 @@ const DesktopSideBar = () => {
                     BOOKS
                 </div>
                 <div>
-                    <Link to="/add-books" className="nav-links">
+                    <Link to="/books" className="nav-links">
                         <div className="nav-icons ">
-                            <AddIcon
+                            <BookIcon
                                 fill={`${
-                                    isPath("/add-books") ? "#0D9488" : "#A1A1AA"
+                                    isPath("/books") ? "#0D9488" : "#A1A1AA"
                                 }`}
                             />
                         </div>
@@ -153,7 +154,7 @@ const DesktopSideBar = () => {
                 </div>
 
                 <div>
-                    <Link to="/list-books" className="nav-links">
+                    <Link to="/books/lists" className="nav-links">
                         <div className="nav-icons ">
                             <CollectionIcon
                                 fill={`${
