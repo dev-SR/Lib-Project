@@ -17,6 +17,9 @@ const LazyUpdateSubject = React.lazy(
 );
 const LazyBooks = React.lazy(() => import("./Pages/Admin/Books/BooksMain"));
 const LazyListBooks = React.lazy(() => import("./Pages/Admin/Books/ListBooks"));
+const LazyUpdateBooks = React.lazy(
+    () => import("./Pages/Admin/Books/UpdateBooks")
+);
 
 import AdminRoute from "./components/AdminRoute";
 import NotFound from "./components/Shared/NotFound";
@@ -39,6 +42,11 @@ const App = () => {
                 <AdminRoute path="/books-lists" exact>
                     <Suspense fallback={<Loading />}>
                         <LazyListBooks />
+                    </Suspense>
+                </AdminRoute>
+                <AdminRoute path="/books/:id" exact>
+                    <Suspense fallback={<Loading />}>
+                        <LazyUpdateBooks />
                     </Suspense>
                 </AdminRoute>
                 <AdminRoute path="/departments" exact>

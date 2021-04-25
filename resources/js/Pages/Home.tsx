@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "../components/Navigation/NavigationAdmin";
+import Navigation from "../components/Navigation/NavigationPublic";
 
 const Home = () => {
     console.log("object");

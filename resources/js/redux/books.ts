@@ -38,8 +38,8 @@ export interface BookInput {
 }
 //!Adding New Book
 const addBookAction = createAsyncThunk<
-    AddBookState,
-    BookInput,
+    AddBookState, //Payload===response type
+    BookInput, //function param
     { rejectValue: ValidationError }
 >(
     "Book/add",
@@ -147,9 +147,9 @@ const getInitialState: GetBooksState = {
 };
 
 const getBookAction = createAsyncThunk<
-    Paginate,
-    number,
-    { rejectValue: ValidationError }
+    Paginate, // Payload===response type
+    number, // function param
+    { rejectValue: ValidationError } //error Type
 >(
     "Book/get",
 
@@ -263,9 +263,92 @@ const deleteBookSlice = createSlice({
     },
 });
 
+//! Get Single Book
+interface GetBook {
+    id: number;
+    book_id: number;
+    title: string;
+    isbn: string;
+    publisher: string;
+    authors: string;
+    price: number;
+    pages: number;
+    copies: number;
+    shelf_no: number;
+    subject: string;
+    department: string;
+    img: string;
+    edition: number;
+}
+
+interface GetSingleBooksState {
+    success: boolean;
+    lists: GetBook | null;
+    errors: null | ValidationError;
+    status: "idle" | "loading";
+}
+
+const getSingleInitialState: GetSingleBooksState = {
+    success: false,
+    lists: null,
+    errors: null,
+    status: "idle",
+};
+
+const getSingleBookAction = createAsyncThunk<
+    GetSingleBooksState, //Payload===response type
+    string, // function types
+    { rejectValue: ValidationError }
+>(
+    "Book/getSingle",
+
+    async (b: string, thunkApi) => {
+        try {
+            thunkApi.dispatch(resetUpdateBook());
+            const { data } = await Api.get(`/book/${b}`);
+            // console.log(data);
+            return data;
+        } catch (error) {
+            const message =
+                error.response && error.response.data
+                    ? error.response.data
+                    : error.message;
+            return thunkApi.rejectWithValue(message);
+        }
+    }
+);
+
+const getSingleBookSlice = createSlice({
+    name: "Book/getSingle",
+    initialState: { ...getSingleInitialState },
+    reducers: {
+        resetSingleGetBook(state) {
+            state.status = "idle";
+            state.errors = null;
+            state.lists = null;
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getSingleBookAction.pending, (state) => {
+            state.status = "loading";
+            state.errors = null;
+            state.lists = null;
+        });
+        builder.addCase(getSingleBookAction.fulfilled, (state, { payload }) => {
+            state.lists = payload.lists;
+            state.status = "idle";
+            state.errors = null;
+        });
+        builder.addCase(getSingleBookAction.rejected, (state, { payload }) => {
+            if (payload) state.errors = payload;
+            state.status = "idle";
+            state.lists = null;
+        });
+    },
+});
+
 //!Update Book
 interface UpdateBookState extends AddBookState {}
-
 const updateInitialState: UpdateBookState = {
     success: false,
     success_message: null,
@@ -273,10 +356,7 @@ const updateInitialState: UpdateBookState = {
     status: "idle",
 };
 //actions
-type UpdateBook = {
-    id: string;
-    Book: string;
-};
+type UpdateBook = Omit<GetBook, "id">;
 const updateBookAction = createAsyncThunk<
     UpdateBookState,
     UpdateBook,
@@ -286,10 +366,9 @@ const updateBookAction = createAsyncThunk<
 
     async (d: UpdateBook, thunkApi) => {
         try {
-            thunkApi.dispatch(resetGetBook());
-            const { data } = await Api.put(`/Book/${d.id}`, {
-                Book: d.Book,
-            });
+            thunkApi.dispatch(resetUpdateBook());
+
+            const { data } = await Api.put(`/book/${d.book_id}`, d);
             return data;
         } catch (error) {
             const message =
@@ -343,6 +422,15 @@ export const deleteBookReducer = deleteBookSlice.reducer;
 const { resetDeleteBook } = deleteBookSlice.actions;
 
 export const updateBookReducer = updateBookSlice.reducer;
-const { resetUpdateBook } = updateBookSlice.actions;
+export const { resetUpdateBook } = updateBookSlice.actions;
 
-export { addBookAction, getBookAction, deleteBookAction };
+export const getSingleBookReducer = getSingleBookSlice.reducer;
+export const { resetSingleGetBook } = getSingleBookSlice.actions;
+
+export {
+    addBookAction,
+    getBookAction,
+    deleteBookAction,
+    getSingleBookAction,
+    updateBookAction,
+};

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { MyTextInput } from "../../components/Formik";
 import * as Yup from "yup";
+import SEO from "../../components/Shared/SEO";
 
 import {
     loginAction,
@@ -66,6 +67,7 @@ const Login: FC<{}> = () => {
     }, [u]);
     return (
         <div className="flex flex-col h-screen justify-center items-center  bg-gradient-to-tr from-teal-100 to-purple-100">
+            <SEO title="Login" />
             <SnackBar
                 open={open}
                 handleClose={handleClose}

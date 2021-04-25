@@ -136,7 +136,7 @@ const ListBooks = () => {
 
         if (lists) {
             let total = lists.total;
-            let count = total / 4;
+            let count = Math.round(total / 4);
             setPageCount(count);
         }
     }, [lists]);
@@ -171,7 +171,7 @@ const ListBooks = () => {
                     </div>
                 )}
 
-                <div className="flex mr-10 justify-end ">
+                <div className="flex mt-4 justify-end ">
                     <MuiPagination />
                 </div>
             </div>
