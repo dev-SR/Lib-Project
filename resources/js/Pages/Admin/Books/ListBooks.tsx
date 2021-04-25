@@ -98,6 +98,9 @@ const Rows: FC<RowListProps> = ({ rowLists }) => {
                         {r.shelf_no}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {r.publisher}
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                         {r.isbn}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
