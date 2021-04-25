@@ -154,7 +154,7 @@ const DesktopSideBar = () => {
                 </div>
 
                 <div>
-                    <Link to="/books/lists" className="nav-links">
+                    <Link to="/books-lists" className="nav-links">
                         <div className="nav-icons ">
                             <CollectionIcon
                                 fill={`${

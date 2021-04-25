@@ -24672,7 +24672,8 @@ var InnerForm = function InnerForm(_a) {
   var _b = formik_1.useFormikContext(),
       values = _b.values,
       setValues = _b.setValues,
-      isSubmitting = _b.isSubmitting;
+      isSubmitting = _b.isSubmitting; //Update Department according to subject
+
 
   var _c = react_1.useState(""),
       dep = _c[0],
@@ -24727,8 +24728,7 @@ var Books = function Books() {
   var _a = store_1.useTypedSelector(store_1.addBookSelector),
       success = _a.success,
       success_message = _a.success_message,
-      errors = _a.errors; // const del = useTypedSelector(addBookSelector);
-
+      errors = _a.errors;
 
   var submit = function submit(values, _a) {
     var setSubmitting = _a.setSubmitting,
@@ -24737,6 +24737,7 @@ var Books = function Books() {
     dispatch(store_1.addBookAction(values));
     setTimeout(function () {
       setSubmitting(false);
+      resetForm();
     }, 300);
   };
 
@@ -24880,6 +24881,40 @@ exports.default = exports.Books;
 "use strict";
 
 
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -24892,7 +24927,7 @@ Object.defineProperty(exports, "__esModule", ({
 
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var svg_1 = __webpack_require__(/*! ../../../utils/icons/svg */ "./resources/js/utils/icons/svg.tsx");
 
@@ -24900,19 +24935,72 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 
 var store_1 = __webpack_require__(/*! ../../../redux/store */ "./resources/js/redux/store.ts");
 
-var ListBooks = function ListBooks() {
-  var lists = [{
-    department: "",
-    id: 0
-  }];
+var AdminLayout_1 = __importDefault(__webpack_require__(/*! ../../../components/Shared/AdminLayout */ "./resources/js/components/Shared/AdminLayout.tsx"));
+
+var Pagination_1 = __webpack_require__(/*! ../../../components/reuseable/Pagination */ "./resources/js/components/reuseable/Pagination.tsx");
+
+var Header = function Header(_a) {
+  var headLists = _a.headLists;
+  return react_1["default"].createElement(react_1["default"].Fragment, null, headLists.map(function (h, i) {
+    return react_1["default"].createElement("th", {
+      scope: "col",
+      className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+      key: i
+    }, h);
+  }));
+};
+
+var Rows = function Rows(_a) {
+  var rowLists = _a.rowLists;
   var dispatch = react_redux_1.useDispatch();
 
   var handleDelete = function handleDelete(id) {
     dispatch(store_1.deleteDepartmentAction(id));
   };
 
-  return react_1["default"].createElement("div", {
-    className: "flex justify-center items-center h-full"
+  return react_1["default"].createElement(react_1["default"].Fragment, null, rowLists.map(function (r, i) {
+    return react_1["default"].createElement("tr", {
+      key: i
+    }, react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.book_id), react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+    }, r.title), react_1["default"].createElement("td", {
+      className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+    }, react_1["default"].createElement("div", {
+      className: "flex space-x-3"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/books/" + r.book_id
+    }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
+      className: "focus:outline-none",
+      onClick: function onClick() {
+        return handleDelete(r.book_id);
+      }
+    }, react_1["default"].createElement(svg_1.DeleteIcon, null)))));
+  }));
+};
+
+var ListBooks = function ListBooks() {
+  var lists = [{
+    department: "",
+    id: 0
+  }];
+
+  var _a = Pagination_1.useMuiPagination(5),
+      page = _a.page,
+      MuiPagination = _a.MuiPagination;
+
+  react_1.useEffect(function () {
+    console.log(page);
+  }, [page]);
+  return react_1["default"].createElement(AdminLayout_1["default"], {
+    title: "Update Subject"
+  }, react_1["default"].createElement("div", {
+    className: "flex flex-col bg-white h-full shadow-md overflow-y-auto mainscroll p-4"
+  }, react_1["default"].createElement("div", {
+    className: "text-md font-thin text-gray-700"
+  }, "Books List"), react_1["default"].createElement("div", {
+    className: "flex items-center h-full flex-col"
   }, lists && react_1["default"].createElement("div", {
     className: "w-7xl mx-auto sm:px-6 lg:px-8"
   }, react_1["default"].createElement("div", {
@@ -24927,10 +25015,9 @@ var ListBooks = function ListBooks() {
     className: "min-w-full divide-y divide-gray-200"
   }, react_1["default"].createElement("thead", {
     className: "bg-gray-50"
-  }, react_1["default"].createElement("tr", null, react_1["default"].createElement("th", {
-    scope: "col",
-    className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-  }, "Cateory Name"), react_1["default"].createElement("th", {
+  }, react_1["default"].createElement("tr", null, react_1["default"].createElement(Header, {
+    headLists: ["title", "author"]
+  }), react_1["default"].createElement("th", {
     scope: "col",
     className: "relative px-6 py-3"
   }, react_1["default"].createElement("span", {
@@ -24938,24 +25025,15 @@ var ListBooks = function ListBooks() {
   }, "Edit")))), react_1["default"].createElement("tbody", {
     className: "bg-white divide-y divide-gray-200",
     "x-max": "1"
-  }, lists.map(function (r, i) {
-    return react_1["default"].createElement("tr", {
-      key: i
-    }, react_1["default"].createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-    }, r.department), react_1["default"].createElement("td", {
-      className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-    }, react_1["default"].createElement("div", {
-      className: "flex space-x-3"
-    }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/departments/" + r.id
-    }, react_1["default"].createElement(svg_1.EditIcon, null)), react_1["default"].createElement("button", {
-      className: "focus:outline-none",
-      onClick: function onClick() {
-        return handleDelete(r.id);
-      }
-    }, react_1["default"].createElement(svg_1.DeleteIcon, null)))));
-  })))))))));
+  }, react_1["default"].createElement(Rows, {
+    rowLists: [{
+      book_id: 1,
+      title: "How to code"
+    }, {
+      book_id: 1,
+      title: "How to code"
+    }]
+  })))))))), react_1["default"].createElement(MuiPagination, null))));
 };
 
 exports.default = ListBooks;
@@ -26440,7 +26518,7 @@ var App = function App() {
   }, react_1["default"].createElement(react_1.Suspense, {
     fallback: react_1["default"].createElement(Loading_1["default"], null)
   }, react_1["default"].createElement(LazyBooks, null))), react_1["default"].createElement(AdminRoute_1["default"], {
-    path: "/books/lists",
+    path: "/books-lists",
     exact: true
   }, react_1["default"].createElement(react_1.Suspense, {
     fallback: react_1["default"].createElement(Loading_1["default"], null)
@@ -26831,7 +26909,7 @@ var DesktopSideBar = function DesktopSideBar() {
   })), react_1["default"].createElement("div", {
     className: " font-medium text-sm " + (isPath("/add-books") ? "text-teal-600" : "text-gray-600 ")
   }, "Add Books"))), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/books/lists",
+    to: "/books-lists",
     className: "nav-links"
   }, react_1["default"].createElement("div", {
     className: "nav-icons "
@@ -27148,6 +27226,64 @@ exports.default = Loading;
 
 /***/ }),
 
+/***/ "./resources/js/components/reuseable/Pagination.tsx":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/reuseable/Pagination.tsx ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.useMuiPagination = void 0;
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var Pagination_1 = __importDefault(__webpack_require__(/*! @material-ui/lab/Pagination */ "./node_modules/@material-ui/lab/esm/Pagination/index.js"));
+
+var useMuiPagination = function useMuiPagination(count) {
+  /**
+   *    offset = (page-1)*limit
+   */
+  // page ~ (offset/limit)+1
+  // postsPerPage ~ limit
+  var _a = react_1["default"].useState(1),
+      page = _a[0],
+      setPage = _a[1];
+
+  var handleChange = function handleChange(event, value) {
+    setPage(value);
+  };
+
+  var MuiPagination = function MuiPagination() {
+    return react_1["default"].createElement(Pagination_1["default"], {
+      count: count ? count : 5,
+      page: page,
+      shape: "rounded",
+      onChange: handleChange,
+      color: "secondary"
+    });
+  };
+
+  return {
+    MuiPagination: MuiPagination,
+    page: page
+  };
+};
+
+exports.useMuiPagination = useMuiPagination;
+
+/***/ }),
+
 /***/ "./resources/js/components/reuseable/SnackBar.tsx":
 /*!********************************************************!*\
   !*** ./resources/js/components/reuseable/SnackBar.tsx ***!
@@ -27252,269 +27388,6 @@ var SnackBar = function SnackBar(_a) {
 };
 
 exports.default = SnackBar;
-
-/***/ }),
-
-/***/ "./resources/js/redux/addBook.ts":
-/*!***************************************!*\
-  !*** ./resources/js/redux/addBook.ts ***!
-  \***************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  function adopt(value) {
-    return value instanceof P ? value : new P(function (resolve) {
-      resolve(value);
-    });
-  }
-
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.addBookAction = exports.resetAddBook = exports.addBookReducer = void 0;
-
-var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
-var axios_config_1 = __importDefault(__webpack_require__(/*! ./axios_config */ "./resources/js/redux/axios_config.ts"));
-
-var addInitialState = {
-  success_message: null,
-  success: false,
-  errors: null,
-  status: "idle"
-}; //!Adding New Book
-
-var addBookAction = toolkit_1.createAsyncThunk("Book/add", function (s, thunkApi) {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var data, error_1, message;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          _a.trys.push([0, 2,, 3]);
-
-          return [4
-          /*yield*/
-          , axios_config_1["default"].post("/book", s)];
-
-        case 1:
-          data = _a.sent().data;
-          return [2
-          /*return*/
-          , data];
-
-        case 2:
-          error_1 = _a.sent();
-          message = error_1.response && error_1.response.data ? error_1.response.data : error_1.message;
-          return [2
-          /*return*/
-          , thunkApi.rejectWithValue(message)];
-
-        case 3:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-});
-exports.addBookAction = addBookAction;
-var addBookSlice = toolkit_1.createSlice({
-  name: "Book/add",
-  initialState: __assign({}, addInitialState),
-  reducers: {
-    resetAddBook: function resetAddBook(state) {
-      state.status = "idle";
-      state.errors = null;
-      state.success = false;
-      state.success_message = null;
-    }
-  },
-  extraReducers: function extraReducers(builder) {
-    builder.addCase(addBookAction.pending, function (state) {
-      state.status = "loading";
-      state.errors = null;
-      state.success_message = null;
-      state.success = false;
-    });
-    builder.addCase(addBookAction.fulfilled, function (state, _a) {
-      var payload = _a.payload;
-      state.success = payload.success;
-      state.success_message = payload.success_message;
-      state.status = "idle";
-      state.errors = null;
-    });
-    builder.addCase(addBookAction.rejected, function (state, _a) {
-      var payload = _a.payload;
-      if (payload) state.errors = payload;
-      state.status = "idle";
-      state.success_message = null;
-      state.success = false;
-    });
-  }
-});
-exports.addBookReducer = addBookSlice.reducer;
-exports.resetAddBook = addBookSlice.actions.resetAddBook;
 
 /***/ }),
 
@@ -28007,6 +27880,269 @@ exports.default = instance; // export default axios.create({
 //         common: { Authorization: `Bearer ${token}` },
 //     },
 // });
+
+/***/ }),
+
+/***/ "./resources/js/redux/books.ts":
+/*!*************************************!*\
+  !*** ./resources/js/redux/books.ts ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.addBookAction = exports.resetAddBook = exports.addBookReducer = void 0;
+
+var toolkit_1 = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+var axios_config_1 = __importDefault(__webpack_require__(/*! ./axios_config */ "./resources/js/redux/axios_config.ts"));
+
+var addInitialState = {
+  success_message: null,
+  success: false,
+  errors: null,
+  status: "idle"
+}; //!Adding New Book
+
+var addBookAction = toolkit_1.createAsyncThunk("Book/add", function (s, thunkApi) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var data, error_1, message;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 2,, 3]);
+
+          return [4
+          /*yield*/
+          , axios_config_1["default"].post("/book", s)];
+
+        case 1:
+          data = _a.sent().data;
+          return [2
+          /*return*/
+          , data];
+
+        case 2:
+          error_1 = _a.sent();
+          message = error_1.response && error_1.response.data ? error_1.response.data : error_1.message;
+          return [2
+          /*return*/
+          , thunkApi.rejectWithValue(message)];
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+});
+exports.addBookAction = addBookAction;
+var addBookSlice = toolkit_1.createSlice({
+  name: "Book/add",
+  initialState: __assign({}, addInitialState),
+  reducers: {
+    resetAddBook: function resetAddBook(state) {
+      state.status = "idle";
+      state.errors = null;
+      state.success = false;
+      state.success_message = null;
+    }
+  },
+  extraReducers: function extraReducers(builder) {
+    builder.addCase(addBookAction.pending, function (state) {
+      state.status = "loading";
+      state.errors = null;
+      state.success_message = null;
+      state.success = false;
+    });
+    builder.addCase(addBookAction.fulfilled, function (state, _a) {
+      var payload = _a.payload;
+      state.success = payload.success;
+      state.success_message = payload.success_message;
+      state.status = "idle";
+      state.errors = null;
+    });
+    builder.addCase(addBookAction.rejected, function (state, _a) {
+      var payload = _a.payload;
+      if (payload) state.errors = payload;
+      state.status = "idle";
+      state.success_message = null;
+      state.success = false;
+    });
+  }
+});
+exports.addBookReducer = addBookSlice.reducer;
+exports.resetAddBook = addBookSlice.actions.resetAddBook;
 
 /***/ }),
 
@@ -28699,18 +28835,18 @@ Object.defineProperty(exports, "updateSubjectAction", ({
   }
 }));
 
-var addBook_1 = __webpack_require__(/*! ./addBook */ "./resources/js/redux/addBook.ts");
+var books_1 = __webpack_require__(/*! ./books */ "./resources/js/redux/books.ts");
 
 Object.defineProperty(exports, "addBookAction", ({
   enumerable: true,
   get: function get() {
-    return addBook_1.addBookAction;
+    return books_1.addBookAction;
   }
 }));
 Object.defineProperty(exports, "resetAddBook", ({
   enumerable: true,
   get: function get() {
-    return addBook_1.resetAddBook;
+    return books_1.resetAddBook;
   }
 })); //Local Storage
 
@@ -28733,7 +28869,7 @@ var store = toolkit_1.configureStore({
     deleteSubject: subject_1.deleteSubjectReducer,
     getOneSubject: subject_1.getOneSubjectReducer,
     updateSubject: subject_1.updateSubjectReducer,
-    addBook: addBook_1.addBookReducer
+    addBook: books_1.addBookReducer
   },
   preloadedState: preloadedState
 });

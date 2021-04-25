@@ -36,7 +36,7 @@ const App = () => {
                         <LazyBooks />
                     </Suspense>
                 </AdminRoute>
-                <AdminRoute path="/books/lists" exact>
+                <AdminRoute path="/books-lists" exact>
                     <Suspense fallback={<Loading />}>
                         <LazyListBooks />
                     </Suspense>

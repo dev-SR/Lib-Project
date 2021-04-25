@@ -15,7 +15,7 @@ import {
 import { useDispatch } from "react-redux";
 import AdminLayout from "../../../components/Shared/AdminLayout";
 import { Subject } from "../../../redux/subject";
-import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 
 interface Values {
     book_id: number;
@@ -69,6 +69,7 @@ interface Props {
 
 const InnerForm: FC<Props> = ({ lists }) => {
     const { values, setValues, isSubmitting } = useFormikContext<Values>();
+    //Update Department according to subject
     let [dep, setDep] = useState<string>("");
     useEffect(() => {
         if (values.subject) {
@@ -117,16 +118,16 @@ export const Books = () => {
     const { success, success_message, errors } = useTypedSelector(
         addBookSelector
     );
-    // const del = useTypedSelector(addBookSelector);
-
     const submit = (
         values: Values,
         { setSubmitting, resetForm }: FormikHelpers<Values>
     ) => {
         setSubmitting(true);
         dispatch(addBookAction(values));
+
         setTimeout(() => {
             setSubmitting(false);
+            resetForm();
         }, 300);
     };
 
