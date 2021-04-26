@@ -53,6 +53,12 @@ import {
     resetSingleGetBook,
     updateBookAction,
     updateBookReducer,
+    getIssuedBookAction,
+    getIssuedBookReducer,
+    addIssuedBookReducer,
+    addIssuedBookAction,
+    deleteIssuedBookAction,
+    deleteIssuedBookReducer,
 } from "./books";
 
 import {
@@ -90,6 +96,9 @@ const store = configureStore({
         getSingleBook: getSingleBookReducer,
         updateBook: updateBookReducer,
         cartBook: getCartBookReducer,
+        getIssuedBook: getIssuedBookReducer,
+        addIssuedBook: addIssuedBookReducer,
+        deleteIssuedBook: deleteIssuedBookReducer,
     },
     preloadedState,
 });
@@ -125,6 +134,9 @@ export const deleteBookSelector = (s: RootState) => s.deleteBook;
 export const getSingleBookSelector = (s: RootState) => s.getSingleBook;
 export const updateBookSelector = (s: RootState) => s.updateBook;
 export const getCartBookSelector = (s: RootState) => s.cartBook;
+export const getIssuedBookSelector = (s: RootState) => s.getIssuedBook;
+export const addIssuedBookSelector = (s: RootState) => s.addIssuedBook;
+export const deleteIssuedBookSelector = (s: RootState) => s.deleteIssuedBook;
 
 //Actions
 export {
@@ -153,4 +165,7 @@ export {
     updateBookAction,
     getCartBookAction,
     resetCartBook,
+    getIssuedBookAction,
+    addIssuedBookAction,
+    deleteIssuedBookAction,
 };

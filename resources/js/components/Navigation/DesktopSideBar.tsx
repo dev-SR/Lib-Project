@@ -183,7 +183,7 @@ const DesktopSideBar = () => {
                                             : "text-gray-600 "
                                     }`}
                                 >
-                                    Subject
+                                    Courses
                                 </div>
                             </Link>
                         </div>
@@ -256,28 +256,6 @@ const DesktopSideBar = () => {
                                 </div>
                             </Link>
                         </div>
-                        <div>
-                            <Link to="/return-books" className="nav-links">
-                                <div className="nav-icons ">
-                                    <ClipboardCopyIcon
-                                        fill={`${
-                                            isPath("/return-books")
-                                                ? "#0D9488"
-                                                : "#A1A1AA"
-                                        }`}
-                                    />
-                                </div>
-                                <div
-                                    className={` font-medium text-sm ${
-                                        isPath("/return-books")
-                                            ? "text-teal-600"
-                                            : "text-gray-600 "
-                                    }`}
-                                >
-                                    Return Books
-                                </div>
-                            </Link>
-                        </div>
                         <div className="text-gray-400 font-medium pl-3 w-11/12 text-xs mb-2  pt-7">
                             MEMBERS
                         </div>
@@ -299,23 +277,7 @@ const DesktopSideBar = () => {
                                             : "text-gray-600 "
                                     }`}
                                 >
-                                    Add Users
-                                </div>
-                            </Link>
-                        </div>
-                        <div>
-                            <Link to="/add-users" className="nav-links">
-                                <div className="nav-icons ">
-                                    <UserIcon
-                                        fill={`${
-                                            isPath("/dashboard")
-                                                ? "#0D9488"
-                                                : "#A1A1AA"
-                                        }`}
-                                    />
-                                </div>
-                                <div className="text-gray-600 sm:font-medium text-sm">
-                                    Add Users
+                                    Users
                                 </div>
                             </Link>
                         </div>

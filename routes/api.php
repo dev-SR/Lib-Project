@@ -77,4 +77,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user-details/{id}', [AuthController::class, 'show']);
     Route::get('/student-details/{id}', [AuthController::class, 'student_details']);
     Route::get('/student/search', [AuthController::class, 'search']);
+    Route::get('/admin/dashboard', [AuthController::class, 'info']);
 });

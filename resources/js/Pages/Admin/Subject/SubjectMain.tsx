@@ -6,11 +6,6 @@ import SnackBar, { useSnackBar } from "../../../components/reuseable/SnackBar";
 
 import {
     useTypedSelector,
-    addDepartmentAction,
-    addDepartmentSelector,
-    getDepartmentSelector,
-    getDepartmentAction,
-    deleteDepartmentSelector,
     getSubjectSelector,
     deleteSubjectSelector,
     addSubjectAction,
@@ -111,7 +106,7 @@ export const Department = () => {
                                     <MyTextInput
                                         name="subject"
                                         type="text"
-                                        placeholder="Add Subject"
+                                        placeholder="Add Course"
                                         id="subject"
                                     />
                                     <MyTextInput

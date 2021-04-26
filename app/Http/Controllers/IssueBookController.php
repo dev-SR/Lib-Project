@@ -18,7 +18,7 @@ class IssueBookController extends Controller
     public function index()
     {
         $res =
-            IssueBook::with(['user:id,name', 'book:id,book_id,title,img'])->get();
+            IssueBook::with(['user:id,name', 'book:id,title,img'])->get();
         return ['lists' => $res];
     }
 
@@ -37,19 +37,43 @@ class IssueBookController extends Controller
         ]);
 
         $book = Book::where('book_id', '=',  $f['book_id'])->first();
+        $user = User::find($f['user_id']);
+        $alreadyExit = IssueBook::where('book_id', '=', $f['book_id'])->where('user_id', '=', $f['user_id'])->first();
 
+        if (!$book || !$user || $alreadyExit) {
 
-        if (!$book) {
-            return response(
-                [
-                    'success' => false, 'errors' => [
-                        'fail_message' => 'Cant found this book'
-                    ]
-                ],
-                503
-            );
+            if (!$book) {
+
+                return response(
+                    [
+                        'success' => false, 'errors' => [
+                            'fail_message' => ['Can not found Book']
+                        ]
+                    ],
+                    503
+                );
+            } else if (!$user) {
+
+                return response(
+                    [
+                        'success' => false, 'errors' => [
+                            'fail_message' => ['Can not found User']
+                        ]
+                    ],
+                    503
+                );
+            } else if ($alreadyExit) {
+
+                return response(
+                    [
+                        'success' => false, 'errors' => [
+                            'fail_message' => ['Already Issued']
+                        ]
+                    ],
+                    503
+                );
+            }
         }
-
 
 
 
@@ -77,7 +101,14 @@ class IssueBookController extends Controller
         //
         $cat = IssueBook::find($id);
         if (!$cat) {
-            return ['success' => false, 'fail_message' => 'This info do not exits'];
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => ['Cant found this book']
+                    ]
+                ],
+                503
+            );
         }
         $res = [
             'id' => $cat->id,
@@ -131,7 +162,7 @@ class IssueBookController extends Controller
         //
         $cat = IssueBook::destroy($id);
         if (!$cat) {
-            return ['success' => false, 'fail_message' => 'This Department do not exits'];
+            return ['success' => false, 'fail_message' => ['Do not exits']];
         }
         return ['success' => true, 'success_message' => 'Deleted'];
     }

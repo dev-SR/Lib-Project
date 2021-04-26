@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\IssueBook;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\QueryException;
 use Symfony\Component\Console\Input\Input;
 
 class AuthController extends Controller
@@ -20,6 +21,17 @@ class AuthController extends Controller
     {
         //
         return User::all(['id', 'name', 'is_admin', 'email']);
+    }
+
+    public function info()
+    {
+
+        $u = DB::table('users')->count();
+        $b = DB::table('books')->count();
+        $d = DB::table('departments')->count();
+        $c = DB::table('subjects')->count();
+        $ib = DB::table('issue_books')->count();
+        return ['department' => $d, 'users' => $u, 'books' => $b, 'subjects' => $c, 'issue_books' => $ib];
     }
 
     /**

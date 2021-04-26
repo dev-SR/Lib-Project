@@ -7,7 +7,7 @@ import axios from "axios";
 const local = "http://127.0.0.1:8000/api";
 const build = "https://greenlib.herokuapp.com/api";
 const instance = axios.create({
-    baseURL: build,
+    baseURL: local,
     timeout: 10000,
 });
 

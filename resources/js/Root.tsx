@@ -20,7 +20,10 @@ const LazyListBooks = React.lazy(() => import("./Pages/Admin/Books/ListBooks"));
 const LazyUpdateBooks = React.lazy(
     () => import("./Pages/Admin/Books/UpdateBooks")
 );
+const IssueBook = React.lazy(() => import("./Pages/Admin/Books/IssueBook"));
+
 const UserDashboard = React.lazy(() => import("./Pages/User/UserDashboard"));
+
 // import UserDashboard from "./Pages/User/UserDashboard";
 
 import AdminRoute from "./components/AdminRoute";
@@ -33,6 +36,7 @@ import UserHome from "./Pages/UserHome";
 
 import { loginSelector, useTypedSelector } from "./redux/store";
 import CartPage from "./Pages/User/CartPage";
+import AdminDashboard from "./Pages/Admin/Dashboard";
 const App = () => {
     // localStorage.removeItem("GreenLibToken");
     // localStorage.removeItem("UserInfo");
@@ -50,6 +54,15 @@ const App = () => {
                 <AdminRoute path="/books" exact>
                     <Suspense fallback={<Loading />}>
                         <LazyBooks />
+                    </Suspense>
+                </AdminRoute>
+                <AdminRoute path="/dashboard" exact>
+                    <AdminDashboard />
+                </AdminRoute>
+
+                <AdminRoute path="/issue-books" exact>
+                    <Suspense fallback={<Loading />}>
+                        <IssueBook />
                     </Suspense>
                 </AdminRoute>
                 <AdminRoute path="/books-lists" exact>
