@@ -7,6 +7,7 @@ use App\Models\IssueBook;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\Console\Input\Input;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,7 @@ class AuthController extends Controller
     public function index()
     {
         //
-        return User::all();
+        return User::all(['id', 'name', 'is_admin', 'email']);
     }
 
     /**
@@ -194,6 +195,29 @@ class AuthController extends Controller
 
         ];
         return ['lists' => $res];
+    }
+
+    public function search(Request $req)
+    {
+        $q = User::query();
+        //https://laravel.com/docs/8.x/requests#retrieving-input
+        if ($req->has('user')) { //Determining If Input Is Present
+            //$name = $request->input('name');
+            // $name = $request->query('name');
+            // $name = $request->query('name',"Default Name");
+            // $name = $request->name; //Dynamic 
+            $uID = $req->user;
+            $q = $q->where('id', 'LIKE', "%$uID%");
+
+            // $u = User::byID($uID)->get();
+
+        }
+        if ($req->has('is_admin')) {
+            $q = $q->where('is_admin', '=', "true");
+        }
+
+        $res = $q->paginate(5);
+        return ['res' => $res];
     }
 
 

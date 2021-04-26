@@ -20,19 +20,32 @@ const LazyListBooks = React.lazy(() => import("./Pages/Admin/Books/ListBooks"));
 const LazyUpdateBooks = React.lazy(
     () => import("./Pages/Admin/Books/UpdateBooks")
 );
+const UserDashboard = React.lazy(() => import("./Pages/User/UserDashboard"));
+// import UserDashboard from "./Pages/User/UserDashboard";
 
 import AdminRoute from "./components/AdminRoute";
+import UserRoute from "./components/UserRoute";
+
 import NotFound from "./components/Shared/NotFound";
 import Loading from "./components/reuseable/Loading";
 import Home from "./Pages/Home";
+import UserHome from "./Pages/UserHome";
+
+import { loginSelector, useTypedSelector } from "./redux/store";
+import CartPage from "./Pages/User/CartPage";
 const App = () => {
     // localStorage.removeItem("GreenLibToken");
     // localStorage.removeItem("UserInfo");
+    const u = useTypedSelector(loginSelector);
+
     return (
         <Router>
             <Switch>
                 <Route path="/" exact>
-                    <Home />
+                    {u.user ? <UserHome /> : <Home />}
+                </Route>
+                <Route path="/cart" exact>
+                    <CartPage />
                 </Route>
                 <AdminRoute path="/books" exact>
                     <Suspense fallback={<Loading />}>
@@ -54,7 +67,6 @@ const App = () => {
                         <LazyDepartment />
                     </Suspense>
                 </AdminRoute>
-
                 <AdminRoute path="/departments/:id" exact>
                     <Suspense fallback={<Loading />}>
                         <LazyUpdateDepartment />
@@ -65,6 +77,11 @@ const App = () => {
                         <LazySubject />
                     </Suspense>
                 </AdminRoute>
+                <UserRoute path="/user/dashboard">
+                    <Suspense fallback={<Loading />}>
+                        <UserDashboard />
+                    </Suspense>
+                </UserRoute>
                 <AdminRoute path="/subjects/:id" exact>
                     <Suspense fallback={<Loading />}>
                         <LazyUpdateSubject />

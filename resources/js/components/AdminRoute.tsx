@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 
 import { useTypedSelector, loginSelector } from "../redux/store";

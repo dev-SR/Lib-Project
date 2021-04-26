@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\IssueBook;
 use App\Models\Student;
 use App\Models\User;
@@ -34,6 +35,23 @@ class IssueBookController extends Controller
             'user_id' => 'required',
             'book_id' => 'required'
         ]);
+
+        $book = Book::where('book_id', '=',  $f['book_id'])->first();
+
+
+        if (!$book) {
+            return response(
+                [
+                    'success' => false, 'errors' => [
+                        'fail_message' => 'Cant found this book'
+                    ]
+                ],
+                503
+            );
+        }
+
+
+
 
 
         $cat = IssueBook::create([

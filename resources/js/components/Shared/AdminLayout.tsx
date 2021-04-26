@@ -1,7 +1,7 @@
 import React from "react";
 import SEO from "./SEO";
-import DesktopSideBar from "../Navigation/AdminsDesktopSideBar";
-import Navigation from "../Navigation/NavigationProtected";
+import DesktopSideBar from "../Navigation/DesktopSideBar";
+import Navigation from "../Navigation/Navigation";
 type LayoutProps = {
     title: string;
 };

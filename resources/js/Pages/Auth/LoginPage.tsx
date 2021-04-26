@@ -57,7 +57,7 @@ const Login: FC<{}> = () => {
             history.push("/departments");
         }
         if (u.token && !u.is_admin) {
-            history.push("/");
+            history.push("/user/dashboard");
         }
         if (u.error && u.error.message) {
             setOpen(true);

@@ -54,10 +54,20 @@ import {
     updateBookAction,
     updateBookReducer,
 } from "./books";
+
+import {
+    getCartBookAction,
+    getCartBookReducer,
+    resetCartBook,
+    cartInitialState,
+} from "./cart";
 //Local Storage
 const userInfo = localStorage.getItem("UserInfo");
+const cart = localStorage.getItem("cart");
+
 const preloadedState = {
     login: userInfo ? JSON.parse(userInfo) : LoginInitialState,
+    cartBook: cart ? JSON.parse(cart) : cartInitialState,
 };
 const store = configureStore({
     reducer: {
@@ -79,6 +89,7 @@ const store = configureStore({
         deleteBook: deleteBookReducer,
         getSingleBook: getSingleBookReducer,
         updateBook: updateBookReducer,
+        cartBook: getCartBookReducer,
     },
     preloadedState,
 });
@@ -113,6 +124,7 @@ export const getBookSelector = (s: RootState) => s.getBooks;
 export const deleteBookSelector = (s: RootState) => s.deleteBook;
 export const getSingleBookSelector = (s: RootState) => s.getSingleBook;
 export const updateBookSelector = (s: RootState) => s.updateBook;
+export const getCartBookSelector = (s: RootState) => s.cartBook;
 
 //Actions
 export {
@@ -139,4 +151,6 @@ export {
     getSingleBookAction,
     resetSingleGetBook,
     updateBookAction,
+    getCartBookAction,
+    resetCartBook,
 };

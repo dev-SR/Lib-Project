@@ -5,10 +5,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\IssueBookController;
+use App\Http\Controllers\RequestBookController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Models\IssueBook;
+use App\Models\RequestBook;
+use Illuminate\Http\Request;
+
+use function Symfony\Component\String\b;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +29,10 @@ use App\Models\IssueBook;
 //Public Route
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/book', [BookController::class, 'index']);
+Route::get('/book/{id}', [BookController::class, 'show']);
+
+
 //Protected Route
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/test', function () {
@@ -42,11 +51,16 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::delete('/department/{id}', [DepartmentController::class, 'destroy']);
 
     Route::post('/book', [BookController::class, 'store']);
-    Route::get('/book', [BookController::class, 'index']);
-    Route::get('/book/{id}', [BookController::class, 'show']);
     Route::put('/book/{id}', [BookController::class, 'update']);
     Route::delete('/book/{id}', [BookController::class, 'destroy']);
-    //Issuing and Returning Books
+    //Requesting , Issuing and Returning Books 
+    Route::post('/request_issue', [RequestBookController::class, 'store']);
+    Route::get('/request_issue', [RequestBookController::class, 'index']);
+    Route::get('/request_issue/{id}', [RequestBookController::class, 'show']);
+    Route::put('/request_issue/{id}', [RequestBookController::class, 'update']);
+
+
+    Route::post('/issue_book', [IssueBookController::class, 'store']);
     Route::post('/issue_book', [IssueBookController::class, 'store']);
     Route::get('/issue_book', [IssueBookController::class, 'index']);
     Route::get('/issue_book/{id}', [IssueBookController::class, 'show']);
@@ -62,4 +76,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user-all', [AuthController::class, 'index']);
     Route::get('/user-details/{id}', [AuthController::class, 'show']);
     Route::get('/student-details/{id}', [AuthController::class, 'student_details']);
+    Route::get('/student/search', [AuthController::class, 'search']);
 });

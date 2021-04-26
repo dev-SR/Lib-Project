@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\IssueBook;
+use App\Models\RequestBook;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,5 +49,22 @@ class User extends Authenticatable
     public function issued_book()
     {
         return $this->hasMany(IssueBook::class);
+    }
+
+    public function requested_books()
+    {
+        return $this->hasMany(RequestBook::class);
+    }
+
+
+    /**
+     * Scope a query to only include popular users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByID($query, $id)
+    {
+        return $query->where('id', 'like',  "%" . $id . "%");
     }
 }
