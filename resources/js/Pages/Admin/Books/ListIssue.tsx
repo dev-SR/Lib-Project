@@ -61,16 +61,22 @@ const ListSubject: FC<Props> = ({ lists }) => {
                                             {lists.map((r, i) => (
                                                 <tr key={i}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {r.user.name}
+                                                        {r.user.name &&
+                                                            r.user.name}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex space-x-1 items-center">
-                                                        <img
-                                                            className="w-16 h-16 object-contain"
-                                                            src={r.book.img}
-                                                            alt={r.book.title}
-                                                        />
+                                                        {r.book.img && (
+                                                            <img
+                                                                className="w-16 h-16 object-contain"
+                                                                src={r.book.img}
+                                                                alt={
+                                                                    r.book.title
+                                                                }
+                                                            />
+                                                        )}
                                                         <div>
-                                                            {r.book.title}
+                                                            {r.book.title &&
+                                                                r.book.title}
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

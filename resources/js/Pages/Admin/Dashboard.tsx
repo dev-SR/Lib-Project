@@ -28,7 +28,7 @@ const Dashboard = () => {
                     <div className="grid grid-cols-3 gap-4">
                         <div className=" shadow rounded p-4 flex flex-col justify-center items-center text-2xl">
                             <div>Books Count</div>
-                            <div className="text-4xl rounded-full bg-teal-100 w-20 h-20 flex justify-center items-center">
+                            <div className="text-4xl rounded-full bg-purple-100 w-20 h-20 flex justify-center items-center">
                                 {info.department}
                             </div>
                         </div>
