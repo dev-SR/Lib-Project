@@ -18,7 +18,7 @@ class IssueBookController extends Controller
     public function index()
     {
         $res =
-            IssueBook::with(['user:id,name', 'book:id,title,img'])->get();
+            IssueBook::with(['user:id,name', 'book'])->get();
         return ['lists' => $res];
     }
 
