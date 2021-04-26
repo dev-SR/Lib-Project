@@ -65,15 +65,6 @@ const ListSubject: FC<Props> = ({ lists }) => {
                                                             r.user.name}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex space-x-1 items-center">
-                                                        {r.book.img && (
-                                                            <img
-                                                                className="w-16 h-16 object-contain"
-                                                                src={r.book.img}
-                                                                alt={
-                                                                    r.book.title
-                                                                }
-                                                            />
-                                                        )}
                                                         <div>
                                                             {r.book.title &&
                                                                 r.book.title}
