@@ -122,28 +122,6 @@ const DesktopSideBar = () => {
                             </Link>
                         </div>
                         <div className="">
-                            <Link to="/report" className="nav-links">
-                                <div className=" nav-icons ">
-                                    <ReportIcon
-                                        fill={`${
-                                            isPath("/report")
-                                                ? "#0D9488"
-                                                : "#A1A1AA"
-                                        }`}
-                                    />
-                                </div>
-                                <div
-                                    className={` font-medium text-sm ${
-                                        isPath("/report")
-                                            ? "text-teal-600"
-                                            : "text-gray-600 "
-                                    }`}
-                                >
-                                    Reports
-                                </div>
-                            </Link>
-                        </div>
-                        <div className="">
                             <Link to="/departments" className="nav-links">
                                 <div className=" nav-icons ">
                                     <DepartmentIcon
